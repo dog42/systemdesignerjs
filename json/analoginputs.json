@@ -1,0 +1,66 @@
+{
+  "analoginputs": {
+    "input": [
+      {
+        "name": "Potentiometer",
+        "type": "potentiometer_analog__",
+        "tag": "analoginputcontrol",
+        "text": "pot_",
+        "image": "potentiometer_analog__.jpg",
+        "minvalue": "0",
+        "maxvalue": "1023",
+        "initialvalue": "1",
+        "sliderminvalue": "0",
+        "slidermaxvalue": "5"
+      },
+      {
+        "name": "LM35",
+        "type": "lm35_analog__",
+        "tag": "analoginputcontrol",
+        "text": "LM35_",
+        "image": "LM35_analog__.jpg",
+        "minvalue": "0",
+        "maxvalue": "1023",
+        "initialvalue": "1",
+        "sliderminvalue": "0",
+        "slidermaxvalue": "5"
+      },
+      {
+        "name": "LDR",
+        "type": "ldr_analog__",
+        "tag": "analoginputcontrol",
+        "text": "LDR_",
+        "image": "LDR_analog__.png",
+        "minvalue": "0",
+        "maxvalue": "1023",
+        "initialvalue": "1",
+        "sliderminvalue": "0",
+        "slidermaxvalue": "5"
+      },
+      {
+        "name": "Thermistor",
+        "type": "thermistor_analog__",
+        "tag": "analoginputcontrol",
+        "text": "Thermistor_",
+        "image": "Thermistor_analog__.png",
+        "minvalue": "0",
+        "maxvalue": "1023",
+        "initialvalue": "1",
+        "sliderminvalue": "0",
+        "slidermaxvalue": "5"
+      },
+      {
+        "name": "FSR",
+        "type": "fsr_analog__",
+        "tag": "analoginputcontrol",
+        "text": "FSR_",
+        "image": "FSR_analog__.png",
+        "minvalue": "0",
+        "maxvalue": "1023",
+        "initialvalue": "1",
+        "sliderminvalue": "0",
+        "slidermaxvalue": "5"
+      }
+    ]
+  }
+}

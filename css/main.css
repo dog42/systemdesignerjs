@@ -1,0 +1,43 @@
+﻿.editor {
+    position: absolute;
+    top: 25px;
+    right: 13px;
+    bottom: 2px;
+    left: 2px;
+}
+.debug-highlight {
+	position: absolute;
+	z-index: 1000;
+	background-color: blue;
+}
+
+
+
+
+
+#accordion .ui-accordion-content { padding: 0; }
+
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.ui-widget-header ul {
+    height:14px;   
+}
+
+.ui-tabs .ui-tabs-nav li {
+    height:14px;
+    font-size:11px;
+
+}
+
+.ui-tabs .ui-tabs-nav li a {
+    position:relative;
+    top:-6px  
+}
+
+.ui-widget-header{
+    background:#8ebbe9 url(../img/80ade5_40x100_textures_04_highlight_hard_100.png) 0 50% repeat-x;
+}
+

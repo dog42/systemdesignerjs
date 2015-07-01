@@ -1,0 +1,1407 @@
+{
+  "interrupts": {
+    "interrupt": [
+      {
+        "-micro": "ATtiny45",
+        "-interrupt": "INT0",
+        "family": "AVR8",
+        "micro": "ATtiny45",
+        "name": "INT0",
+        "type": "external",
+        "enableregister": "GIMSK",
+        "enablemask": "0x40",
+        "controlregister": "MCUCR",
+        "controlmask": "0x03",
+        "flagregister": "GIFR",
+        "flagmask": "0x40",
+        "isr": "INT0_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x01"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x02"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x03"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int0 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int0 int0_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int0"
+            },
+            {
+              "-language": "C",
+              "-text": "MCUCR |= (1<<ISC01)|(1<<ISC00);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "GIMSK |= (1<<INT0);   //enable external interrupt INT0"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT0 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int0_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT0_vect)            // signal handler for external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATtiny45",
+        "-interrupt": "PCINT[4:0]",
+        "family": "AVR8",
+        "micro": "ATtiny45",
+        "name": "PCINT[4:0]",
+        "enableregister": "GIMSK",
+        "enablemask": "0x20",
+        "controlregister": "PCMSK",
+        "controlmask": "0x1f",
+        "flagregister": "GIFR",
+        "flagmask": "0x20",
+        "isr": "PCINT_vect",
+        "triggers": {
+          "trigger": {
+            "-name": "change PCINT1",
+            "-mask": "0x01"
+          }
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "C",
+              "-text": "// configuration for PCINT[7:0]"
+            },
+            {
+              "-language": "C",
+              "-text": "PCMSK0 |= (1<<PCINT5)|(1<<PCINT1);  //e.g. pin change int for PINA.5 and PINA.1"
+            },
+            {
+              "-language": "C",
+              "-text": "GIMSK |= (1<<PCIE1);   //enable PCINT[7:0] and PCINT[15:12]"
+            }
+          ]
+        },
+        "vectors": {
+          "-language": "C",
+          "vector": [
+            {
+              "-language": "C",
+              "-text": "//PCINT[15:12] or PCINT[7:0] interrupt service routine - program comes here when one of these pins is triggered"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(PCINT_vect)            // handler for and PCINT interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATtiny461",
+        "-interrupt": "INT0",
+        "family": "AVR8",
+        "micro": "ATtiny461",
+        "name": "INT0",
+        "type": "external",
+        "enableregister": "GIMSK",
+        "enablemask": "0x40",
+        "controlregister": "MCUCR",
+        "controlmask": "0x03",
+        "flagregister": "GIFR",
+        "flagmask": "0x40",
+        "isr": "INT0_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x01"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x02"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x03"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int0 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int0 int0_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int0"
+            },
+            {
+              "-language": "C",
+              "-text": "MCUCR |= (1<<ISC01)|(1<<ISC00);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "GIMSK |= (1<<INT0);   //enable external interrupt INT0"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT0 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int0_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT0_vect)            // signal handler for external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATtiny461",
+        "-interrupt": "INT1",
+        "family": "AVR8",
+        "micro": "ATtiny461",
+        "name": "INT1",
+        "enableregister": "GIMSK",
+        "enablemask": "0x80",
+        "controlregister": "MCUCR",
+        "controlmask": "0x0C",
+        "flagregister": "GIFR",
+        "isr": "INT1_vect",
+        "flagmask": "0x80",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x04"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x08"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x0C"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "ALL",
+              "-text": "configuration for INT0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int1 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int1 int1_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int1 "
+            },
+            {
+              "-language": "C",
+              "-text": "MCUCR |= (1<<ISC11)|(1<<ISC10);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "GIMSK |= (1<<INT1);   //enable external interrupt INT1"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT1 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int1_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT1_vect)            // signal handler for external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATtiny461",
+        "-interrupt": "PCINT[7:0]",
+        "family": "AVR8",
+        "micro": "ATtiny461",
+        "name": "PCINT[7:0]",
+        "enableregister": "GIMSK",
+        "enablemask": "0x80",
+        "controlregister": "PCMSK0",
+        "controlmask": "0xff",
+        "flagregister": "GIFR",
+        "flagmask": "0x20",
+        "isr": "PCINT_vect",
+        "triggers": {
+          "trigger": {
+            "-name": "change PCINT1",
+            "-mask": "0x01"
+          }
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "C",
+              "-text": "// configuration for PCINT[7:0]"
+            },
+            {
+              "-language": "C",
+              "-text": "PCMSK0 |= (1<<PCINT5)|(1<<PCINT1);  //e.g. pin change int for PINA.5 and PINA.1"
+            },
+            {
+              "-language": "C",
+              "-text": "GIMSK |= (1<<PCIE1);   //enable PCINT[7:0] and PCINT[15:12]"
+            }
+          ]
+        },
+        "vectors": {
+          "-language": "C",
+          "vector": [
+            {
+              "-language": "C",
+              "-text": "//PCINT[15:12] or PCINT[7:0]  interrupt service routine - program comes here when one of these pins is triggered"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(PCINT_vect)            // handler for and PCINT interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATtiny461",
+        "-interrupt": "PCINT[15:12]",
+        "family": "AVR8",
+        "micro": "ATtiny461",
+        "name": "PCINT[15:12]",
+        "enableregister": "GIMSK",
+        "enablemask": "5",
+        "controlregister": "PCMSK1",
+        "controlmask": "0xf0",
+        "flagregister": "GIFR",
+        "flagmask": "0x20",
+        "isr": "PCINT_vect",
+        "triggers": {
+          "trigger": {
+            "-name": "change",
+            "-mask": "0x01"
+          }
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "C",
+              "-text": "//configuration for PCINT[15:12]"
+            },
+            {
+              "-language": "C",
+              "-text": "PCMSK1 |= (1<<PCINT14)|(1<<PCINT12);  //e.g. pin change int for PINB.6 and PINB.4"
+            },
+            {
+              "-language": "C",
+              "-text": "GIMSK |= (1<<PCIE1);   //enable PCINT[7:0] and PCINT[15:12]"
+            }
+          ]
+        },
+        "vectors": {
+          "-language": "C",
+          "vector": [
+            {
+              "-language": "C",
+              "-text": "//PCINT[15:12] or PCINT[7:0] Interrupt service routine - program comes here when one of these pins is triggered"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(PCINT_vect)            // handler for and PCINT interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATtiny461",
+        "-interrupt": "PCINT[11:8]",
+        "family": "AVR8",
+        "micro": "ATtiny461",
+        "name": "PCINT[11:8]",
+        "enableregister": "GIMSK",
+        "enablemask": "4",
+        "controlregister": "PCMSK1",
+        "controlmask": "0xF0",
+        "flagregister": "GIFR",
+        "flagmask": "0x20",
+        "isr": "PCINT_vect",
+        "triggers": {
+          "trigger": {
+            "-name": "change",
+            "-mask": "0x01"
+          }
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "C",
+              "-text": "//configuration for PCINT[7:0] and PCINT[11:8]"
+            },
+            {
+              "-language": "C",
+              "-text": "PCMSK1 |= (1<<PCINT11)|(1<<PCINT8);  //e.g. pin change int for PINB.3 and PINB.0"
+            },
+            {
+              "-language": "C",
+              "-text": "GIMSK |= (1<<PCIE0);   //enable PCINT[11:8] "
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "C",
+              "-text": "//PCINT[11:8] interrupt service routine - program comes here when one of these pins is changed"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(PCINT_vect)            // handler for and PCINT interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATtiny16A",
+        "-interrupt": "INT0",
+        "family": "AVR8",
+        "micro": "ATmega16A",
+        "name": "INT0",
+        "enableregister": "GICR",
+        "enablemask": "0x40",
+        "controlregister": "MCUCR",
+        "controlmask": "0x03",
+        "flagregister": "GIFR",
+        "flagmask": "0x40",
+        "isr": "INT0_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x01"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x02"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x03"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int0 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int0 int0_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int0 "
+            },
+            {
+              "-language": "C",
+              "-text": "MCUCR |= (1<<ISC01)|(1<<ISC00);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "GICR |= (1<<INT0);   //enable external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "GIFR |= (1<<INTF0);   //clear interrupt INT0"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT0 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int0_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT0_vect)            // signal handler for external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega16A",
+        "-interrupt": "INT1",
+        "family": "AVR8",
+        "micro": "ATmega16A",
+        "name": "INT1",
+        "enableregister": "GICR",
+        "enablemask": "0x40",
+        "controlregister": "MCUCR",
+        "controlmask": "0x0C",
+        "flagregister": "GIFR",
+        "flagmask": "0x40",
+        "isr": "INT1_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x04"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x08"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x0C"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int1 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int1 int1_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int1 "
+            },
+            {
+              "-language": "C",
+              "-text": "MCUCR |= (1<<ISC11)|(1<<ISC10);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "GICR |= (1<<INT1);   //enable external interrupt INT1"
+            },
+            {
+              "-language": "C",
+              "-text": "GIFR |= (1<<INTF1);   //clear interrupt INT1"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT1 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int1_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT1_vect)            // signal handler for external interrupt INT1"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega16A",
+        "-interrupt": "INT2",
+        "family": "AVR8",
+        "micro": "ATmega16A",
+        "name": "INT2",
+        "enableregister": "GICR",
+        "enablemask": "0x20",
+        "controlregister": "MCUCSR",
+        "controlmask": "0x20",
+        "flagregister": "GIFR",
+        "flagmask": "0x20",
+        "isr": "INT2_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "falling",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x40"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT2"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int2 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int2 int2_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int2 "
+            },
+            {
+              "-language": "C",
+              "-text": "MCUCSR= (1<<ISC2);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "GICR |= (1<<INT2);   //enable external interrupt INT2"
+            },
+            {
+              "-language": "C",
+              "-text": "GIFR |= (1<<INTF2);   //clear interrupt INT2"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT2 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int2_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT2_vect)            // signal handler for external interrupt INT2"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega48",
+        "-interrupt": "INT0",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "INT0",
+        "enableregister": "EIMSK",
+        "enablemask": "0x01",
+        "controlregister": "EICRA",
+        "controlmask": "0x03",
+        "flagregister": "EIFR",
+        "flagmask": "0x01",
+        "isr": "INT0_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x01"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x02"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x03"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int0 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int0 int0_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int0 "
+            },
+            {
+              "-language": "C",
+              "-text": "EICRA |= (1<<ISC01)|(1<<ISC00);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "EIMSK |= (1<<INT0);   //enable external interrupt INT0"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT0 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int0_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT0_vect)            // signal handler for external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega48",
+        "-interrupt": "INT1",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "INT1",
+        "enableregister": "EIMSK",
+        "enablemask": "0x02",
+        "controlregister": "EICRA",
+        "controlmask": "0x0C",
+        "flagregister": "EIFR",
+        "flagmask": "0x01",
+        "isr": "INT1_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x04"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x08"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x0C"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int1 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int1 int1_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int1 "
+            },
+            {
+              "-language": "C",
+              "-text": "EICRA |= (1<<ISC11)|(1<<ISC10);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "EIMSK |= (1<<INT1);   //enable external interrupt INT1"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT1 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int1_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT1_vect)            // signal handler for external interrupt INT1"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega644",
+        "-interrupt": "INT0",
+        "family": "AVR8",
+        "micro": "ATmega644",
+        "name": "INT0",
+        "enableregister": "EIMSK",
+        "enablemask": "0x01",
+        "controlregister": "EICRA",
+        "controlmask": "0x03",
+        "flagregister": "EIFR",
+        "flagmask": "0",
+        "isr": "INT0_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x01"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x02"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x03"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int0 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int0 int0_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int0 "
+            },
+            {
+              "-language": "C",
+              "-text": "EICRA |= (1<<ISC01)|(1<<ISC00);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "EIMSK |= (1<<INT0);   //enable external interrupt INT0"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT0 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int0_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT0_vect)            // signal handler for external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega644",
+        "-interrupt": "INT1",
+        "family": "AVR8",
+        "micro": "ATmega644",
+        "name": "INT1",
+        "enableregister": "EIMSK",
+        "enablemask": "0x02",
+        "controlregister": "EICRA",
+        "controlmask": "0x0C",
+        "flagregister": "EIFR",
+        "flagmask": "1",
+        "isr": "INT1_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x04"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x08"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x0C"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int1 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int1 int1_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int1 "
+            },
+            {
+              "-language": "C",
+              "-text": "EICRA |= (1<<ISC11)|(1<<ISC10);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "EIMSK |= (1<<INT1);   //enable external interrupt INT1"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT1 interrupt service routine - program comes here when pin is triggered"
+            },
+            "int1_isr:\">",
+            "return\"",
+            {
+              "-language": "C",
+              "-text": "ISR(INT1_vect)            // signal handler for external interrupt INT1"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega644",
+        "-interrupt": "INT2",
+        "family": "AVR8",
+        "micro": "ATmega644",
+        "name": "INT2",
+        "enableregister": "EIMSK",
+        "enablemask": "0x04",
+        "controlregister": "EICRA",
+        "controlmask": "0x0C",
+        "flagregister": "EIFR",
+        "flagmask": "0x04",
+        "isr": "INT2_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x04"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x08"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x0C"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT2"
+            },
+            {
+              "-language": "BASIC",
+              "#text": "Config Int1 = falling     ' or rising or low level or change\">"
+            },
+            {
+              "-language": "BASIC",
+              "#text": "On Int1 int1_isr\">"
+            },
+            {
+              "-language": "BASIC",
+              "#text": "\">"
+            },
+            {
+              "-language": "BASIC",
+              "#text": "Enable Int1 \">"
+            },
+            {
+              "-language": "C",
+              "-text": "EICRA |= (1<<ISC11)|(1<<ISC10);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "EIMSK |= (1<<INT1);   //enable external interrupt INT1"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT2 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "#text": "int1_isr:\">"
+            },
+            {
+              "-language": "BASIC",
+              "#text": "return\">"
+            },
+            {
+              "-language": "C",
+              "#text": "ISR(INT1_vect)            // signal handler for external interrupt INT1\">"
+            },
+            {
+              "-language": "C",
+              "#text": "{\">"
+            },
+            {
+              "-language": "C",
+              "#text": "}\">"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega328",
+        "-interrupt": "INT0",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "INT0",
+        "enableregister": "EIMSK",
+        "enablemask": "0x01",
+        "controlregister": "EICRA",
+        "controlmask": "0x03",
+        "flagregister": "EIFR",
+        "flagmask": "0",
+        "isr": "INT0_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x01"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x02"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x03"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int0 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int0 int0_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int0 "
+            },
+            {
+              "-language": "C",
+              "-text": "EICRA |= (1<<ISC01)|(1<<ISC00);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "EIMSK |= (1<<INT0);   //enable external interrupt INT0"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT0 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int0_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT0_vect)            // signal handler for external interrupt INT0"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-micro": "ATmega328",
+        "-interrupt": "INT1",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "INT1",
+        "enableregister": "EIMSK",
+        "enablemask": "0x02",
+        "controlregister": "EICRA",
+        "controlmask": "0x0C",
+        "flagregister": "EIFR",
+        "flagmask": "1",
+        "isr": "INT1_vect",
+        "triggers": {
+          "trigger": [
+            {
+              "-name": "lowlevel",
+              "-mask": "0x00"
+            },
+            {
+              "-name": "change",
+              "-mask": "0x04"
+            },
+            {
+              "-name": "falling",
+              "-mask": "0x08"
+            },
+            {
+              "-name": "rising",
+              "-mask": "0x0C"
+            }
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "configuration for INT1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Int1 = falling     ' or rising or low level or change"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "On Int1 int1_isr"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Enable Int1 "
+            },
+            {
+              "-language": "C",
+              "-text": "EICRA |= (1<<ISC11)|(1<<ISC10);  //rising edge "
+            },
+            {
+              "-language": "C",
+              "-text": "EIMSK |= (1<<INT1);   //enable external interrupt INT1"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "INT1 interrupt service routine - program comes here when pin is triggered"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "int1_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(INT1_vect)            // signal handler for external interrupt INT1"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,2076 @@
+{
+  "timers": {
+    "timer": [
+      {
+        "-text": "M48 @1MHz Timer0 100uS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer0 interupt 100uSec ",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 100 microsecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 100 microsecond (when crystal = 1,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=99                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS00);   // setup prescalerto divide by 1"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x63;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M48 @1MHz Timer0 1mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer0 interupt 1mSec ",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 1 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 1 millisecond (when crystal = 1,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 8"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=124                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS01);     // setup prescalerto divide by 64"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x7C;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M48 @1MHz Timer0 10mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer0 interupt 10mSec ",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 10 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 10 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 64"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=155                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS01);    // setup prescalerto divide by 64"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS00);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x9B;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M48 @1MHz Timer0 100mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer0 interupt 100mSec ",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 10 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 10 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 1024"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS02=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=97                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS02);    // setup prescalerto divide by 1024"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS00);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x61;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M48 @1MHz Timer1 10mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer1 PWM 10mSec ",
+        "size": "16",
+        "inputpins": {
+          "inputpin": [
+            "T1",
+            "ICP1"
+          ]
+        },
+        "outputpins": {
+          "outputpin": [
+            "OC1A",
+            "OC1B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 1 (16bit) config for 10 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 1 config for 10 millisecond (when crystal = 1,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'suitable for dimming an LED"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'range of Compare1a is 0 to 255, so in the program change the value at anytime to change the LED brightness"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Timer1 = Pwm , Prescale = 64 , Pwm = 8 , Compare A Pwm = Clear Down , Compare B Pwm = disconnect"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Compare1a = 200  'bright"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 1 interrupt service routine - program comes here when Timer1 has overflowed "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Tim1_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER1_OVF_vect)            // signal handler for external interrupt Timer1"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M48 @1MHz Timer1 100mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer1 PWM 100mSec ",
+        "size": "16",
+        "inputpins": {
+          "inputpin": [
+            "T1",
+            "ICP1"
+          ]
+        },
+        "outputpins": {
+          "outputpin": [
+            "OC1A",
+            "OC1B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "BASIC",
+              "-text": "'Timer 1 config for 10 millisecond"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'suitable for dimming an LED"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'range of Compare1a is 0 to 255, so in the program change the value at anytime to change the LED brightness"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Config Timer1 = Pwm , Prescale = 64 , Pwm = 8 , Compare A Pwm = Clear Down , Compare B Pwm = disconnect"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "Compare1a = 200  'bright"
+            }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M328 @16MHz Timer0 100uS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 @16MHz Timer0 100uS Interrupt",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 100 microsecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 100 microsecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 8"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=199                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS01);         // setup prescalerto divide by 8"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0xC7;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M328 @16MHz Timer0 1mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 @16MHz Timer0 1mS Interrupt",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 1 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 1 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 64"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=249                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS01);         // setup prescalerto divide by 64"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS00);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0xF9;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M328 @16MHz Timer0 10mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 @16MHz Timer0 10mS Interrupt",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 10 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 10 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 1024"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS02=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=155                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS02);         // setup prescalerto divide by 1024"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS00);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x9B;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M328 @16MHz Timer1 1mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 @16MHz Timer1 1mS Interrupt",
+        "size": "16",
+        "inputpins": {
+          "inputpin": [
+            "T1",
+            "ICP1"
+          ]
+        },
+        "outputpins": {
+          "outputpin": [
+            "OC1A",
+            "OC1B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 1 (16bit) config for 1 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 1 config for 1 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE1A OC1A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 8"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1A.WGM01=1                 'CTC mode (timer counts from 0 to OCR1A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1AH=0H07"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1AL=0HCF"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK1.OCIE1A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1B |= (1<<CS01);         // setup prescalerto divide by 8"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1AH = 0x07;                    // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1AL = 0xCF;"
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK1 |= (1<<OCIE0A);          //enable OC1A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 1 interrupt service routine - program comes here when Timer0 has reached the value in OCR1A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC1A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER1_COMPA_vect)            // signal handler for compareA interrupt OC1A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M328 @16MHz Timer1 10mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 @16MHz Timer1 10mS Interrupt",
+        "size": "16",
+        "inputpins": {
+          "inputpin": [
+            "T1",
+            "ICP1"
+          ]
+        },
+        "outputpins": {
+          "outputpin": [
+            "OC1A",
+            "OC1B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 1 (16bit) config for 10 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 1 config for 10 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE1A OC1A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 8"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1A.WGM01=1                 'CTC mode (timer counts from 0 to OCR1A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1AH=0H4E"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1AL=0H1F"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK1.OCIE1A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A |= (1<<WGM01);         // Set Timer1 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1B |= (1<<CS01);         // setup prescalerto divide by 8"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1AH = 0x4E;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1AL = 0x1F;"
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK1 |= (1<<OCIE1A);          //enable OC1A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 1 interrupt service routine - program comes here when Timer1 has reached the value in OCR1A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC1A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER1_COMPA_vect)            // signal handler for compareA interrupt OC1A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M328 @16MHz Timer1 100mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 @16MHz Timer1 100mS Interrupt",
+        "size": "16",
+        "inputpins": {
+          "inputpin": [
+            "T1",
+            "ICP1"
+          ]
+        },
+        "outputpins": {
+          "outputpin": [
+            "OC1A",
+            "OC1B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 1 (16bit) config for 100 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 1 config for 100 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE1A OC1A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 256"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1B.CS02=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1A.WGM01=1                 'CTC mode (timer counts from 0 to OCR1A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1A=0H18"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1A=0H69"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK1.OCIE1A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A |= (1<<WGM01);         // Set Timer1 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1B |= (1<<CS02);         // setup prescalerto divide by 256"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1A = 0x18;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1A = 0x69;"
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK1 |= (1<<OCIE1A);          //enable OC1A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 1 interrupt service routine - program comes here when Timer1 has reached the value in OCR1A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC1A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER1_COMPA_vect)            // signal handler for compareA interrupt OC1A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M328 @16MHz Timer1 1S Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 @16MHz Timer1 1S Interrupt",
+        "size": "16",
+        "inputpins": {
+          "inputpin": [
+            "T1",
+            "ICP1"
+          ]
+        },
+        "outputpins": {
+          "outputpin": [
+            "OC1A",
+            "OC1B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 1 (16bit) config for 1 second software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 1 config for 1 second (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE1A OC1A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 1024"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1B.CS02=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1A.WGM01=1                 'CTC mode (timer counts from 0 to OCR1A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1A=0H3D"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR1A=0H08"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK1.OCIE1A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A |= (1<<WGM01);         // Set Timer1 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1B |= (1<<CS00);         // setup prescalerto divide by 1024"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1B |= (1<<CS02);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1AH = 0x3D;"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR1AL = 0x08;"
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK1 |= (1<<OCIE1A);          //enable OC1A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 1 interrupt service routine - program comes here when Timer1 has reached the value in OCR1A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC1A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER1_COMPA_vect)            // signal handler for compareA interrupt OC1A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M328 Timer0 @16MHz, PWM 8.16mS period on 0C0A portD.6",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 Timer0 @16MHz, PWM 8.16mS period on 0C0A portD.6",
+        "size": "16",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) @16MHz Phase Correct PWM 8.16mS period on OC0A portD.6"
+            },
+            { "-language": "BASIC" },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM00=1         ' Set Timer0 to Phase Correct PWM mode"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.COM0A1=1         ' Connect Output Pin OC0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS02=1         ' setup prescaler 128"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A = 0H30;   'Pulse width 1.536mS"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM00);         // Set Timer0 to Phase Correct PWM mode"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<COM0A1);         // Connect Output Pin OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS02);         // setup prescaler 128"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x30;   //Pulse width 1.536mS"
+            }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M328 Timer0 @16MHz, PWM 8.16mS period on 0C0B portD.5",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 Timer0 @16MHz, PWM 8.16mS period on 0C0B portD.5",
+        "size": "16",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) @16MHz Phase Correct PWM 8.16mS period on OC0B portD.5"
+            },
+            { "-language": "BASIC" },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM00=1         ' Set Timer0 to Phase Correct PWM mode"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.COM0B1=1         ' Connect Output Pin OC0B"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS02=1         ' setup prescaler 128"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A = 0H30;   'Pulse width 1.536mS"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM00);         // Set Timer0 to Phase Correct PWM mode"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<COM0B1);         // Connect Output Pin OC0B"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS02);         // setup prescaler 128"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x30;   //Pulse width 1.536mS"
+            }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M328 Timer1 @16MHz, 9Bit PWM, 0.511mS period on OC1A PortB.1 and OC1B portB.2",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 Timer1 @16MHz, 9Bit PWM, 0.511mS period on OC1A PortB.1 and OC1B portB.2",
+        "size": "16",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) @16MHz Phase Correct PWM 8.16mS period on OC0B portD.5"
+            },
+            { "-language": "BASIC" },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1A.WGM00=1         ' Set Timer1 to 9bit Phase Correct PWM mode"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1A.COM0A1=1         ' Connect Output Pin OC1A PortB.1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1A.COM0B1=1         ' Connect Output Pin OC1B PortB.2"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR1B.CS02=1         ' setup prescaler 128"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A = 0H30;   'Pulse width 0.048mS"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A = 0H100;   'Pulse width 0.256mS"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A |= (1<<WGM11);         // Set Timer1 to 9Bit Phase Correct PWM mode"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A |= (1<<COM1A1);         // Connect Output Pin OC1A PortB.1"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A |= (1<<COM1B1);         // Connect Output Pin OC1B PortB.2"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1B |= (1<<CS11);         // setup prescaler 8"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x30;   //Pulse width 0.048mS"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 0x100;   //Pulse width 0.256mS"
+            }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M328 Timer2 @16MHz, PWM 1.02mS period on 0C2A portB.3 and OC2B PortD.3",
+        "family": "AVR8",
+        "micro": "ATmega328",
+        "name": "M328 Timer2 @16MHz, PWM 1.02mS period on 0C2A portB.3 and OC2B PortD.3",
+        "size": "16",
+        "inputpins": { "inputpin": "TOSC1" },
+        "outputpins": {
+          "outputpin": [
+            "OC2A",
+            "OC2B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 2 (8bit) @16MHz Phase Correct PWM 1.02mS period on 0C2A portB.3 and OC2B PortD.3"
+            },
+            { "-language": "BASIC" },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM20=1         ' Set Timer2 to Phase Correct PWM mode"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.COM2A1=1         ' Connect Output Pin OC2A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.COM2B1=1         ' Connect Output Pin OC2B"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS21=1         ' setup prescaler to 32"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS20=1         "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR2A = 0H30;   'PortB.3 Pulse width 0.192mS"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR2B = 0HA0;   'PortD.3 Pulse width 0.64mS"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM20);         // Set Timer2 to Phase Correct PWM mode"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<COM2A1);         // Connect Output Pin OC2A"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<COM2B1);         // Connect Output Pin OC2B"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS21);         // setup prescaler to 32"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS20); "
+            },
+            {
+              "-language": "C",
+              "-text": "OCR2A = 0x30;   //Pulse width 0.192mS"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR2B = 0xA0;   //Pulse width 0.64mS"
+            }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M16 @1MHz Timer0 PWM 33mS Period",
+        "family": "AVR8",
+        "micro": "ATMEga16",
+        "name": "M16 @1MHz Timer0 PWM 32.64mS Period - suitable for dimming an LED or LCD Backlight on OC0 (PortB.3)",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": { "outputpin": "OC0" },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) @1MHz, Phase Correct PWM, 32 mS period on OC0(PortB.3)"
+            },
+            {
+              "-language": "All",
+              "-text": "'suitable for dimming an LED"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'range of Compare0 is 0 to 255, so in the program change the value at anytime to change the LED brightness"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.WGM01 = 0   'Phase correct PWM"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.WGM00 = 1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.COM01 = 1   'Compare Match clear UP"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.COM00 = 0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.CS02 = 0    'Prescale = 64"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.CS01 = 1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.CS00 = 1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0 = 30     e.g. Compare Value of 30 gives 6.144mS pulsewidth"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0 |= (1<<WGM00);    //Phase correct PWM"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0 |= (1<<COM01);    //Compare Match Clear Up"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0 |= (1<<CS01);     //Prescale=64 Perod=32.64mS "
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0 |= (1<<CS00);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0 = 30      //e.g. Compare Value of 30 gives 6.144mS pulsewidth"
+            },
+            { "-language": "C" }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M16 @1MHz Timer0 PWM 0.51mS Period",
+        "family": "AVR8",
+        "micro": "ATMEga16",
+        "name": "M16 @1MHz Timer0 PWM 0.51mS Period - suitable for speed control of small DC motor on OC0(PortB.3)",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": { "outputpin": "OC0" },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) @1MHz, Phase Correct PWM, 0.51mS period on OC0(PortB.3)"
+            },
+            {
+              "-language": "All",
+              "-text": "'suitable for speed control of small DC motor"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'range of Compare0 is 0 to 255, so in the program change the value at anytime to change the LED brightness"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.WGM01 = 0   'Phase correct PWM"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.WGM00 = 1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.COM01 = 1   'Compare Match clear UP"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.COM00 = 0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.CS02 = 0    'Prescale = 1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.CS01 = 0"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0.CS00 = 1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0 = 30     'Compare Value of 30 gives 0.096mS pulsewidth"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0 |= (1<<WGM00);    //Phase correct PWM"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0 |= (1<<COM01);    //Compare Match Clear Up"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0 |= (1<<CS00);     //Prescale=1 Perod=0.51mS "
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0 = 30      //e.g. Compare Value of 30 gives 0.096mS pulsewidth"
+            },
+            { "-language": "C" }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M16 @1MHz Timer1 PWM 0.51mS Period - suitable for speed control of small DC motor on OC1A(PortD.5)",
+        "family": "AVR8",
+        "micro": "ATMEga16",
+        "name": "M16 @1MHz Timer1 PWM 0.51mS Period - suitable for speed control of small DC motor on OC1A(PortD.5)",
+        "size": "8",
+        "inputpins": { "inputpin": "T1" },
+        "outputpins": {
+          "outputpin": [
+            "OC1A",
+            "OC1B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 1 (16bit) @1MHz, 10bit Phase Correct PWM, 0.51mS Period on OC1A(PortD.5)"
+            },
+            {
+              "-language": "All",
+              "-text": "'suitable for speed control of small DC motor"
+            },
+            { "-language": "BASIC" },
+            {
+              "-language": "C",
+              "-text": "TCCR1A=((1<<WGM11) | (1<<WGM10);  //Phase Correct PWM, clear up"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1A=(1<<COM1A1);    //compare match 1B"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR1B=(1<<CS01);    //prescale = 1"
+            },
+            { "-language": "C" },
+            { "-language": "C" },
+            { "-language": "C" },
+            { "-language": "C" },
+            { "-language": "C" }
+          ]
+        },
+        "vectors": "
+    "
+      },
+      {
+        "-text": "M644 @1MHz Timer0 100uS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega644",
+        "name": "Timer0 interupt 100uSec ",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 100 microsecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 100 microsecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 8"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=199                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS01);         // setup prescalerto divide by 9"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 199;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M644 @1MHz Timer0 1mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer0 interupt 1mSec ",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 1 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 1 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 64"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS01=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=249                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS01);          // setup prescalerto divide by 64"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS00);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 249;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      },
+      {
+        "-text": "M644 @1MHz Timer0 10mS Interrupt",
+        "family": "AVR8",
+        "micro": "ATmega48",
+        "name": "Timer0 interupt 10mSec ",
+        "size": "8",
+        "inputpins": { "inputpin": "T0" },
+        "outputpins": {
+          "outputpin": [
+            "OC0A",
+            "OC0B"
+          ]
+        },
+        "configs": {
+          "config": [
+            {
+              "-language": "All",
+              "-text": "'Timer 0 (8bit) config for 10 millisecond software interrupt"
+            },
+            {
+              "-language": "All",
+              "-text": "'Timer 0 config for 10 millisecond (when crystal = 16,000,000)"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "on COMPARE0A OC0A_isr                 'this is the sub to call on every interrupt"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "' Setup prescaler to divide by 1024"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "'setup prescaler"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS02=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0B.CS00=1"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TCCR0A.WGM01=1                 'CTC mode (timer counts from 0 to OCR0A"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OCR0A=155                        'max is 255"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "TIMSK0.OCIE0A=1                  'enable compareA interrupt"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0A |= (1<<WGM01);         // Set Timer0 to CTC mod"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS02);          // setup prescalerto divide by 64"
+            },
+            {
+              "-language": "C",
+              "-text": "TCCR0B |= (1<<CS00);"
+            },
+            {
+              "-language": "C",
+              "-text": "OCR0A = 155;                           // set top count "
+            },
+            {
+              "-language": "C",
+              "-text": "TIMSK0 |= (1<<OCIE0A);          //enable OC0A interrupt"
+            }
+          ]
+        },
+        "vectors": {
+          "vector": [
+            {
+              "-language": "ALL",
+              "-text": "Timer 0 interrupt service routine - program comes here when Timer0 has reached the value in OCR0A "
+            },
+            {
+              "-language": "BASIC",
+              "-text": "OC0A_isr:"
+            },
+            {
+              "-language": "BASIC",
+              "-text": "return"
+            },
+            {
+              "-language": "C",
+              "-text": "ISR(TIMER0_COMPA_vect)            // signal handler for compareA interrupt OC0A"
+            },
+            {
+              "-language": "C",
+              "-text": "{"
+            },
+            {
+              "-language": "C",
+              "-text": "}"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

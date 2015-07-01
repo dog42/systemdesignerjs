@@ -1,0 +1,126 @@
+{
+    "binaryinputs": {
+        "input": [
+            {
+                "name": "Push Button Switch",
+                "type": "pb_switch__",
+                "tag": "binaryinputcontrol",
+                "text": "pbSw_",
+                "image": "pb_sw__.png",
+                "toggle": "no",
+                "timeout": "3000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Tact Switch",
+                "tag": "binaryinputcontrol",
+                "type": "tact_switch__",
+                "text": "tactSw_",
+                "image": "tact_sw__.png",
+                "toggle": "no",
+                "timeout": "3000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Toggle Switch",
+                "tag": "binaryinputcontrol",
+                "type": "toggle_switch__",
+                "text": "toggleSw_",
+                "image": "toggle_sw__.png",
+                "toggle": "yes",
+                "timeout": "0",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Micro Switch",
+                "tag": "binaryinputcontrol",
+                "type": "micro_switch__",
+                "text": "microSw_",
+                "image": "micro_sw__.png",
+                "toggle": "yes",
+                "timeout": "0",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Key Switch",
+                "tag": "binaryinputcontrol",
+                "type": "key_switch__",
+                "text": "keySw_",
+                "image": "key_sw__.jpg",
+                "toggle": "yes",
+                "timeout": "1000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Reed Switch",
+                "type": "reed_switch__",
+                "tag": "binaryinputcontrol",
+                "text": "reedSw_",
+                "image": "reed_sw__.png",
+                "toggle": "yes",
+                "timeout": "0",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "PIR",
+                "type": "pir_switch__",
+                "tag": "binaryinputcontrol",
+                "text": "pirSw_",
+                "image": "PIR_sw__.png",
+                "toggle": "yes",
+                "timeout": "10000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "LightBeam",
+                "type": "lightbeam_switch__",
+                "tag": "binaryinputcontrol",
+                "text": "beamSw_",
+                "image": "lightbeam_sw__.jpg",
+                "toggle": "no",
+                "timeout": "2000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Tilt Switch",
+                "tag": "binaryinputcontrol",
+                "type": "tilt_switch__",
+                "text": "tiltSw_",
+                "image": "tilt_sw__.jpg",
+                "toggle": "yes",
+                "timeout": "1000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Pulse",
+                "tag": "binaryinputcontrol",
+                "type": "pulse",
+                "text": "pulse_",
+                "image": "pulse_in_.png",
+                "toggle": "yes",
+                "timeout": "1000",
+                "repeat": "yes",
+                "releasedtext": "START",
+                "pressedtext": "STOP"
+            }
+        ]
+    }
+}

@@ -1,0 +1,2949 @@
+{
+  "packages": {
+    "package": [
+      {
+        "type": "micro",
+        "packname": "dip8",
+        "nodewidth": 18,
+        "nodeheight": 23,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 15,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Brown"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 40,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 60,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 85,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 5,
+            "x": 100,
+            "y": 85,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 6,
+            "x": 100,
+            "y": 60,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 7,
+            "x": 100,
+            "y": 40,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 100,
+            "y": 15,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "dip20",
+        "nodewidth": 18,
+        "nodeheight": 58,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 4,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 14,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 24,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 34,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 44,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 54,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 7,
+            "x": 0,
+            "y": 64,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 0,
+            "y": 74,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 9,
+            "x": 0,
+            "y": 84,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 10,
+            "x": 0,
+            "y": 94,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Brown"
+          },
+          {
+            "pin": 11,
+            "x": 100,
+            "y": 94,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 12,
+            "x": 100,
+            "y": 84,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 13,
+            "x": 100,
+            "y": 74,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 14,
+            "x": 100,
+            "y": 64,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 15,
+            "x": 100,
+            "y": 54,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 16,
+            "x": 100,
+            "y": 44,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 17,
+            "x": 100,
+            "y": 34,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 18,
+            "x": 100,
+            "y": 24,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 19,
+            "x": 100,
+            "y": 14,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 20,
+            "x": 100,
+            "y": 4,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "dip28",
+        "nodewidth": 18,
+        "nodeheight": 83,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 4,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "RosyBrown"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 11,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 18,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 25,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 32,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 39,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 7,
+            "x": 0,
+            "y": 46,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 8,
+            "x": 0,
+            "y": 53,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 9,
+            "x": 0,
+            "y": 60,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 10,
+            "x": 0,
+            "y": 67,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 11,
+            "x": 0,
+            "y": 74,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 12,
+            "x": 0,
+            "y": 81,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 13,
+            "x": 0,
+            "y": 88,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 14,
+            "x": 0,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 15,
+            "x": 100,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 16,
+            "x": 100,
+            "y": 88,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 17,
+            "x": 100,
+            "y": 81,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 18,
+            "x": 100,
+            "y": 74,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 19,
+            "x": 100,
+            "y": 67,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 20,
+            "x": 100,
+            "y": 60,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Plum"
+          },
+          {
+            "pin": 21,
+            "x": 100,
+            "y": 53,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Plum"
+          },
+          {
+            "pin": 22,
+            "x": 100,
+            "y": 46,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 23,
+            "x": 100,
+            "y": 39,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 24,
+            "x": 100,
+            "y": 32,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 25,
+            "x": 100,
+            "y": 25,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 26,
+            "x": 100,
+            "y": 18,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 27,
+            "x": 100,
+            "y": 11,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 28,
+            "x": 100,
+            "y": 4,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "dip40",
+        "nodewidth": 35,
+        "nodeheight": 114,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 2,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 7,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 12,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 17,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 22,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 27,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 7,
+            "x": 0,
+            "y": 32,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 0,
+            "y": 37,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Brown"
+          },
+          {
+            "pin": 9,
+            "x": 0,
+            "y": 42,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 10,
+            "x": 0,
+            "y": 47,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 11,
+            "x": 0,
+            "y": 52,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Brown"
+          },
+          {
+            "pin": 12,
+            "x": 0,
+            "y": 57,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Brown"
+          },
+          {
+            "pin": 13,
+            "x": 0,
+            "y": 62,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 14,
+            "x": 0,
+            "y": 67,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 15,
+            "x": 0,
+            "y": 72,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 16,
+            "x": 0,
+            "y": 77,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 17,
+            "x": 0,
+            "y": 82,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 18,
+            "x": 0,
+            "y": 87,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 19,
+            "x": 0,
+            "y": 92,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 20,
+            "x": 0,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 21,
+            "x": 100,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Orange"
+          },
+          {
+            "pin": 22,
+            "x": 100,
+            "y": 92,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 23,
+            "x": 100,
+            "y": 87,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 24,
+            "x": 100,
+            "y": 82,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 25,
+            "x": 100,
+            "y": 77,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 26,
+            "x": 100,
+            "y": 72,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 27,
+            "x": 100,
+            "y": 67,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 28,
+            "x": 100,
+            "y": 62,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 29,
+            "x": 100,
+            "y": 57,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 30,
+            "x": 100,
+            "y": 52,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Plum"
+          },
+          {
+            "pin": 31,
+            "x": 100,
+            "y": 47,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 32,
+            "x": 100,
+            "y": 42,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Plum"
+          },
+          {
+            "pin": 33,
+            "x": 100,
+            "y": 37,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 34,
+            "x": 100,
+            "y": 32,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 35,
+            "x": 100,
+            "y": 27,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 36,
+            "x": 100,
+            "y": 22,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 37,
+            "x": 100,
+            "y": 17,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 38,
+            "x": 100,
+            "y": 12,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 39,
+            "x": 100,
+            "y": 7,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 40,
+            "x": 100,
+            "y": 2,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "sm32",
+        "nodewidth": 55,
+        "nodeheight": 55,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 17,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 26,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 35,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 45,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 54,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 63,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 7,
+            "x": 0,
+            "y": 72,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 0,
+            "y": 81,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 9,
+            "x": 17,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 10,
+            "x": 26,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 11,
+            "x": 35,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 12,
+            "x": 45,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Blue"
+          },
+          {
+            "pin": 13,
+            "x": 54,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Blue"
+          },
+          {
+            "pin": 14,
+            "x": 63,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Blue"
+          },
+          {
+            "pin": 15,
+            "x": 72,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Blue"
+          },
+          {
+            "pin": 16,
+            "x": 81,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Blue"
+          },
+          {
+            "pin": 17,
+            "x": 100,
+            "y": 81,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Blue"
+          },
+          {
+            "pin": 18,
+            "x": 100,
+            "y": 72,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "White"
+          },
+          {
+            "pin": 19,
+            "x": 100,
+            "y": 63,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 20,
+            "x": 100,
+            "y": 54,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 21,
+            "x": 100,
+            "y": 45,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 22,
+            "x": 100,
+            "y": 35,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 23,
+            "x": 100,
+            "y": 26,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 24,
+            "x": 100,
+            "y": 17,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 25,
+            "x": 81,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 26,
+            "x": 72,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 27,
+            "x": 63,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 28,
+            "x": 54,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 29,
+            "x": 45,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 30,
+            "x": 35,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 31,
+            "x": 26,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 32,
+            "x": 17,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "sm44",
+        "nodewidth": 60,
+        "nodeheight": 60,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 5,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 14,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 23,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 32,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 41,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 50,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 7,
+            "x": 0,
+            "y": 59,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 0,
+            "y": 68,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 9,
+            "x": 0,
+            "y": 77,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 10,
+            "x": 0,
+            "y": 86,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 11,
+            "x": 0,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 12,
+            "x": 5,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 13,
+            "x": 6,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 14,
+            "x": 7,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 15,
+            "x": 8,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 16,
+            "x": 9,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 17,
+            "x": 10,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 18,
+            "x": 11,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 19,
+            "x": 12,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 20,
+            "x": 13,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 21,
+            "x": 14,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 22,
+            "x": 15,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 23,
+            "x": 100,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 24,
+            "x": 100,
+            "y": 86,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 25,
+            "x": 100,
+            "y": 77,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 26,
+            "x": 100,
+            "y": 68,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 27,
+            "x": 100,
+            "y": 59,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 28,
+            "x": 100,
+            "y": 50,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 29,
+            "x": 100,
+            "y": 41,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 30,
+            "x": 100,
+            "y": 32,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 31,
+            "x": 100,
+            "y": 23,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 32,
+            "x": 100,
+            "y": 14,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 33,
+            "x": 100,
+            "y": 5,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 34,
+            "x": 95,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 35,
+            "x": 86,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 36,
+            "x": 77,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 37,
+            "x": 68,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 38,
+            "x": 59,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 39,
+            "x": 50,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 40,
+            "x": 41,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 41,
+            "x": 32,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 42,
+            "x": 23,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 43,
+            "x": 14,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 44,
+            "x": 5,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "sm64",
+        "nodewidth": 70,
+        "nodeheight": 70,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 7,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 13,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 19,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 24,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 30,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 35,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 7,
+            "x": 0,
+            "y": 41,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 8,
+            "x": 0,
+            "y": 47,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 9,
+            "x": 0,
+            "y": 52,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "YellowGreen"
+          },
+          {
+            "pin": 10,
+            "x": 0,
+            "y": 58,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 11,
+            "x": 0,
+            "y": 64,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 12,
+            "x": 0,
+            "y": 69,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 13,
+            "x": 0,
+            "y": 75,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 14,
+            "x": 0,
+            "y": 80,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 15,
+            "x": 0,
+            "y": 86,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 16,
+            "x": 0,
+            "y": 92,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 17,
+            "x": 7,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 18,
+            "x": 13,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "White"
+          },
+          {
+            "pin": 19,
+            "x": 19,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "White"
+          },
+          {
+            "pin": 20,
+            "x": 24,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "RosyBrown"
+          },
+          {
+            "pin": 21,
+            "x": 30,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 22,
+            "x": 35,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 23,
+            "x": 41,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Beige"
+          },
+          {
+            "pin": 24,
+            "x": 47,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Beige"
+          },
+          {
+            "pin": 25,
+            "x": 52,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 26,
+            "x": 58,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 27,
+            "x": 64,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 28,
+            "x": 69,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 29,
+            "x": 75,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 30,
+            "x": 80,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 31,
+            "x": 86,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 32,
+            "x": 92,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 33,
+            "x": 100,
+            "y": 92,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "White"
+          },
+          {
+            "pin": 34,
+            "x": 100,
+            "y": 86,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "White"
+          },
+          {
+            "pin": 35,
+            "x": 100,
+            "y": 80,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 36,
+            "x": 100,
+            "y": 75,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 37,
+            "x": 100,
+            "y": 69,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 38,
+            "x": 100,
+            "y": 64,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 39,
+            "x": 100,
+            "y": 58,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 40,
+            "x": 100,
+            "y": 52,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 41,
+            "x": 100,
+            "y": 47,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 42,
+            "x": 100,
+            "y": 41,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 43,
+            "x": 100,
+            "y": 35,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "White"
+          },
+          {
+            "pin": 44,
+            "x": 100,
+            "y": 30,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 45,
+            "x": 100,
+            "y": 24,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 4,
+            "x": 100,
+            "y": 19,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 47,
+            "x": 100,
+            "y": 13,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 48,
+            "x": 100,
+            "y": 7,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 49,
+            "x": 92,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 50,
+            "x": 86,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 51,
+            "x": 80,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 52,
+            "x": 75,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 53,
+            "x": 69,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 54,
+            "x": 64,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 55,
+            "x": 58,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 56,
+            "x": 52,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 57,
+            "x": 47,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 58,
+            "x": 41,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 59,
+            "x": 35,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 60,
+            "x": 30,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 61,
+            "x": 24,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Turquoise"
+          },
+          {
+            "pin": 62,
+            "x": 19,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Beige"
+          },
+          {
+            "pin": 63,
+            "x": 13,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 64,
+            "x": 7,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Beige"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "uno",
+        "nodewidth": 55,
+        "nodeheight": 114,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 64,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 70,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 76,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 82,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 88,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 94,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 7,
+            "x": 100,
+            "y": 94,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 100,
+            "y": 88,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 9,
+            "x": 100,
+            "y": 82,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 10,
+            "x": 100,
+            "y": 76,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 11,
+            "x": 100,
+            "y": 70,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 12,
+            "x": 100,
+            "y": 64,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 13,
+            "x": 100,
+            "y": 58,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 14,
+            "x": 100,
+            "y": 52,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 15,
+            "x": 100,
+            "y": 46,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 16,
+            "x": 100,
+            "y": 40,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 17,
+            "x": 100,
+            "y": 34,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 18,
+            "x": 100,
+            "y": 28,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 19,
+            "x": 100,
+            "y": 22,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 20,
+            "x": 100,
+            "y": 16,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          }
+        ]
+      },
+      {
+        "type": "micro",
+        "packname": "xplained",
+        "nodewidth": 55,
+        "nodeheight": 114,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 65,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 72,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 79,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 85,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 91,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Yellow"
+          },
+          {
+            "pin": 7,
+            "x": 100,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 100,
+            "y": 91,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 9,
+            "x": 100,
+            "y": 85,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 10,
+            "x": 100,
+            "y": 78,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 11,
+            "x": 100,
+            "y": 72,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 12,
+            "x": 100,
+            "y": 65,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 13,
+            "x": 100,
+            "y": 59,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 14,
+            "x": 100,
+            "y": 53,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 15,
+            "x": 100,
+            "y": 45,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 16,
+            "x": 100,
+            "y": 39,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 17,
+            "x": 100,
+            "y": 33,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 18,
+            "x": 100,
+            "y": 26,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 19,
+            "x": 100,
+            "y": 20,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 20,
+            "x": 100,
+            "y": 13,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 21,
+            "x": 40,
+            "y": 99,
+            "i": 1,
+            "o": 0,
+            "ms": "Square",
+            "col": "Blue"
+          }
+        ]
+      },
+      {
+        "type": "comp",
+        "packname": "sevseg",
+        "nodewidth": 18,
+        "nodeheight": 23,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 0,
+            "y": 16,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 2,
+            "x": 0,
+            "y": 24,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 3,
+            "x": 0,
+            "y": 33,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 4,
+            "x": 0,
+            "y": 41,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 5,
+            "x": 0,
+            "y": 48,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 6,
+            "x": 0,
+            "y": 55,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 7,
+            "x": 0,
+            "y": 63,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkBlue"
+          },
+          {
+            "pin": 8,
+            "x": 0,
+            "y": 71,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 9,
+            "x": 50,
+            "y": 100,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 10,
+            "x": 50,
+            "y": 0,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          }
+        ]
+      },
+      {
+        "type": "comp",
+        "packname": "charlcd",
+        "nodewidth": 18,
+        "nodeheight": 23,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 9,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Black"
+          },
+          {
+            "pin": 2,
+            "x": 14,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Red"
+          },
+          {
+            "pin": 3,
+            "x": 20,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Black"
+          },
+          {
+            "pin": 4,
+            "x": 30,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 5,
+            "x": 37,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Black"
+          },
+          {
+            "pin": 6,
+            "x": 43,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 7,
+            "x": 75,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 8,
+            "x": 80,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 9,
+            "x": 85,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 10,
+            "x": 90,
+            "y": 95,
+            "i": 1,
+            "o": 1,
+            "ms": "Circle",
+            "col": "Purple"
+          }
+        ]
+      },
+      {
+        "type": "comp",
+        "packname": "glcd",
+        "nodewidth": 18,
+        "nodeheight": 23,
+        "nodeshape": "rectangle",
+        "anchorpoint": [
+          {
+            "pin": 1,
+            "x": 1,
+            "y": 11,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 2,
+            "x": 1,
+            "y": 19,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Black"
+          },
+          {
+            "pin": 3,
+            "x": 1,
+            "y": 67,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Red"
+          },
+          {
+            "pin": 4,
+            "x": 1,
+            "y": 75,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Brown"
+          },
+          {
+            "pin": 5,
+            "x": 28,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 6,
+            "x": 32,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 7,
+            "x": 36,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 8,
+            "x": 40,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 9,
+            "x": 45,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 10,
+            "x": 49,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "DarkOrange"
+          },
+          {
+            "pin": 11,
+            "x": 60,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 12,
+            "x": 64,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 13,
+            "x": 68,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 14,
+            "x": 72,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 15,
+            "x": 77,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 16,
+            "x": 81,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 17,
+            "x": 85,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          },
+          {
+            "pin": 18,
+            "x": 89,
+            "y": 97,
+            "i": 1,
+            "o": 1,
+            "ms": "circle",
+            "col": "Purple"
+          }
+        ]
+      }
+    ]
+  }
+}

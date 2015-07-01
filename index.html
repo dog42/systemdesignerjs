@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="language" content="en" />
+
+	<title>AVR System Designer</title>
+
+
+</head>
+<body>
+    <div class="ui-layout-north">
+        <div class="header">North</div>
+        <div class="content">
+            <ul class="toolbar">
+                <!--<li id="tbarToggleNorth" class="first"><span></span>Toggle NORTH</li>
+                <li id="tbarOpenSouth"><span></span>Open SOUTH</li>
+                <li id="tbarCloseSouth"><span></span>Close SOUTH</li>-->
+                <li id="tbarPinTools"><span></span>Show/Hide Tools</li>
+                <li id="tbarPinCode" class="last"><span></span>Show/Hide Code</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="ui-layout-west">
+        <div class="header">Tools</div>
+        <div id="accordion">
+            <h3>I/O</h3>
+            <!-- The NodeListView component is bound to the canvas element below -->
+            <div style="width: 130px;  overflow: auto; border: 1px solid rgb(0, 0, 0);">
+                <canvas id="ioNodeList"></canvas>
+            </div>
+            <h3>Micros</h3>
+            <!-- The NodeListView component is bound to the canvas element below -->
+            <div style="width: 130px; overflow: auto; border: 1px solid rgb(0, 0, 0);">
+                <canvas id="microsNodeList" width="50" height="300"></canvas>
+            </div>
+            <h3>Parser</h3>
+            <div>
+                <p>input</p>
+                <input id="inputtxt" />
+                <p>output</p>
+                <textarea id="outputtxt"></textarea>
+                <p>result</p>
+                <textarea id="resulttxt"></textarea>
+                <p>variables</p>
+                <textarea id="variablestxt"></textarea>
+            </div>
+            <h3>Controls</h3>        
+            <div>
+                <input type="button" id="btnViewCode" value="Make C Code" onclick="makeDisplayCode()" />
+                <!-- The ZoomControl component is bound to the canvas element below -->
+                <div style="position: relative; top:30px; left:10px; width: 60px; height: 300px; border: 1px solid rgb(0, 0, 0);">
+                    <canvas id="zoomer" width="50" height="300"></canvas>
+                </div>
+            </div>
+            <h3>Micro Internals</h3>
+            <div class="ui-layout-content">
+                <div id="tabs-west">
+                    <ul>
+                        <li><a href="#tabs-west-1">REGISTERS</a></li>
+                        <li><a href="#tabs-west-2">VARIABLES</a></li>
+                        <li><a href="#tabs-west-3">SRAM</a></li>
+                        <li><a href="#tabs-west-3">Symbols</a></li>
+                        <li><a href="#tabs-west-3">Functions</a></li>
+                    </ul>
+                    <div id="tabs-west-1" class="full-height no-padding">
+                        <div id='jqxWidget'>
+                            <div id="regs-jqxgrid">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tabs-west-2" class="full-height no-padding">
+                        <div id='jqxWidget'>
+                            <div id="vars-jqxgrid">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tabs-west-3" class="full-height no-padding">
+                        <div id='jqxWidget'>
+                            <div id="sram-jqxgrid">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tabs-west-4" class="full-height no-padding">
+                        <div id='jqxWidget'>
+                            <div id="symb-jqxgrid">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tabs-west-5" class="full-height no-padding">
+                        <div id='jqxWidget'>
+                            <div id="func-jqxgrid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>...</h3>
+            <div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainContent">
+        <!-- DIVs for the INNER LAYOUT -->
+
+        <div class="ui-layout-center">
+            <div class="ui-layout-content">
+                <div id="tabs-center">
+                    <ul>
+                        <li><a href="#tabs-1">Block Diagram</a></li>
+                        <li><a href="#tabs-2">2</a></li>
+                        <li><a href="#tabs-3">3</a></li>
+                    </ul>
+                    <div id="tabs-1">
+                        <!-- The Diagram component is bound to the canvas element below -->
+                        <div style="width: 2500px; height: 1200px; overflow: auto; border: 1px solid;">
+                            <canvas id="diagram">
+                                This page requires a browser that supports HTML 5 Canvas element.
+                            </canvas>
+                        </div>
+                    </div>
+                    <div id="tabs-2">
+                        <p>..</p>
+                    </div>
+                    <div id="tabs-3">
+                        <div>
+                            <pre id="tokeneditor" class="editor">generated tokens</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-layout-east">
+        <div class="header">Code</div>
+            <input type="button" id="btnViewCode" value="Step" onclick="Step()" />
+            <input type="button" id="btnViewCode" value="Run" onclick="Run()" />
+            <input type="button" id="btnViewCode" value="Stop" onclick="Stop()" />
+            <input type="button" id="btnViewCode" value="ParserTest" onclick="parserTests_test()" />
+            <input type="button" id="btnViewCode" value="DispAceTokens" onclick="lexer_GenDispACETokens()" />
+            <input type="button" id="btnViewCode" value="GenTokens" onclick="lexer_GenDispTokens()" />
+            <output id="parserstate">------</output>
+        <div id="tabs-east">
+                <ul>
+                    <li><a href="#tabs-1">Code</a></li>
+                    <li><a href="#tabs-2">ACE Tokens</a></li>
+                    <li><a href="#tabs-3">3</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <div>
+                        <pre id="codeeditor" class="editor">codeditor</pre>
+                    </div>
+                </div>
+                <div id="tabs-2">
+                    <div>
+                        <pre id="aceEditor" class="editor">ace generated tokens</pre>
+                    </div>
+                </div>
+                <div id="tabs-3">
+                    <p>
+                        ...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    <div class="ui-layout-south">
+	    <div class="content">
+		    <p>South</p>
+	    </div>
+    </div>
+
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/complex.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/jqx.base.css" />
+
+    <!--  Mindfusion Diagram -->
+    <script type="text/javascript">
+        MindFusionImpl = "JQuery";
+    </script>
+    <script type="text/javascript" src="Scripts/MicrosoftAjax.js"></script>
+    <script type="text/javascript" src="Scripts/MindFusion.Diagramming.js"></script>
+
+    <script type="text/javascript" src="Scripts/jquery-2.1.4.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+
+    <script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+    
+    <script type="text/javascript" src="Scripts/jquery.layout-latest.js"></script>
+    <!--<script type="text/javascript" src="Scripts/jquery.layout.min-1.2.0.js"></script> didnt work-->
+    
+    <script type="text/javascript" src="scripts/Microcontroller.js"></script>
+    <script type="text/javascript" src="scripts/layout-init.js"></script>
+    <script type="text/javascript" src="scripts/MicrocontrollerNode.js"></script>
+
+
+    <!--<script type="text/javascript" src="Scripts/debug.js"></script>-->
+    <script type="text/javascript" src="ace/ace.js" charset="utf-8"></script>
+      
+    <script type="text/javascript" src="scripts/complex.js"></script>
+
+    <script type="text/javascript" src="scripts/mindfusion-init.js"></script>
+    
+    <script type="text/javascript" src="scripts/jqxcore.js"></script>
+    <script type="text/javascript" src="scripts/jqxdata.js"></script>
+    <script type="text/javascript" src="scripts/jqxbuttons.js"></script>
+    <script type="text/javascript" src="scripts/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="scripts/jqxmenu.js"></script>
+    <script type="text/javascript" src="scripts/jqxgrid.js"></script>
+    <script type="text/javascript" src="scripts/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="scripts/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="scripts/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="scripts/jqxgrid.columnsreorder.js"></script>
+    <script type="text/javascript" src="scripts/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="scripts/jqxpanel.js"></script>
+    <script type="text/javascript" src="scripts/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="scripts/jqxlistbox.js"></script>
+    <script type="text/javascript" src="scripts/jqxdropdownlist.js"></script>
+
+    <script type="text/javascript" src="scripts/enums.js"></script>
+    <script type="text/javascript" src="scripts/registers.js"></script>
+    <script type="text/javascript" src="scripts/Memory.js"></script>
+    <script type="text/javascript" src="scripts/symbols.js"></script>
+    <script type="text/javascript" src="scripts/functions.js"></script>
+    <script type="text/javascript" src="scripts/parserControl.js"></script>
+    <script type="text/javascript" src="scripts/parserTests.js"></script>
+    <!--<script type="text/javascript" src="scripts/tokens.js"></script>
+    <script type="text/javascript" src="scripts/Lexer.js"></script>-->
+    <script type="text/javascript" src="scripts/errorcatcher.js"></script>
+    <script type="text/javascript" src="scripts/CodeMaker.js"></script>
+    <!--script type="text/javascript" src="scripts/codetemplate.js"></!--script>-->
+    <!--<script type="text/javascript" src="scripts/parser.js"></script>-->
+    <!-- -->
+    <script type="text/javascript" src="scripts/JSCPP.js"></script> 
+  
+    <script type="text/javascript" src="scripts/beautify.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+
+</body>
+</html> 
