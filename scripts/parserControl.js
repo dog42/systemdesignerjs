@@ -29,6 +29,7 @@ function start()
 
 function Step()
 {
+    //code = fixCode();
     //alert(browser)
     if (browser.indexOf("IE") >= 0 ) { //other older browswers need testing too ??
         alert("you need to use a modern desktop version of Firefox or Chrome");
@@ -39,9 +40,7 @@ function Step()
             config.debug = true;
             outputtxt.value = "";
             var regsnbits = myMicrocontroller.getRegisterDecls() + myMicrocontroller.bitNamesDecl;
-            var dummy = "void func123456789(){}\n";
-            code = dummy + codeEditor.getSession().getValue() + regsnbits;
-            //code =  codeEditor.getSession().getValue();
+            code = fixCode() + regsnbits;
             input = document.getElementById("inputtxt").value;
             mydebugger = JSCPP.run(code, input, config);
             parserstate = PARSERSTATE.STEP;
@@ -82,12 +81,32 @@ function Stop()
         codeEditor.getSession().removeMarker(linemarker)
     debug = null;
 }
+function fixCode()
+{
+    var arr = [];
+    for (var i = 0; i < codeEditor.session.getLength(); i++) {
+        arr[i] = codeEditor.session.getLine(i);
+        if (arr[i].trim()==="")
+            arr[i] = "#include<iostream>"
+        if (arr[i].trim().indexOf("//")===0)
+            arr[i] = "#include<iostream>"
+        if (arr[i].indexOf("/*") > -1) { //begin a long comment
+            while (arr[i].indexOf("*/") === -1) {                                           
+                arr[i] = "#include<iostream>"
+                i++;
+                arr[i] = codeEditor.session.getLine(i);
+            }
+            arr[i] = "#include<iostream>"
+        }
+    }
+    return arr.join(['\n'])
+}
 function updateLineHighlight() {
     var s, r;
     s = mydebugger.nextNode();
     if (linemarker !== undefined)
         codeEditor.getSession().removeMarker(linemarker)
-    r = new Range(s.sLine -2, s.sColumn - 1, s.sLine-2, s.eColumn - 1); //remove effect of dummy function at beginning
+    r = new Range(s.sLine -1, s.sColumn - 1, s.sLine-1, s.eColumn - 1); //remove effect of dummy function at beginning
     linemarker = codeEditor.getSession().addMarker(r, 'debug-highlight', 'token');
 }
 function showVariables() {
