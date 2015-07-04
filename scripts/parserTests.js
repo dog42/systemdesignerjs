@@ -2,8 +2,8 @@
 
 function parserTests_test()
 {
-    aceEditor.setValue("");
-    tokenEditor.setValue("");
+    //aceEditor.setValue("");
+    //tokenEditor.setValue("");
     codeEditor.setValue("");
     codeEditor.focus();
     

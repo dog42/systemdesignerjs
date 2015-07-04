@@ -10,6 +10,7 @@ var MarkStyle = MindFusion.Diagramming.MarkStyle;
 var Rect = MindFusion.Drawing.Rect;
 var ImageAlign = MindFusion.Diagramming.ImageAlign;
 var Alignment = MindFusion.Diagramming.Alignment;
+var SvgContent = MindFusion.Diagramming.SvgContent;
 
 var diagram = null;
 
@@ -50,7 +51,7 @@ Sys.Application.add_load(function (sender, args) {
    setTimeout(main_loadDefaultMicro, 800); 
 
     //testing
-   //setTimeout(parserTests_test,1000);
+   setTimeout(parserTests_test,1000);
    
 });
 
@@ -115,6 +116,10 @@ function updateRegistersDisplay() {
     //add changes to JSCPP
 }
 
+function updateMemoryDisplay() {
+    $("#vars-jqxgrid").jqxGrid('updatebounddata');
+}
+
 
 
 // memory bindings
@@ -124,12 +129,12 @@ var vars =
     datatype: "array",
     datafields:
     [
-        { name: 'address', type: 'string' },
+        { name: 'type', type: 'string' },
         { name: 'name', type: 'string' },
         { name: 'valuedec', type: 'number' }
     ],
-    sortcolumn: 'addrhex',
-    sortdirection: 'desc'
+    //sortcolumn: 'name',
+    //sortdirection: 'desc'
 };
 var varsAdapter = new $.jqx.dataAdapter(vars);
 $("#vars-jqxgrid").jqxGrid(
@@ -141,12 +146,12 @@ $("#vars-jqxgrid").jqxGrid(
     sortable: true,
     columnsreorder: true,
     columns: [
-        { text: 'Addr', datafield: 'addrhex', width: 42 },
+        { text: 'Type', datafield: 'type', width: 42 },
         { text: 'Name', datafield: 'name', width: 70 },
-        { text: 'Val', datafield: 'valuehex', width: 42 },
-        { text: 'Val(bin)', datafield: 'valuebin', width: 95 },
-        { text: 'Val(dec)', datafield: 'valuedec', width: 40 },
-        { text: 'Description', datafield: 'description', width: 240 }
+        { text: 'Val', datafield: 'valuedec', width: 42 }
+        //{ text: 'Val(bin)', datafield: 'valuebin', width: 95 },
+        //{ text: 'Val', datafield: 'valuedec', width: 40 },
+        //{ text: 'Description', datafield: 'description', width: 240 }
     ]
 });
 

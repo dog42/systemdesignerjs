@@ -2,7 +2,6 @@
 var Registers;
 Registers = function(){
     this.registers = [];
-    //this.bitnames = "";
     //name: n, 
     //address: a,   (number)
     //addrhex:h,    (string)

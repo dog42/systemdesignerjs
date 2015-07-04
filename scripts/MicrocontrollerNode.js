@@ -10,17 +10,11 @@ MicrocontrollerNode = function (micro) {
     this.microAnchorPattern;
     this.bdnode;
 
-    var deleteMicro = true;
-    if (diagram.bdMicro != null)
-        deleteMicro = confirm("This will clear the whole diagram  \r\n      and restart it with a new microcontroller");
-    if (deleteMicro === false) {
-        return;
-    }
     //new node
-    diagram.clearAll();
+
     this.bdnode = new MindFusion.Diagramming.ShapeNode(diagram);
     this.bdnode.setShape("Rectangle");
-    this.bdnode.setImageLocation("images/_img_" + this.microPackage + ".png");
+    this.bdnode.setImageLocation("images/_img_micro_" + this.microPackage + ".png");
     this.bdnode.setId("micro");
     this.bdnode.getImage(); //??
     this.bdnode.setImageAlign(ImageAlign.Stretch);
@@ -35,8 +29,13 @@ MicrocontrollerNode = function (micro) {
         this.newXplained();
     return this.bdnode;
 }
-
-MicrocontrollerNode.prototype.getPackageDetails = function() {
+MicrocontrollerNode.prototype.readBinaryInputs = function () {
+    //read all input pins and return an arr of their states [{PORT,PIN,STATE}]
+}
+MicrocontrollerNode.prototype.readAnalogInputs = function () {
+    //read all input pins and return an arr of their states [{PORT,PIN,VALUE}]
+}
+MicrocontrollerNode.prototype.getPackageDetails = function () {
     var length = packagesjson.packages.package.length; //number of diff micros
     this.microAnchorPattern = new AnchorPattern([]);
     for (var index = 0; index < length; index++) {
@@ -68,7 +67,7 @@ MicrocontrollerNode.prototype.newXplained = function() {
     var ledB5 = diagram.getFactory().createShapeNode(new Rect(140, 50, 20, 10));
     ledB5.setText("led_0");
     ledB5.setId("led") //same as in SysDes
-    ledB5.setImageLocation("images/_img_led.png");
+    ledB5.setImageLocation("images/_img_output_led.png");
     ledB5.setShape("Rectangle");
     ledB5.setAllowOutgoingLinks(false);
     ledB5.setBrush("Red");
@@ -83,11 +82,14 @@ MicrocontrollerNode.prototype.newXplained = function() {
     ledB5link.setOriginAnchor(19);
 
     //new tactsw
-    var swB7 = diagram.getFactory().createShapeNode(new Rect(100, 180, 20, 20));
+    var swB7 = diagram.getFactory().createSvgNode(new Rect(100, 180, 20, 20));
+    var svg = new SvgContent();
+    svg.parse("images/_img_input_binary_tactswitch.svg");
+    swB7.setContent(svg);
     swB7.setText("tactSw_"); //use 'text' from XML file
     swB7.setAllowIncomingLinks(false); //default for binaryinputs
-    swB7.setId("tact_switch__"); //use 'type' in XML file
-    swB7.setImageLocation("images/_img_tact.png"); //'use 'image' from XML file
+    swB7.setId("tact_binary__"); //use 'type' in XML file
+   // swB7.setImageLocation("images/_img_input_binary_tactswitch.svg"); //'use 'image' from XML file
     swB7.setShape("Rectangle");
     swB7.setTextAlignment(Alignment.Center); //center of line
     swB7.setLineAlignment(Alignment.Far); //bottom line

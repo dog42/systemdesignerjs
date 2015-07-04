@@ -31,20 +31,31 @@ function Step()
 {
     //code = fixCode();
     //alert(browser)
-    if (browser.indexOf("IE") >= 0 ) { //other older browswers need testing too ??
-        alert("you need to use a modern desktop version of Firefox or Chrome");
-        return;
-    }
+
     if (parserstate === PARSERSTATE.STOP) {
         try {
+            parserstate = PARSERSTATE.STEP;           
+            myMicrocontroller.Registers.clear();//set all registers to 0 
+            updateRegistersDisplay();
+            myMicrocontroller.Memory.clear(); //remove all 
+            updateMemoryDisplay();
+            //read any high inputs
             config.debug = true;
             outputtxt.value = "";
             var regsnbits = myMicrocontroller.getRegisterDecls() + myMicrocontroller.bitNamesDecl;
             code = fixCode() + regsnbits;
             input = document.getElementById("inputtxt").value;
+            
+            if (browser.indexOf("IE") >= 0 ) { //other older browswers need testing too ??
+                alert("you need to use a modern desktop version of Firefox or Chrome");
+                return;
+            }           
+
             mydebugger = JSCPP.run(code, input, config);
-            parserstate = PARSERSTATE.STEP;
-            console.log(mydebugger.src);
+
+            //mydebugger.WriteRegister("PINB", 23); example of how to write a register
+
+            //console.log(mydebugger.src);
         } catch (e) {
             resulttxt.value = e;
             resulttxt.value = mydebugger.stop();
@@ -57,8 +68,10 @@ function Step()
             var done;
             done = mydebugger.next();
             showVariables();
-            myMicrocontroller.Registers.updateRegisterValues(mydebugger.allRegisters());
+            myMicrocontroller.Memory.update(mydebugger.Variables());
+            myMicrocontroller.Registers.updateRegisterValues(mydebugger.Registers());
             updateRegistersDisplay();
+            updateMemoryDisplay();
             updateLineHighlight();
             if (!done) {
                 resulttxt.value = mydebugger.nextLine();
@@ -112,11 +125,11 @@ function updateLineHighlight() {
 function showVariables() {
     //intially just show in textarea
     variablestxt.value = ""
-    variables = mydebugger.allVariables();
+    variables = mydebugger.Variables();
     for (var i = 0; i < variables.length; i++) {
         variablestxt.value += variables[i].scopelevel + " "
         variablestxt.value += variables[i].scopename + " "
-        variablestxt.value += variables[i].gentype + " "
+        variablestxt.value += variables[i].gentype + " " //primitive or pointer
         variablestxt.value += variables[i].name + " "
         variablestxt.value += variables[i].type + " "
         variablestxt.value += variables[i].value

@@ -2,8 +2,7 @@
 var Microcontroller 
 Microcontroller = function () {
     this.Registers = new Registers;
-    this.SRAM = [];
-    this.Memory = [];
+    this.Memory = new Memory(256,2048); //328 mem size
 
     this.bdMicro = null; //the diagram node holding the micro
 
@@ -11,8 +10,8 @@ Microcontroller = function () {
     this.microPackage = "xplained";   //leads to image name to load
     this.microWidth = 55;
     this.microHeight = 115;
-    this.microRamSize = 2048;
-    this.microRamStart = 256;
+    //this.microRamStart = 256;
+    //this.microRamSize = 2048;
 
     this.microEepromSize = 512;
     this.microCrystal = 16000000;
@@ -28,8 +27,7 @@ Microcontroller.prototype.makeMicro = function(partnum)
 {
     this.microPartnumber = partnum;
     this.Registers.removeAllRegs();
-    this.SRAM.length = 0;
-    this.Memory.length = 0;
+    this.Memory.clear();
     this.microRegBitNamesArr.length = 0;
     this.microRegNamesStr = "";
     this.bitNamesDecl = "";
@@ -51,8 +49,9 @@ Microcontroller.prototype.makeMicro = function(partnum)
         if (partnum === microsjson.micros.micro[index].partnumber) //found micro
         {
             this.microPackage = microsjson.micros.micro[index].package;
-            this.microRamSize = microsjson.micros.micro[index].ramsize;
-            this.microRamStart = microsjson.micros.micro[index].ramstart;
+            var start = microsjson.micros.micro[index].ramstart;
+            var size = microsjson.micros.micro[index].ramsize;
+            this.Memory.newSize(start,size)
             this.microEepromSize = microsjson.micros.micro[index].eepromsize;
             this.microCrystal = microsjson.micros.micro[index].crystal;
             for (reg=0; reg < microsjson.micros.micro[index].registers.regname.length; reg++)
@@ -126,7 +125,7 @@ Microcontroller.prototype.getMicroRegBitNamesStr = function(){
     return microRegBitNamesStr;
 }
 Microcontroller.prototype.getMemoryArr = function(){
-    return this.Memory;
+    return this.Memory.getMemory();
 }
 Microcontroller.prototype.getSRAMArr = function () {
     return this.SRAM;

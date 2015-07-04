@@ -4,31 +4,95 @@ var Memory;
 Memory = function (start, size) { //(256,2048)
     this.datastart = start; //start location in RAM
     this.ramend = start + size - 1; //e.g.256 + 2048 -1 = 2303
-    this.stackptr = ramend;
+    this.stackptr = this.ramend;
 
-    this.dataptr = datastart; //available add in RAM
-    this.bssstart = datastart;
-    this.bssptr = datastart;
-    this.heapstart = datastart;
-    this.heapend =_datastart;
-    this.heapptr = datastart;
+    this.dataptr = this.datastart; //available add in RAM
+    this.bssstart = this.datastart;
+    this.bssptr = this.datastart;
+    this.heapstart = this.datastart;
+    this.heapend = this.datastart;
+    this.heapptr = this.datastart;
     this.memory = [];
+    //address:a
+    //addrhex:h
+    //type:t
+    //gentype:gt
+    //size:b = 1/2/4bytes
+    //name:n
+    //valuedec:val
+    //valuebyte[]1/2/4
+    //scopelevel:sl
+    //scopename:sn
+    //update:flag
+    this.sram=[]; //??
     return this;
+}
+Memory.prototype.newSize = function(start,size){
+    this.memory.length = 0;
+    this.datastart = start; //start location in RAM
+    this.ramend = start + size - 1; //e.g.256 + 2048 -1 = 2303
+    this.stackptr = this.ramend;
+
+    this.dataptr = this.datastart; //available add in RAM
+    this.bssstart = this.datastart;
+    this.bssptr = this.datastart;
+    this.heapstart = this.datastart;
+    this.heapend = this.datastart;
+    this.heapptr = this.datastart;
+}
+// passed an array of vars from interpreter
+// scopelevel, scopename, bigtype, name, type, valuedec
+Memory.prototype.update = function (vars) {
+    //run through memory and flag it all as out of date
+    for (var i = 0; i < this.memory.length; i++) {
+        this.memory[i].update = false;
+    }
+    //go through the vars and update those already in mem
+    var found;
+    for (var i = 0; i < vars.length; i++) {
+        found = false;
+        for (var m = 0; m < this.memory.length; m++) {
+            if (this.memory[m].name === vars[i].name & this.memory[m].scopelevel === vars[i].scopelevel) {
+                this.newval(m, vars[i].value)
+                this.memory[m].update = true;
+                found = true;
+            }
+        }
+        if (!found) {
+            //add the new var
+            var v = {};
+            v.scopelevel = vars[i].scopelevel;
+            v.scopename = vars[i].scopename;
+            v.gentype = vars[i].gentype;
+            v.name = vars[i].name;
+            v.type = vars[i].type;
+            this.memory.push(v);
+            this.newval(this.memory.length-1, vars[i].value)
+        }
+    }
+
+    //nonupdate memory must be removed and mem pointers reset
+    var i = this.memory.length;
+    while ( i > 0) {
+        i--;
+        if (this.memory[i].update === false) {
+            this.memory.pop();//remove it
+        }
+    }
+
+}
+Memory.prototype.newval = function (m, val) {
+    this.memory[m].valuedec = val;
+
 }
 
 Array.prototype.insert = function (index, item) {
     this.splice(index, 0, item);
 };
 
-//function memory_init(start, length)
-//{
-//    _ramend = length + start; //e.g. 2048 + 256 
-//    _datastart = start; //e.g. 256 = 0x100
-//    memory_clear();
-//}
 Memory.prototype.clear = function() {
-    this.memory = 0; //blank the memory arrays
-    SRAM.length = 0;
+    this.memory.length = 0; //blank the memory arrays
+    this.sram.length = 0;
 
     this.dataptr = this.datastart;
 
@@ -41,6 +105,12 @@ Memory.prototype.clear = function() {
 
     this.stackptr = this.ramend;
 }
+Memory.prototype.getMemory = function () {
+    return this.memory;
+}
+
+
+//unused
 Memory.prototype.moveMemUp = function(memarea, size){
     //switch (memarea)
     //{
@@ -265,16 +335,16 @@ Memory.prototype.nextAddress = function(m) {
 Memory.prototype.removeScope = function(scope)
 {
     //remove each var that has this scope from the arrays
-    for(var i = Memory.length - 1; i >= 0; i--) {
-        if(Memory[i].scope === scope) {
-            Memory.splice(i, 1);
-        }
-    }
-    for(var i = SRAM.length - 1; i >= 0; i--) {
-        if(SRAM[i].scope === scope) {
-            SRAM.splice(i, 1);
-        }
-    }
+    //for(var i = Memory.length - 1; i >= 0; i--) {
+    //    if(Memory[i].scope === scope) {
+    //        Memory.splice(i, 1);
+    //    }
+    //}
+    //for(var i = SRAM.length - 1; i >= 0; i--) {
+    //    if(SRAM[i].scope === scope) {
+    //        SRAM.splice(i, 1);
+    //    }
+    //}
 }
 Memory.prototype.readValue = function(varname, scope, scopename)
 {
@@ -317,43 +387,43 @@ Memory.prototype.getVarType = function(varname, scope, scopename)
 }
 Memory.prototype.writeValue = function(varname, value, scope, scopename) //prob need to a bit of work here doing type checking/casting??
 {
-    if (value === undefined)
-        return;
-    if (scope > 0)
-        varname += " ("+scope+":"+scopename+")"; //why is there a space in here??
+    //if (value === undefined)
+    //    return;
+    //if (scope > 0)
+    //    varname += " ("+scope+":"+scopename+")"; //why is there a space in here??
     
-    for (var i=0; i<Memory.length; i++) //the easy bit write it into memory
-        if (Memory[i].name === varname)
-            memory[i].value=value;
+    //for (var i=0; i<Memory.length; i++) //the easy bit write it into memory
+    //    if (Memory[i].name === varname)
+    //        memory[i].value=value;
     
-    for (var i=0; i<SRAM.length; i++)
-        if (SRAM[i].name === varname) //when either 2 or 4 bytes, this finds the first/lower byte
-        {
-            switch (SRAM[i].type)
-            {
-                case VARTYPE.uint8_t:
-                    SRAM[i].value=value;
-                    break;
-                case VARTYPE.int8_t:
-                    SRAM[i].value=value;
-                    break;
-                case VarType.voidptr: //all 16 bit
-                case VarType.ptr1byteaddr:
-                case VarType.ptr2byteaddr:
-                case VarType.ptr4byteaddr:
-                case VarType.uint16_t:
-                    break;
-                case VarType.int16_t:
-                    break;
-                case VarType.uint32_t:
-                    break;
-                case VarType.int32_t:
-                    break;
-                case VarType.avrFloat:
-                    break;
+    //for (var i=0; i<SRAM.length; i++)
+    //    if (SRAM[i].name === varname) //when either 2 or 4 bytes, this finds the first/lower byte
+    //    {
+    //        switch (SRAM[i].type)
+    //        {
+    //            case VARTYPE.uint8_t:
+    //                SRAM[i].value=value;
+    //                break;
+    //            case VARTYPE.int8_t:
+    //                SRAM[i].value=value;
+    //                break;
+    //            case VarType.voidptr: //all 16 bit
+    //            case VarType.ptr1byteaddr:
+    //            case VarType.ptr2byteaddr:
+    //            case VarType.ptr4byteaddr:
+    //            case VarType.uint16_t:
+    //                break;
+    //            case VarType.int16_t:
+    //                break;
+    //            case VarType.uint32_t:
+    //                break;
+    //            case VarType.int32_t:
+    //                break;
+    //            case VarType.avrFloat:
+    //                break;
 
-            }
-        }
+    //        }
+    //    }
 }
 
 Memory.prototype.writeStrValue = function(varname, arr,scope, scopename)
