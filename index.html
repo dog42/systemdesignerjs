@@ -23,7 +23,7 @@
     </div>
     
     <div class="ui-layout-west">
-        <div class="header">Tools</div>
+        <!--<div class="header">Tools</div>-->
         <div id="accordion">
             <h3>I/O</h3>
             <!-- The NodeListView component is bound to the canvas element below -->
@@ -135,13 +135,13 @@
     </div>
 
     <div class="ui-layout-east">
-        <div class="header">Code</div>
-            <input type="button" id="btnViewCode" value="Step" onclick="Step()" />
-            <input type="button" id="btnViewCode" value="Run" onclick="Run()" />
-            <input type="button" id="btnViewCode" value="Stop" onclick="Stop()" />
-            <input type="button" id="btnViewCode" value="ParserTest" onclick="parserTests_test()" />
-            <input type="button" id="btnViewCode" value="DispAceTokens" onclick="lexer_GenDispACETokens()" />
-            <input type="button" id="btnViewCode" value="GenTokens" onclick="lexer_GenDispTokens()" />
+        <!--<div class="header">Code</div>-->
+            <input type="button" id="btnViewCode" value="Step" onclick="myController.Step()" />
+            <input type="button" id="btnViewCode" value="Run" onclick="myController.Run()" />
+            <input type="button" id="btnViewCode" value="Stop" onclick="myController.Stop()" />
+            <input type="button" id="btnViewCode" value="Test Code" onclick="parserTests_test()" />
+            <input type="button" id="btnViewCode" value="B" onclick="" />
+            <input type="button" id="btnViewCode" value="C" onclick="" />
             <output id="parserstate">------</output>
         <div id="tabs-east">
                 <ul>
@@ -198,13 +198,12 @@
     <script type="text/javascript" src="scripts/layout-init.js"></script>
     <script type="text/javascript" src="scripts/MicrocontrollerNode.js"></script>
 
+    <script type="text/javascript" src="ace/ace.js" charset="utf-8"></script>
 
     <!--<script type="text/javascript" src="Scripts/debug.js"></script>-->
-    <script type="text/javascript" src="ace/ace.js" charset="utf-8"></script>
-      
+     
     <script type="text/javascript" src="scripts/complex.js"></script>
 
-    <script type="text/javascript" src="scripts/mindfusion-init.js"></script>
     
     <script type="text/javascript" src="scripts/jqxcore.js"></script>
     <script type="text/javascript" src="scripts/jqxdata.js"></script>
@@ -227,7 +226,7 @@
     <script type="text/javascript" src="scripts/Memory.js"></script>
     <script type="text/javascript" src="scripts/symbols.js"></script>
     <script type="text/javascript" src="scripts/functions.js"></script>
-    <script type="text/javascript" src="scripts/parserControl.js"></script>
+    <script type="text/javascript" src="scripts/Controller.js"></script>
     <script type="text/javascript" src="scripts/parserTests.js"></script>
     <!--<script type="text/javascript" src="scripts/tokens.js"></script>
     <script type="text/javascript" src="scripts/Lexer.js"></script>-->
@@ -239,6 +238,7 @@
     <script type="text/javascript" src="scripts/JSCPP.js"></script> -->
   
     <script type="text/javascript" src="scripts/beautify.js"></script>
+    <script type="text/javascript" src="scripts/mfDiagram.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
 
 </body>

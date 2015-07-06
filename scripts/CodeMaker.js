@@ -10,7 +10,7 @@ CodeMaker = function(bdMicro) {
     this.baud = 9600;
     this.hasInputs = false;
     this.hasADC = false;
-    this.hasSerialOut = false;
+    this.hasSerialOut = true;
     this.hasCharLCD = false;
     this.bdMicro = bdMicro;
     this.ilinks = this.bdMicro.getIncomingLinks();
@@ -87,30 +87,30 @@ CodeMaker.prototype.iomacros = function () {
     code += "//Hardware macros for outputs\n";
     
     for (var i = 0; i < this.olinks.length; i++) {
-        code += "#define " + "set_" + this.olinks[i].getDestination().getText() + "()   PORT" + getMicroPort(this.olinks[i], false, 0) + " |= (1<<P" + getMicroPort(this.olinks[i], false, 0) + getMicroPort(this.olinks[i], false, 2) + ")\n"    //force output high\n";
-        code += "#define " + "clr_" + this.olinks[i].getDestination().getText() + "()   PORT" + getMicroPort(this.olinks[i], false, 0) + " &= ~(1<<P" + getMicroPort(this.olinks[i], false, 0) + getMicroPort(this.olinks[i], false, 2) + ")\n"    //force output low\n";
-        code += "#define " + "toggle_" + this.olinks[i].getDestination().getText() + "()   PORT" + getMicroPort(this.olinks[i], false, 0) + " ^= (1<<P" + getMicroPort(this.olinks[i], false, 0) + getMicroPort(this.olinks[i], false, 2) + ")\n"    //toggle output\n";
+        code += "#define " + "set_" + this.olinks[i].getDestination().getText() + "   PORT" + mf.getMicroPort(this.olinks[i], false, 0) + " |= (1<<P" + mf.getMicroPort(this.olinks[i], false, 0) + mf.getMicroPort(this.olinks[i], false, 2) + ")\n"    //force output high\n";
+        code += "#define " + "clr_" + this.olinks[i].getDestination().getText() + "   PORT" + mf.getMicroPort(this.olinks[i], false, 0) + " &= ~(1<<P" + mf.getMicroPort(this.olinks[i], false, 0) + mf.getMicroPort(this.olinks[i], false, 2) + ")\n"    //force output low\n";
+        code += "#define " + "toggle_" + this.olinks[i].getDestination().getText() + "   PORT" + mf.getMicroPort(this.olinks[i], false, 0) + " ^= (1<<P" + mf.getMicroPort(this.olinks[i], false, 0) + mf.getMicroPort(this.olinks[i], false, 2) + ")\n"    //toggle output\n";
     }
     //Array.forEach(this.olinks, function (link) //requires AJAX
     //{
-    //    code += "#define " + "set_" + link.getDestination().getText() + "()   PORT" + getMicroPort(link, false, 0) + " |= (1<<P" + getMicroPort(link, false, 0) + getMicroPort(link, false, 2) + \n"    //force output high\n";
-    //    code += "#define " + "clr_" + link.getDestination().getText() + "()   PORT" + getMicroPort(link, false, 0) + " &= ~(1<<P" + getMicroPort(link, false, 0) + getMicroPort(link, false, 2) + \n"    //force output low\n";
-    //    code += "#define " + "toggle_" + link.getDestination().getText() + "()   PORT" + getMicroPort(link, false, 0) + " ^= (1<<P" + getMicroPort(link, false, 0) + getMicroPort(link, false, 2) + \n"    //toggle output\n";
+    //    code += "#define " + "set_" + link.getDestination().getText() + "()   PORT" + mf.getMicroPort(link, false, 0) + " |= (1<<P" + mf.getMicroPort(link, false, 0) + mf.getMicroPort(link, false, 2) + \n"    //force output high\n";
+    //    code += "#define " + "clr_" + link.getDestination().getText() + "()   PORT" + mf.getMicroPort(link, false, 0) + " &= ~(1<<P" + mf.getMicroPort(link, false, 0) + mf.getMicroPort(link, false, 2) + \n"    //force output low\n";
+    //    code += "#define " + "toggle_" + link.getDestination().getText() + "()   PORT" + mf.getMicroPort(link, false, 0) + " ^= (1<<P" + mf.getMicroPort(link, false, 0) + mf.getMicroPort(link, false, 2) + \n"    //toggle output\n";
     //});
     code += "//Hardware macros for inputs\n";
     for (var i = 0; i < this.ilinks.length; i++) {
         if (this.ilinks[i].getOrigin().getId().indexOf("switch") > 0) {
             this.hasInputs = true;
-            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsLow()   ~PIN" + getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + getMicroPort(this.ilinks[i], true, 0) + getMicroPort(this.ilinks[i], true, 2) + ");\n"    //true if pin is low\n";
-            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsHigh()   PIN" + getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + getMicroPort(this.ilinks[i], true, 0) + getMicroPort(this.ilinks[i], true, 2) + ");\n"    //true if pin is high\n";
+            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsLow   ~PIN" + mf.getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + mf.getMicroPort(this.ilinks[i], true, 0) + mf.getMicroPort(this.ilinks[i], true, 2) + ");\n"    //true if pin is low\n";
+            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsHigh   PIN" + mf.getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + mf.getMicroPort(this.ilinks[i], true, 0) + mf.getMicroPort(this.ilinks[i], true, 2) + ");\n"    //true if pin is high\n";
         }
     }
 
     //Array.forEach(this.ilinks, function (link) {
     //    if (link.getOrigin().getId().indexOf("switch") > 0) {
     //        hasInputs = true;
-    //        code += "#define " + link.getOrigin().getText() + "_IsLow()   ~PIN" + getMicroPort(link, true, 0) + " & (1<<P" + getMicroPort(link, true, 0) + getMicroPort(link, true, 2) + \n"    //true if pin is low\n";
-    //        code += "#define " + link.getOrigin().getText() + "_IsHigh()   PIN" + getMicroPort(link, true, 0) + " & (1<<P" + getMicroPort(link, true, 0) + getMicroPort(link, true, 2) + \n"    //true if pin is high\n";
+    //        code += "#define " + link.getOrigin().getText() + "_IsLow()   ~PIN" + mf.getMicroPort(link, true, 0) + " & (1<<P" + mf.getMicroPort(link, true, 0) + mf.getMicroPort(link, true, 2) + \n"    //true if pin is low\n";
+    //        code += "#define " + link.getOrigin().getText() + "_IsHigh()   PIN" + mf.getMicroPort(link, true, 0) + " & (1<<P" + mf.getMicroPort(link, true, 0) + mf.getMicroPort(link, true, 2) + \n"    //true if pin is high\n";
     //    }
     //});
     code += "//Hardware macros for ADC inputs\n";
@@ -118,7 +118,7 @@ CodeMaker.prototype.iomacros = function () {
         if (this.ilinks[i].getOrigin().getId().indexOf("analog") > 0) {
             this.hasADC = true;
             this.hasInputs = true;
-            code += "#define " + this.ilinks[i].getOrigin().getText() + " " + getMicroPort(this.ilinks[i], true, 2) + "     //macro to refer to ADC channel\n"; //only goes by pin# at the moment which isn't correct for tiny45
+            code += "#define " + this.ilinks[i].getOrigin().getText() + " " + mf.getMicroPort(this.ilinks[i], true, 2) + "     //macro to refer to ADC channel\n"; //only goes by pin# at the moment which isn't correct for tiny45
         }
     }
 
@@ -126,7 +126,7 @@ CodeMaker.prototype.iomacros = function () {
     //    if (link.getOrigin().getId().indexOf("analog") > 0) {
     //        hasADC = true;
     //        hasInputs = true;
-    //        code += "#define " + link.getOrigin().getText() + " " + getMicroPort(link, true, 2) + "     //macro to refer to ADC channel\n"; //only goes by pin# at the moment which isn't correct for tiny45
+    //        code += "#define " + link.getOrigin().getText() + " " + mf.getMicroPort(link, true, 2) + "     //macro to refer to ADC channel\n"; //only goes by pin# at the moment which isn't correct for tiny45
     //    }
     //});
     code += "\n";
@@ -169,8 +169,8 @@ CodeMaker.prototype.serialoutput = function () {
         code += "// Setup serial port to send serial data\n";
         code += "void init_USART()\n";
         code += "{\n";
-        code += "UBRR0H = (char)(BRGEN>>8); //Set baud rate\n";
-        code += "UBRR0L = (char) BRGEN; //Set baud rate\n";
+        code += "UBRR0H = (uint8_t)(BRGEN>>8); //Set baud rate\n";
+        code += "UBRR0L = (uint8_t)(BRGEN); //Set baud rate\n";
         code += "UCSR0C |= (1<<USBS0); //2 stopbits\n";
         code += "UCSR0C |= (3<<UCSZ00); // 8data\n";
         code += "//UCSR0C |= (1 << UPM01) //parity\n";
@@ -179,7 +179,7 @@ CodeMaker.prototype.serialoutput = function () {
         code += "}\n";
         code += "/**********************************************/\n";
         code += "//Send 1 byte of data\n";
-        code += "void usart_tx(unsigned char data)\n";
+        code += "void usart_tx(uint8_t data)\n";
         code += "{\n";
         code += "//UDRE0 is set when buffer is empty, cleared while transmitting data\n";
         code += "//must default to 1 when TXEN0 is set\n";
@@ -221,12 +221,12 @@ CodeMaker.prototype.ioconfigs = function () {
     if (this.hasInputs) {
         code += "// Then make these pins inputs\n";
         $.each(this.ilinks, function (key, link) {
-            code += "DDR" + getMicroPort(link, true, 0) + " &= ~(1<<P" + getMicroPort(link, true, 0) + getMicroPort(link, true, 2) + ");\n";    //set pin to input\n";
+            code += "DDR" + mf.getMicroPort(link, true, 0) + " &= ~(1<<P" + mf.getMicroPort(link, true, 0) + mf.getMicroPort(link, true, 2) + ");\n";    //set pin to input\n";
         });
     }
     $.each(this.ilinks, function (key, link) {
         if (link.getOrigin().getId().indexOf("switch") > 0) {
-            code += "PORT" + getMicroPort(link, true, 0) + " |= (1<<P" + getMicroPort(link, true, 0) + getMicroPort(link, true, 2) + ");\n";    //activate internal pullup resistor for " + link.getOrigin().getText());
+            code += "PORT" + mf.getMicroPort(link, true, 0) + " |= (1<<P" + mf.getMicroPort(link, true, 0) + mf.getMicroPort(link, true, 2) + ");\n";    //activate internal pullup resistor for " + link.getOrigin().getText());
         }
     });
     code += "\n";

@@ -74,7 +74,7 @@ MicrocontrollerNode.prototype.newXplained = function() {
     ledB5.setTextAlignment(Alignment.Center);
     ledB5.setLineAlignment(Alignment.Far);
 
-    var ap = createAnchorPoint(0, 50, true, false, MarkStyle.Rectangle, blue, 2, "led")
+    var ap = mf.createAnchorPoint(0, 50, true, false, MarkStyle.Rectangle, blue, 2, "led")
     var pat = new AnchorPattern([ap]);
     ledB5.setAnchorPattern(pat);
 

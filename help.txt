@@ -1,0 +1,3 @@
+Limitations
+Macros 
+ - no macros that look ike functions e.g. setLed()

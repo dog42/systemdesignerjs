@@ -1,5 +1,5 @@
 ﻿"use strict";
-
+/*
 var MemArea = 
     {
         Data: "DATA",
@@ -23,14 +23,6 @@ var PARSERRESULT =
         OK: "ok"
     }
 
-var PARSERSTATE = {
-    START: "START",
-    RUN: "RUN",
-    PAUSE:"PAUSE",
-    STEP: "STEP",
-    STOP: "STOP",
-    ERROR: "ERROR"
-}
 
 var VARTYPE = {
     none: "none",
@@ -48,3 +40,4 @@ var VARTYPE = {
     ptr4byteaddr: "ptr4byteaddr",
     voidptr: "voidptr"
 }
+*/

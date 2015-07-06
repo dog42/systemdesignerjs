@@ -1,5 +1,15 @@
 ﻿"use strict";
 
+var PARSERSTATE = {
+    START: "START",
+    RUN: "RUN",
+    PAUSE: "PAUSE",
+    STEP: "STEP",
+    STOP: "STOP",
+    ERROR: "ERROR"
+}
+
+
 Range = ace.require("ace/range").Range;
 var parserstate = PARSERSTATE.STOP;
 var debug = false;

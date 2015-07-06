@@ -4,15 +4,16 @@ var Diagram = MindFusion.Diagramming.Diagram;
 var Events = MindFusion.Diagramming.Events;
 var DiagramLink = MindFusion.Diagramming.DiagramLink;
 var ShapeNode = MindFusion.Diagramming.ShapeNode;
+var SvgNode = MindFusion.Diagramming.SvgNode;
+var SvgContent = MindFusion.Diagramming.SvgContent;
 var AnchorPattern = MindFusion.Diagramming.AnchorPattern;
 var AnchorPoint = MindFusion.Diagramming.AnchorPoint;
 var MarkStyle = MindFusion.Diagramming.MarkStyle;
 var Rect = MindFusion.Drawing.Rect;
 var ImageAlign = MindFusion.Diagramming.ImageAlign;
 var Alignment = MindFusion.Diagramming.Alignment;
-var SvgContent = MindFusion.Diagramming.SvgContent;
+var NodeListView = MindFusion.Diagramming.NodeListView;
 
-var diagram = null;
 
 var black = "#000000";
 var blue = "#0000FF";
@@ -26,32 +27,39 @@ var brown = "#61210B";
 var plum = "#A901DB"
 
 var codeEditor;
-var tokenEditor;
-var aceEditor;
+//var tokenEditor;
+//var aceEditor;
 
-var microsjson = []; //the file with all the data on the microcontrollers 
+var microsjson = [];
 var packagesjson = [];
 var microsLoaded = false;
 var packagesLoaded = false;
-var microsPartNumbersArr = [];//all the different microcontrollers in the json
+var diagram;
 
+var mf; //myMfDiagram;
 var myMicrocontrollerNode; //the diagram node holding the micro
 var myCodeMaker;
 var code = "";
 var myMicrocontroller = new Microcontroller();//need a micro at the beginning for bindings to work
+var myController = new Controller();
 
 //$(document).ready(function (){ //jquery
 Sys.Application.add_load(function (sender, args) {
 
     layout_init();          //sets up the window
-    mindfusion_init();      //creates diagram and drop downs
-    main_initEditors();
+
+    main_initEditors();   //sets up ACE codeEditor
+    //open the files
+
+
+    mf = new mfDiagram(); //mindfusion stuff
+    mf.init();      //creates diagram and drop downs
     //registers = new Registers();
     //wait a bit and load the default
    setTimeout(main_loadDefaultMicro, 800); 
 
     //testing
-   setTimeout(parserTests_test,1000);
+   //setTimeout(parserTests_test,1000);
    
 });
 
@@ -95,8 +103,6 @@ function main_loadDefaultMicro() {
     updateRegistersDisplay();
 }
 
-
-
 function makeDisplayCode() {
     myCodeMaker = new CodeMaker(myMicrocontrollerNode);
     code = myCodeMaker.getFullCode();
@@ -115,11 +121,29 @@ function updateRegistersDisplay() {
     //recolor LEDs
     //add changes to JSCPP
 }
-
 function updateMemoryDisplay() {
     $("#vars-jqxgrid").jqxGrid('updatebounddata');
 }
 
+
+
+
+//identify browser
+var browser = (function () {
+    var ua = navigator.userAgent, tem,
+    M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if (/trident/i.test(M[1])) {
+        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE' + (tem[1] || '');
+    }
+    if (M[1] === 'Chrome') {
+        tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+    }
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+    if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+    return M.join(' ');
+})();
 
 
 // memory bindings
