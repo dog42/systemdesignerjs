@@ -1,6 +1,6 @@
 {
-  "micros": {
-    "micro": [
+  "microcontrollers": {
+    "micros": [
       {
         "family": "AVR",
         "partnumber": "ATtiny45",

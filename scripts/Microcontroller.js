@@ -3,7 +3,8 @@ var Microcontroller
 Microcontroller = function () {
     this.Registers = new Registers;
     this.Memory = new Memory(256,2048); //328 mem size
-
+    this.Ports = []; // {index:0 , name:PORTA, value:} index refers to where in Registers.registers this port is found
+    this.DDR = [];
     this.bdMicro = null; //the diagram node holding the micro
 
     this.microPartnumber = "xplained(ATmega328P)"; //removed from image when dropped from nodelist and placed here
@@ -43,12 +44,12 @@ Microcontroller.prototype.makeMicro = function(partnum)
     var bn;
     var bitexists = false;
     
-    //read the deatils for the micro from the json data
-    for (var index = 0; index < microsjson.micros.micro.length; index++)
+    //read the details for the micro from the json data
+    for (var index = 0; index < mf.micros.length; index++)
     {
-        if (microsjson.micros.micro[index].partnumber.indexOf(partnum) === 0) //found micro
+        if (mf.micros[index].partnumber.indexOf(partnum) === 0) //found micro
         {
-            var mm = microsjson.micros.micro[index]
+            var mm = mf.micros[index]
             this.microPackage = mm.package;
             var start = mm.ramstart;
             var size = mm.ramsize;
@@ -80,6 +81,10 @@ Microcontroller.prototype.makeMicro = function(partnum)
                         }
                     }
                 this.Registers.addRegister(n, a, d, bits);
+                if (n.indexOf("PORT") > -1)
+                    this.Ports.push({ index:reg, name: n, value:0 });//name value pair
+                if (n.indexOf("DDR") > -1)
+                    this.DDR.push({ index:reg, name:n, value:255 });//name value pair - all DDR bits start as 1.
                 this.microRegNamesStr += "|" + n; //the names used by ACE codeEditor
                 //regDefines += "\n uint8_t " + n + " = 0;";
                 //microRegisters.push({ name: n, address: a, description: d, bitnames:bits, value:0}); //all registers start life as 0b00000000
@@ -106,9 +111,19 @@ Microcontroller.prototype.makeMicro = function(partnum)
     updateRegistersDisplay(); //needs to come out of here
 
 }
+Microcontroller.prototype.writeRegBit = function (port, pin, val) {
+    this.Registers.writeRegBit(port,pin,val)
+    return this.Registers.readRegister(port)
+}
+Microcontroller.prototype.updateMemory = function(arr){
+    this.Memory.updateMemory(arr);
+}
+Microcontroller.prototype.updateRegisters = function(arr){
+    this.Registers.updateRegisters(arr);
+}
 
 
-Microcontroller.prototype.containsBit = function(a, obj) {
+Microcontroller.prototype.containsBit = function (a, obj) {
     for (var i = 0; i < a.length; i++) {
         if (a[i] === obj) {
             return true;

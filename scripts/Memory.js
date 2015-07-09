@@ -42,7 +42,7 @@ Memory.prototype.newSize = function(start,size){
 }
 // passed an array of vars from interpreter
 // scopelevel, scopename, bigtype, name, type, valuedec
-Memory.prototype.update = function (vars) {
+Memory.prototype.updateMemory = function (vars) {
     //run through memory and flag it all as out of date
     for (var i = 0; i < this.memory.length; i++) {
         this.memory[i].update = false;

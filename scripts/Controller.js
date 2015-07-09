@@ -30,55 +30,63 @@ Controller = function () {
     this.mydebugger;
 }
 // BUTTON COMMANDS
-Controller.prototype.start = function()
+Controller.prototype.B = function () {
+    mf.updateOutput("PORTB", 5, 1);
+}
+Controller.prototype.C = function () {
+    mf.updateOutput("PORTB", 5, 0);
+}
+
+Controller.prototype.Start = function()
 {
-    //Memory_Clear();
-    myMicrocontroller.Registers.clear();
+    try {
+        myMicrocontroller.Registers.clear();//set all registers to 0 
+        updateRegistersDisplay();
+        myMicrocontroller.Memory.clear(); //remove all 
+        updateMemoryDisplay();
+        //read any high inputs
+        this.config.debug = true;
+        outputtxt.value = "";
+        var regsnbits = myMicrocontroller.getRegisterDecls() + myMicrocontroller.bitNamesDecl;
+        this.code = this.fixCode()
+        //this.code = this.replaceMacros()
+        this.code = this.code + regsnbits;
+        this.input = document.getElementById("inputtxt").value;
+        if (browser.indexOf("IE") >= 0) { //other older browswers need testing too ??
+            alert("you need to use a modern desktop version of Firefox or Chrome");
+            return;
+        }
+        this.mydebugger = JSCPP.run(this.code, this.input, this.config);
+        //console.log(mydebugger.src);
+    } catch (e) {
+        resulttxt.value = e;
+        if (this.mydebugger !== undefined)
+            resulttxt.value = this.mydebugger.stop();
+        this.parserstate = this.PARSERSTATE.STOP
+        return;
+    }
+
 }
 
 Controller.prototype.Step = function ()
 {
-    //code = fixCode();
-    //alert(browser)
-
     if (this.parserstate === this.PARSERSTATE.STOP) {
-        try {
-            this.parserstate = this.PARSERSTATE.STEP;           
-            myMicrocontroller.Registers.clear();//set all registers to 0 
-            updateRegistersDisplay();
-            myMicrocontroller.Memory.clear(); //remove all 
-            updateMemoryDisplay();
-            //read any high inputs
-            this.config.debug = true;
-            outputtxt.value = "";
-            var regsnbits = myMicrocontroller.getRegisterDecls() + myMicrocontroller.bitNamesDecl;
-            this.code = this.fixCode()
-            //this.code = this.replaceMacros()
-            this.code = this.code + regsnbits;
-            this.input = document.getElementById("inputtxt").value;          
-            if (browser.indexOf("IE") >= 0 ) { //other older browswers need testing too ??
-                alert("you need to use a modern desktop version of Firefox or Chrome");
-                return;
-            }           
-            this.mydebugger = JSCPP.run(this.code, this.input, this.config);
-            //console.log(mydebugger.src);
-        } catch (e) {
-            resulttxt.value = e;
-            if (this.mydebugger !== undefined)
-                resulttxt.value = this.mydebugger.stop();
-            this.parserstate = this.PARSERSTATE.STOP
-            return;
-        }
+        this.Start();
+        this.parserstate = this.PARSERSTATE.STEP;
     }
     if (this.parserstate === this.PARSERSTATE.STEP) {
         try {
             var done;
             done = this.mydebugger.next();
+            //temp display of vars
             this.showVariables();
-            myMicrocontroller.Memory.update(this.mydebugger.Variables());
-            myMicrocontroller.Registers.updateRegisterValues(this.mydebugger.Registers());
-            updateRegistersDisplay();
+            //memory
+            myMicrocontroller.updateMemory(this.mydebugger.Variables());
             updateMemoryDisplay();
+            //registers and diagram
+            myMicrocontroller.Registers.updateRegisters(this.mydebugger.Registers());
+            //mf.updateOutputs(this.mydebugger.Registers()); - triggers on gridbindingevent now
+            updateRegistersDisplay();
             this.updateLineHighlight();
             if (!done) {
                 resulttxt.value = this.mydebugger.nextLine();
@@ -134,52 +142,9 @@ Controller.prototype.fixCode = function (){
     return arr.join(['\n'])
 }
 
-//Controller.prototype.replaceMacro = function (a,b,start) {
-//    //replace macro a with b, starting at position i, also make sure that we replace exact with semicolons ok
-//    for (var i = start+1; i < codeEditor.session.getLength() ; i++) {
-//        var line = codeEditor.session.getLine(i);
-//        if (line.indexOf(a + " ") > -1) {
-//            line = line.replace(a + " ", b + " ")
-//            line += "//" + a;
-//            var rng = new Range(i, 0, i, Number.MAX_VALUE)
-//            codeEditor.session.replace(rng, line)
-//        }
-//        if (line.indexOf(a + "/") > -1) { //special case for serial where / is found??
-//            line = line.replace(a + "/", b + "/")
-//            line += "//" + a;
-//            var rng = new Range(i, 0, i, Number.MAX_VALUE)
-//            codeEditor.session.replace(rng, line)
-//        }
-//        if (line.indexOf(a + "*") > -1) { //special case for serial where * is found??
-//            line = line.replace(a + "*", b + "*")
-//            line += "//" + a;
-//            var rng = new Range(i, 0, i, Number.MAX_VALUE)
-//            codeEditor.session.replace(rng, line)
-//        }
-//        if (line.indexOf(a + "+") > -1) { //special case for serial where + is found??
-//            line = line.replace(a + "+", b + "+")
-//            line += "//" + a;
-//            var rng = new Range(i, 0, i, Number.MAX_VALUE)
-//            codeEditor.session.replace(rng, line)
-//        }
-//        if (line.indexOf(a + "-") > -1) { //special case for serial where - is found??
-//            line = line.replace(a + "-", b + "-")
-//            line += "//" + a;
-//            var rng = new Range(i, 0, i, Number.MAX_VALUE)
-//            codeEditor.session.replace(rng, line)
-//        }
-//        if (line.indexOf(a + ";") > -1) {
-//            line = line.replace(a + ";", b + ";")
-//            line.replace(a + " ", b + " ")
-//            line += "//" + a;
-//            var rng = new Range(i, 0, i, Number.MAX_VALUE)
-//            codeEditor.session.replace(rng, line)
-//        }
-//    }
-//}
 Controller.prototype.replaceMacro = function (a, b, row) { 
-    //replace macro a with b, starting at row, 
-    //works well but want to add comments to end of line
+    //replace a with b, starting at row, 
+    //works well -added comments to end of line
     var session = codeEditor.session;
     codeEditor.$search.setOptions({
         needle: a,
@@ -188,7 +153,7 @@ Controller.prototype.replaceMacro = function (a, b, row) {
         wholeWord: true,  //dont like having to make this false, as it may cause errors so no () in macros
         regExp: false
     });
-    var ranges = codeEditor.$search.findAll(session)//codeEditor.getSession())
+    var ranges = codeEditor.$search.findAll(session)  //codeEditor.session same as codeEditor.getSession())
     codeEditor.replaceAll(b);
     //add macro as comment at end of line
     for (var i = 0; i < ranges.length; i++) {
@@ -204,20 +169,8 @@ Controller.prototype.replaceMacro = function (a, b, row) {
         }
     }
 }
-//Controller.prototype.replaceMacro = function (a, b, row) {
-//    //replace macro a with b, starting at row, 
-//    //works well but want to add comments to end of line
-//    var locs = [];
-//    locs = codeEditor.findAll(a, {
-//        caseSensitive: true,
-//        range: new Range(row + 1, 0, codeEditor.session.getLength(), 0),
-//        wholeWord: true,  //dont like having to make this false, as it may cause errors so no () in macros
-//        regExp: false
-//    })
-//    codeEditor.replaceAll(b);
-//}
 Controller.prototype.removeComment = function (str) {
-    //removes either type of comment -assumes /*  */ type comment is on one line -probably shouldn't!
+    //removes either type of comment -assumes block /*  */ type comment is on one line -probably shouldn't!
     var len = str.length;
     var comm = str.indexOf("//");
     if (comm > -1)
@@ -252,7 +205,30 @@ Controller.prototype.showVariables = function () {
 }
 
 Controller.prototype.writeRegister=function(reg,val){
-    this.mydebugger.WriteRegister(reg, val); //example of how to write a register
+    this.mydebugger.WriteRegister(reg, val); 
+}
+Controller.prototype.writeRegBit = function(reg,bit,val){
+    //write the value intothe micros reg
+    var newval = myMicrocontroller.writeRegBit(reg, bit, val);
+    //send new val for whole register to JSCPP
+    updateRegistersDisplay();
+    //do not do this if PORT and DDRB is input as it must activate pullup resis ??
+    try{
+        this.mydebugger.writeRegister(reg, newval)
+    } catch (e) {
+        //dont worry, be happy
+    }
 }
 
-
+//Controller.prototype.replaceMacro = function (a, b, row) {
+//    //replace macro a with b, starting at row, 
+//    //works well but want to add comments to end of line
+//    var locs = [];
+//    locs = codeEditor.findAll(a, {
+//        caseSensitive: true,
+//        range: new Range(row + 1, 0, codeEditor.session.getLength(), 0),
+//        wholeWord: true,  //dont like having to make this false, as it may cause errors so no () in macros
+//        regExp: false
+//    })
+//    codeEditor.replaceAll(b);
+//}

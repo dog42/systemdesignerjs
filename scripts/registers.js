@@ -51,7 +51,7 @@ Registers.prototype.addRegister = function (regName, addr, desc, bits)
     });
     
 }
-Registers.prototype.updateRegisterValues = function(arr) {
+Registers.prototype.updateRegisters = function(arr) {
     for (var i = 0; i < arr.length; i++) {
         this.setRegValue(arr[i].name, arr[i].value);
     }
@@ -88,33 +88,12 @@ Registers.prototype.getRegisterDecls = function () {
         }
         return str;
 }
-
-
-//unused still
-Registers.prototype.exists = function (regName)
-{
-    for (var index = 0; index < this.registers.length; index++) {
-        if (regName === this.registers[index].name) {
-            return true;
-        }
-    }
-    return false;
-}
-Registers.prototype.getRegisterValue = function (regName)
-{
-    for (var index = 0; index < this.registers.length; index++) {
-        if (regName === this.registers[index].name) {
-            return this.registers[index].valuedec;
-        }
-    }
-    return false; //doesnt exist
-}
-Registers.prototype.setBitValue = function (regName, bit, newvalue) {
+Registers.prototype.writeRegBit = function (regName, bit, newvalue) {
     //error check for bit > 7?
     for (var index = 0; index < this.registers.length; index++) {
         if (regName === this.registers[index].name) {
             var val = this.registers[index].valuedec;
-            if (newvalue = 1)
+            if (newvalue === 1)
                 val |= (1 << bit);
             else
                 val &= ~(1 << bit);
@@ -135,6 +114,27 @@ Registers.prototype.setBitValue = function (regName, bit, newvalue) {
         }
     }
     return false; //unable to find the address to assign to 
+}
+Registers.prototype.readRegister = function (regName)
+{
+    for (var index = 0; index < this.registers.length; index++) {
+        if (regName === this.registers[index].name) {
+            return this.registers[index].valuedec;
+        }
+    }
+    return false; //doesnt exist
+}
+
+
+//unused still
+Registers.prototype.exists = function (regName)
+{
+    for (var index = 0; index < this.registers.length; index++) {
+        if (regName === this.registers[index].name) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

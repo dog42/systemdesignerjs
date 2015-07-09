@@ -1,3 +1,13 @@
 Limitations
 Macros 
  - no macros that look ike functions e.g. setLed()
+
+ ADC
+  - can connect an analog device to any pin
+
+
+ Problems
+  -focus in diagram issue??? click in diagram, click on compoonent 
+    and still stuck in codeeditor deleting text
+ToDo
+ - node text mustn't have spaces or CR or funny characters
