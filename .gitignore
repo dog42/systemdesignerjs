@@ -1,5 +1,6 @@
 scripts/jq*
 css/jq*
+css/images/*
 ace
 scripts/Mindfusion*
 Properties/AssemblyInfo.cs
