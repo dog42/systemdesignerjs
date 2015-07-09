@@ -14,15 +14,13 @@ Controller = function () {
     this.parserstate = this.PARSERSTATE.STOP;
     this.debug = false;
     this.code;
-    this.input;
-    this.output;
-    this.result;
+    this.input=""
     this.linemarker;
     this.variables;
     this.config = {
         stdio: {
             write: function (s) {
-                outputtxt.value += s;
+                View.Message(s)
             }
         },
         debug: this.debug
@@ -37,7 +35,7 @@ Controller.prototype.C = function () {
     mf.updateOutput("PORTB", 5, 0);
 }
 
-Controller.prototype.Start = function()
+Controller.prototype.Start = function(okstate)
 {
     try {
         myMicrocontroller.Registers.clear();//set all registers to 0 
@@ -46,40 +44,42 @@ Controller.prototype.Start = function()
         updateMemoryDisplay();
         //read any high inputs
         this.config.debug = true;
-        outputtxt.value = "";
+        View.Message("");
         var regsnbits = myMicrocontroller.getRegisterDecls() + myMicrocontroller.bitNamesDecl;
         this.code = this.fixCode()
         //this.code = this.replaceMacros()
         this.code = this.code + regsnbits;
-        this.input = document.getElementById("inputtxt").value;
+        //this.input = document.getElementById("inputtxt").value;
         if (browser.indexOf("IE") >= 0) { //other older browswers need testing too ??
-            alert("you need to use a modern desktop version of Firefox or Chrome");
-            return;
+            View.Message("you need to use a modern desktop version of Firefox or Chrome")
+            //alert("you need to use a modern desktop version of Firefox or Chrome");
+            this.parserstate = this.PARSERSTATE.STOP
+            return false;
         }
         this.mydebugger = JSCPP.run(this.code, this.input, this.config);
         //console.log(mydebugger.src);
     } catch (e) {
-        resulttxt.value = e;
+        View.Message(e.message);
         if (this.mydebugger !== undefined)
-            resulttxt.value = this.mydebugger.stop();
+            View.Message(this.mydebugger.stop());
         this.parserstate = this.PARSERSTATE.STOP
-        return;
+        return false;
     }
-
+    this.parserstate = okstate;
 }
 
 Controller.prototype.Step = function ()
 {
     if (this.parserstate === this.PARSERSTATE.STOP) {
-        this.Start();
-        this.parserstate = this.PARSERSTATE.STEP;
+        if (!this.Start(this.PARSERSTATE.STEP))
+            return
     }
     if (this.parserstate === this.PARSERSTATE.STEP) {
         try {
             var done;
             done = this.mydebugger.next();
             //temp display of vars
-            this.showVariables();
+            //this.showVariables();
             //memory
             myMicrocontroller.updateMemory(this.mydebugger.Variables());
             updateMemoryDisplay();
@@ -89,19 +89,19 @@ Controller.prototype.Step = function ()
             updateRegistersDisplay();
             this.updateLineHighlight();
             if (!done) {
-                resulttxt.value = this.mydebugger.nextLine();
+                View.Message( this.mydebugger.nextLine());
             } else {
                 parserstate = this.PARSERSTATE.STOP
-                resulttxt.value = 'finished';
+                View.Message('finished'); 
             }
         } catch (e) {
-            resulttxt.value = e;
+            View.Message(e.message);
         }
     }
 }
 Controller.prototype.Run = function ()
 {
-    //need a slider value
+    alert("no run yet");
 }
 Controller.prototype.Stop = function ()
 {
@@ -109,6 +109,7 @@ Controller.prototype.Stop = function ()
     if (this.linemarker !== undefined)
         codeEditor.getSession().removeMarker(this.linemarker)
     this.debug = null;
+    View.Message("stop");
 }
 Controller.prototype.fixCode = function (){
     var arr = [];
@@ -145,6 +146,7 @@ Controller.prototype.fixCode = function (){
 Controller.prototype.replaceMacro = function (a, b, row) { 
     //replace a with b, starting at row, 
     //works well -added comments to end of line
+    //need to fix macros inside statement so that no ; is added
     var session = codeEditor.session;
     codeEditor.$search.setOptions({
         needle: a,

@@ -10,10 +10,6 @@ var mfDiagram = function () {
     this.microsjson = [];
     this.packagesjson = [];
     this.binaryInputsJSON = [];
-    //this.microsLoaded = false;
-    //this.packagesLoaded = false;
-    //this.binaryInputsLoaded = false;
-
 }
 //initialise diagram, event listeners, nodelists, open files
 mfDiagram.prototype.init = function() {
@@ -53,8 +49,8 @@ mfDiagram.prototype.init = function() {
     //overview.setDiagram(diagram);
 
     //create an ZoomControl component that wraps the "zoomer" canvas
-    this.zoomer = MindFusion.Controls.ZoomControl.create($("#zoomer")[0]);
-    this.zoomer.setTarget(diagram);    // register event handlers
+    //zoomer = MindFusion.Controls.ZoomControl.create($("#zoomer")[0]);
+    //zoomer.setTarget(diagram);    // register event handlers
 
     //OPEN microcontrollers json file
     this.openPackagesFile();
@@ -294,26 +290,26 @@ mfDiagram.prototype.analogInputClicked = function (node) {
 
 //Diagram Event Processing
 mfDiagram.prototype.onLinkCreated = function (sender, args) {
-    this.makeLinkTag(args.link)
+    myMicrocontrollerNode.makeLinkTag(args.link)
     myCodeMaker.nodeChange();
-    displayCode();
+    View.DisplayCode();
     //var link = args.getLink();
 }
 mfDiagram.prototype.onLinkModified = function (sender, args) {
     myMicrocontrollerNode.makeLinkTag(args.link)
     myCodeMaker.nodeChange();
-    displayCode();
+    View.DisplayCode();
     //var link = args.getLink();
 }
 mfDiagram.prototype.onLinkDeleted = function (sender, args) {
     //redo code
     myCodeMaker.nodeChange();
-    displayCode();
+    View.DisplayCode();
 }
 mfDiagram.prototype.onNodeTextEdited = function (sender, args) {
     //make sure no spaces in text
     myCodeMaker.nodeChange();
-    displayCode();
+    View.DisplayCode();
 }
 mfDiagram.prototype.onNodeDoubleClicked = function (sender, args) {
     //binary node - change state
@@ -363,10 +359,11 @@ mfDiagram.prototype.onNodeCreated = function (sender, args) {
 
     //number the new node in sequence by its type
     var count = 0;
-    Array.forEach(diagram.getNodes(), function (node) {
-        if (node.getId() === newnode.getId())
-            count++;
-    });
+    var nodes = diagram.getNodes();
+    for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].getId() === newnode.getId())
+                    count++;
+    }
     newnode.setText(newnode.getText() + count);
 }
 mfDiagram.prototype.onNodeDeleting = function (sender, args) {
@@ -381,7 +378,7 @@ mfDiagram.prototype.onNodeDeleting = function (sender, args) {
         }
     }
     //diagram.removeItem(myMicrocontrollerNode.Node)
-    myMicrocontrollerNode.Node = null;//??
+    //myMicrocontrollerNode.Node = null;//??
     return;
 }
 

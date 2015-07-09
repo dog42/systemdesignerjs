@@ -111,8 +111,8 @@ CodeMaker.prototype.iomacros = function () {
     for (var i = 0; i < this.ilinks.length; i++) {
         if (this.ilinks[i].getOrigin().getId().indexOf("binary") > 0) {
             this.hasInputs = true;
-            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsLow   ~PIN" + mf.getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + mf.getMicroPort(this.ilinks[i], true, 0) + mf.getMicroPort(this.ilinks[i], true, 2) + ");\n"    //true if pin is low\n";
-            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsHigh   PIN" + mf.getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + mf.getMicroPort(this.ilinks[i], true, 0) + mf.getMicroPort(this.ilinks[i], true, 2) + ");\n"    //true if pin is high\n";
+            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsLow   ~PIN" + mf.getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + mf.getMicroPort(this.ilinks[i], true, 0) + mf.getMicroPort(this.ilinks[i], true, 2) + ")\n"    //true if pin is low\n";
+            code += "#define " + this.ilinks[i].getOrigin().getText() + "_IsHigh   PIN" + mf.getMicroPort(this.ilinks[i], true, 0) + " & (1<<P" + mf.getMicroPort(this.ilinks[i], true, 0) + mf.getMicroPort(this.ilinks[i], true, 2) + ")\n"    //true if pin is high\n";
         }
     }
     code += "//Hardware macros for ADC inputs\n";

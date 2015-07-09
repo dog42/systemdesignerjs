@@ -1,4 +1,14 @@
-﻿.editor {
+﻿html, body 
+    {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+    }
+
+
+.editor {
     position: absolute;
     top: 25px;
     right: 13px;
@@ -11,33 +21,13 @@
 	background-color: blue;
 }
 
-
-
-
-
-#accordion .ui-accordion-content { padding: 0; }
-
-
-.no-padding {
-    padding: 0 !important;
+#outputtxt {
+    width: 100%; 
+    height: 100%;
+    font-family: Verdana;
+    font-size: 16px;
+    color: red;
 }
 
-.ui-widget-header ul {
-    height:14px;   
-}
 
-.ui-tabs .ui-tabs-nav li {
-    height:14px;
-    font-size:11px;
-
-}
-
-.ui-tabs .ui-tabs-nav li a {
-    position:relative;
-    top:-6px  
-}
-
-.ui-widget-header{
-    background:#8ebbe9 url(../img/80ade5_40x100_textures_04_highlight_hard_100.png) 0 50% repeat-x;
-}
 
