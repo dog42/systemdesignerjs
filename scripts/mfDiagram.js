@@ -289,22 +289,24 @@ mfDiagram.prototype.analogInputClicked = function (node) {
 //}
 
 //Diagram Event Processing
-mfDiagram.prototype.onLinkCreated = function (sender, args) {
-    myMicrocontrollerNode.makeLinkTag(args.link)
+mfDiagram.prototype.updateView = function () {
+    myController.Stop();
     myCodeMaker.nodeChange();
     View.DisplayCode();
+}
+mfDiagram.prototype.onLinkCreated = function (sender, args) {
+    myMicrocontrollerNode.makeLinkTag(args.link)
+    mf.updateView();
     //var link = args.getLink();
 }
 mfDiagram.prototype.onLinkModified = function (sender, args) {
     myMicrocontrollerNode.makeLinkTag(args.link)
-    myCodeMaker.nodeChange();
-    View.DisplayCode();
+    mf.updateView();
     //var link = args.getLink();
 }
 mfDiagram.prototype.onLinkDeleted = function (sender, args) {
     //redo code
-    myCodeMaker.nodeChange();
-    View.DisplayCode();
+    mf.updateView();
 }
 mfDiagram.prototype.onNodeTextEdited = function (sender, args) {
     //make sure no spaces in text

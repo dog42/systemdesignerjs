@@ -11,7 +11,7 @@ View .prototype.InitLayout = function (){
         theme: theme,
         orientation: 'horizontal',
         panels: [
-            { size: '2%' },
+            { size: '0%' },
             { size: '90%', min: '20%', collapsible: false }]
     });
     $('#splitterWest').jqxSplitter({
@@ -73,7 +73,27 @@ View .prototype.InitLayout = function (){
     $('#stop').bind('click', function (event) {
         myController.Stop();
     });
+    $('#delaySlider').jqxSlider({
+        showButtons: false,
+        value: 2,
+        mode: 'fixed',
+        ticksPosition: 'bottom',
+        showRange: true,
+        height:"12px",
+        width: '150px'
+    });
+    $('#jqxSlider').on('change', function (event) {
+        var value = event.args.value;
+    });
+}
 
+View.prototype.getRunDelay = function () {
+    var val = $('#delaySlider').jqxSlider('value');
+    val *= 100;
+    //this.Message(val);
+    if (val === 0)
+        val = 5;
+    return val;
 }
 
 View.prototype.DisplayCode = function () {
@@ -83,11 +103,11 @@ View.prototype.DisplayCode = function () {
 
 View.prototype.Message = function (msg) {
     $("#tabsNW").jqxTabs("select", 3);
-    outputtxt.value = msg
+    outputtxt.value = msg;
 }
 View.prototype.MessageAdd = function (msg) {
     $("#tabsNW").jqxTabs("select", 3);
-    outputtxt.value += msg
+    outputtxt.value += msg;
 }
 
 

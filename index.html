@@ -12,7 +12,7 @@
     <div id="splitNorth" >
         <div id="north">
             <div class="jqx-hideborder jqx-hidescrollbars" id="north">
-                north
+                
             </div>
         </div>
         <div>
@@ -104,11 +104,12 @@
                         <div id="East">
                             <div class ="jqx-hideborder jqx-hidescrollbars" id="tabsEast">
                                 <ul>
-                                    <input type="button" value="Step" id='step' />
-                                    <input type="button" value="Run" id='run' />
-                                    <input type="button" value="Stop" id='stop' />
                                     <li>Code</li>
                                     <li></li>
+                                    <input type="button" value="Step" id='step' " />
+                                    <input type="button" value="Run" id='run' style="display:inline-block;margin-right:10px;" />
+                                    <div id='delaySlider' style="display:inline-block; margin-right:10px"></div>
+                                    <input type="button" value="Stop" id='stop' style="display:inline-block" />
                                 </ul>
                                 <div>
                                     <pre id="codeeditor" class="editor">codeditor</pre>
@@ -140,10 +141,7 @@
     <script type="text/javascript" src="ace/ace.js" charset="utf-8"></script>
 
     <script type="text/javascript" src="Scripts/jquery/jquery-2.1.4.js"></script>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="Scripts/jquery/jquery-ui.js"></script>
-    <script type="text/javascript" src="Scripts/jquery/jquery.layout-latest.js"></script>-->
-    <!--<script type="text/javascript" src="scripts/complex.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
     <script type="text/javascript" src="scripts/jquery/jqxcore.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxsplitter.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxtabs.js"></script>
@@ -161,6 +159,7 @@
     <script type="text/javascript" src="scripts/jquery/jqxcheckbox.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxlistbox.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="scripts/jquery/jqxslider.js"></script>
     
     
     <script type="text/javascript" src="scripts/Microcontroller.js"></script>
@@ -175,9 +174,9 @@
     <script type="text/javascript" src="scripts/parserTests.js"></script>
     <script type="text/javascript" src="scripts/errorcatcher.js"></script>
     <script type="text/javascript" src="scripts/CodeMaker.js"></script>
-    <!--   -->
-      <script type="text/javascript" src="scripts/JSCPP.js"></script>
- 
+    <!--    -->
+      <script type="text/javascript" src="scripts/CJS.js"></script>
+
     <script type="text/javascript" src="scripts/beautify.js"></script>
     <script type="text/javascript" src="scripts/launcher.js"></script>
     <script type="text/javascript" src="scripts/View.js"></script>

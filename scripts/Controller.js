@@ -5,6 +5,7 @@ Controller = function () {
     this.PARSERSTATE = {
         START: "START",
         RUN: "RUN",
+        RUNNING: "RUNNING",
         PAUSE: "PAUSE",
         STEP: "STEP",
         STOP: "STOP",
@@ -26,6 +27,8 @@ Controller = function () {
         debug: this.debug
     }
     this.mydebugger;
+    this.runid;
+    this.rundelay = 500;
 }
 // BUTTON COMMANDS
 Controller.prototype.B = function () {
@@ -35,7 +38,7 @@ Controller.prototype.C = function () {
     mf.updateOutput("PORTB", 5, 0);
 }
 
-Controller.prototype.Start = function(okstate)
+Controller.prototype.Start = function(startokstate)
 {
     try {
         myMicrocontroller.Registers.clear();//set all registers to 0 
@@ -54,7 +57,7 @@ Controller.prototype.Start = function(okstate)
             View.Message("you need to use a modern desktop version of Firefox or Chrome")
             //alert("you need to use a modern desktop version of Firefox or Chrome");
             this.parserstate = this.PARSERSTATE.STOP
-            return false;
+            return;
         }
         this.mydebugger = JSCPP.run(this.code, this.input, this.config);
         //console.log(mydebugger.src);
@@ -63,29 +66,25 @@ Controller.prototype.Start = function(okstate)
         if (this.mydebugger !== undefined)
             View.Message(this.mydebugger.stop());
         this.parserstate = this.PARSERSTATE.STOP
-        return false;
+        return;
     }
-    this.parserstate = okstate;
+    View.Message("start");
+    this.parserstate = startokstate;
 }
 
 Controller.prototype.Step = function ()
 {
     if (this.parserstate === this.PARSERSTATE.STOP) {
-        if (!this.Start(this.PARSERSTATE.STEP))
-            return
+        this.Start(this.PARSERSTATE.STEP)
     }
     if (this.parserstate === this.PARSERSTATE.STEP) {
         try {
             var done;
             done = this.mydebugger.next();
-            //temp display of vars
-            //this.showVariables();
-            //memory
             myMicrocontroller.updateMemory(this.mydebugger.Variables());
             updateMemoryDisplay();
             //registers and diagram
             myMicrocontroller.Registers.updateRegisters(this.mydebugger.Registers());
-            //mf.updateOutputs(this.mydebugger.Registers()); - triggers on gridbindingevent now
             updateRegistersDisplay();
             this.updateLineHighlight();
             if (!done) {
@@ -96,20 +95,58 @@ Controller.prototype.Step = function ()
             }
         } catch (e) {
             View.Message(e.message);
+            parserstate = this.PARSERSTATE.STOP
         }
     }
 }
 Controller.prototype.Run = function ()
 {
-    alert("no run yet");
+    if (this.parserstate === this.PARSERSTATE.STOP) {
+        this.Start(this.PARSERSTATE.RUN)
+    }
+    if (this.parserstate === this.PARSERSTATE.RUNNING) {
+        return;
+    }
+
+    if (this.parserstate === this.PARSERSTATE.RUN) {
+        this.parserstate = this.PARSERSTATE.RUNNING
+        self = this;
+        this.runid = setInterval(function () {
+            try {
+                var done;
+                done = self.mydebugger.next();
+                myMicrocontroller.updateMemory(self.mydebugger.Variables());
+                updateMemoryDisplay();
+                //registers and diagram
+                myMicrocontroller.Registers.updateRegisters(self.mydebugger.Registers());
+                updateRegistersDisplay();
+                self.updateLineHighlight();
+                if (!done) {
+                    //View.Message(self.mydebugger.nextLine());
+                    self.mydebugger.nextLine();
+                } else {//done
+                    parserstate = self.PARSERSTATE.STOP
+                    View.Message('finished');
+                    clearInterval(self.runid)
+                    return;
+                }
+            } catch (e) {
+                View.Message(e.message);
+                parserstate = self.PARSERSTATE.STOP
+                clearInterval(self.runid);
+                return;
+            }
+        }, View.getRunDelay());
+    }
 }
-Controller.prototype.Stop = function ()
-{
+Controller.prototype.Stop = function (){
+    if (this.parserstate !== this.PARSERSTATE.STOP)
+        View.Message("stop"); //only show if not stopped
     this.parserstate = this.PARSERSTATE.STOP;
     if (this.linemarker !== undefined)
         codeEditor.getSession().removeMarker(this.linemarker)
     this.debug = null;
-    View.Message("stop");
+    clearInterval(this.runid);
 }
 Controller.prototype.fixCode = function (){
     var arr = [];

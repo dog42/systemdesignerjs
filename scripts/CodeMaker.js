@@ -268,7 +268,8 @@ CodeMaker.prototype.buildWhile1End = function () {
 CodeMaker.prototype.buildStateMachine = function () {
     var code = "";
     code += "/*******************/\n"
-    code += "//your code goes here\n"
+    code += "set_led_B5;\n"
+    code += "clr_led_B5;\n"
     return code;
 }
 CodeMaker.prototype.buildFunctions = function(){
