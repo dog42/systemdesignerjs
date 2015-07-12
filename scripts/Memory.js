@@ -20,6 +20,7 @@ Memory = function (start, size) { //(256,2048)
     //size:b = 1/2/4bytes
     //name:n
     //valuedec:val
+    //valuehex: string
     //valuebyte[]1/2/4
     //scopelevel:sl
     //scopename:sn
@@ -83,7 +84,19 @@ Memory.prototype.updateMemory = function (vars) {
 }
 Memory.prototype.newval = function (m, val) {
     this.memory[m].valuedec = val;
+    //make a hex val - type and sign are important
+    switch (this.memory[m].type) {
+        case "uint8_t":
+            this.memory[m].valuehex = this.makeHexVal(val,2)
+            this.memory[m].valuebin = this.makeBinVal(val,8)
 
+            break;
+        case "uint16_t":
+            this.memory[m].valuehex = this.makeHexVal(val,4)
+            this.memory[m].valuebin = this.makeBinVal(val,16)
+
+            break;
+    }
 }
 
 Array.prototype.insert = function (index, item) {
@@ -107,6 +120,11 @@ Memory.prototype.clear = function() {
 }
 Memory.prototype.getMemory = function () {
     return this.memory;
+}
+Memory.prototype.writeADCW = function (val) {
+    for (var i = 0; i < this.memory.length; i++)
+        if (this.memory[i].name === "ADCW")
+            this.newval(i,val);
 }
 
 
@@ -217,19 +235,19 @@ Memory.prototype.declVariable = function(name, type, memarea, scope, scopename) 
     //}
     //return true;
 }
-Memory.prototype.makeHexAddrStr =function(addr)
-{
-    var hexaddress = addr.toString(16).toUpperCase();
-    if (addr < 16)
-        return "0x000" + hexaddress;
-    else if (addr < 256)
-        return "0x00" + hexaddress;
-    else if (addr < 4096)
-        return "0x0" + hexaddress;
-    else
-        return "0x" + hexaddress;
+Memory.prototype.makeBinVal = function (val, len) {
+    var bin = val.toString(2);
+    while (bin.length < len)
+        bin = "0" + bin
+    return "0b" + bin;
 }
-Memory.prototype.getVarType = function(str)
+Memory.prototype.makeHexVal = function (val, len) {
+    var hex = val.toString(16).toUpperCase();
+    while (hex.length < len)
+        hex = "0" + hex
+    return "0x" + hex;
+}
+Memory.prototype.getVarType = function (str)
 {
     if (str === "void")
         return VARTYPE.voidptr;

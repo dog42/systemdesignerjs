@@ -47,7 +47,6 @@ var theme = 'darkblue'
 $(document).ready(function (sender, args) { //jquery
 
     View = new View();
-
     View.InitLayout();          //sets up the window
 
     main_initEditors();   //sets up ACE codeEditor
@@ -58,12 +57,15 @@ $(document).ready(function (sender, args) { //jquery
     //wait a bit and load the default
    setTimeout(main_loadDefaultMicro, 800); 
 
+   setTimeout(welcomeMessage, 1000)
     //testing
    //setTimeout(parserTests_test,1000);
    
 });
 
-
+function welcomeMessage() {
+    View.Message("Press Run to see 'hello world'","purple")
+}
 
 function main_initEditors()
 {
@@ -82,7 +84,14 @@ function main_initEditors()
     //codeEditor.getSession().setUseSoftTabs(false);
     //codeEditor.setHighlightSelectedWord(true);
     //codeEditor.setHighlightActiveLine(false); //default=true
-
+    codeEditor.on("change", function (e) {
+        if (codeEditor.curOp && codeEditor.curOp.command.name) {
+            myController.parserstate = myController.PARSERSTATE.STOP
+            View.Message("Editting","blue")
+        }
+        //else
+        //    console.log("other change")
+    })
     //tokenEditor = ace.edit("tokeneditor");
     //tokenEditor.setTheme("ace/theme/monokai");
     //tokenEditor.getSession().setMode("ace/mode/text");
@@ -99,16 +108,6 @@ function main_loadDefaultMicro() {
     myCodeMaker.makeFullCode(); 
     View.DisplayCode();
     updateRegistersDisplay();
-}
-
-
-
-
-function updateRegistersDisplay() {
-    $("#regs-jqxgrid").jqxGrid('updatebounddata');
-}
-function updateMemoryDisplay() {
-    $("#vars-jqxgrid").jqxGrid('updatebounddata');
 }
 
 

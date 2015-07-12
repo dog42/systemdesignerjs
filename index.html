@@ -9,6 +9,7 @@
 
 </head>
 <body class='default'>
+    <div id="adcWindowsContainer"></div>
     <div id="splitNorth" >
         <div id="north">
             <div class="jqx-hideborder jqx-hidescrollbars" id="north">
@@ -25,7 +26,6 @@
                                     <li>IO</li>
                                     <li>Micros</li>
                                     <li>Control</li>
-                                    <li>Messages</li>
                                 </ul>
                                 <div class="jqx-hideborder jqx-hidescrollbars">
                                     <!-- The NodeListView component is bound to the canvas element below -->
@@ -42,40 +42,32 @@
                                 <div>
                                     Control
                                 </div>
-                                <div >
-                                    <textarea id="outputtxt"> messages </textarea>
-                                </div>
                             </div>
                         </div>
                         <div id="swest">
                             <div class="jqx-hideborder jqx-hidescrollbars" id="tabsSW">
                                 <ul>
                                     <li>Regs</li>
-                                    <li>Mem</li>
-                                    <li>SRAM</li>
+                                    <li>Vars</li>
+                                    <!--<li>SRAM</li>
                                     <li>Symb</li>
-                                    <li>Func</li>
+                                    <li>Func</li>-->
                                 </ul>
                                 <div>
-                                    <div id="regs-jqxgrid">
-                                    </div>
+                                    <div id="regs-jqxgrid"></div>
                                 </div>
                                 <div>
-                                    <div id="vars-jqxgrid">
-                                    </div>
+                                    <div id="vars-jqxgrid"></div>
+                                </div>
+                                <!--<div>
+                                    <div id="sram-jqxgrid"></div>
                                 </div>
                                 <div>
-                                    <div id="sram-jqxgrid">
-                                    </div>
+                                    <div id="symb-jqxgrid"></div>
                                 </div>
                                 <div>
-                                    <div id="symb-jqxgrid">
-                                    </div>
-                                </div>
-                                <div>
-                                    <div id="func-jqxgrid">
-                                    </div>
-                                </div>
+                                    <div id="func-jqxgrid"></div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -89,6 +81,8 @@
                                     <li></li>
                                 </ul>
                                 <div>
+                                    <div id="messages" class="panel message"> PLEASE WAIT FOR EVERYTHING TO LOAD</div>
+
                                     <!-- The Diagram component is bound to the canvas element below -->
                                     <div style="width: 2500px; height: 1200px; overflow: auto; border: 1px solid;">
                                         <canvas id="diagram">
@@ -105,17 +99,13 @@
                             <div class ="jqx-hideborder jqx-hidescrollbars" id="tabsEast">
                                 <ul>
                                     <li>Code</li>
-                                    <li></li>
-                                    <input type="button" value="Step" id='step' " />
-                                    <input type="button" value="Run" id='run' style="display:inline-block;margin-right:10px;" />
+                                    <input type="button" value="Step" id='step' style="margin-right:10px" />
+                                    <input type="button" value="Run" id='run' />
                                     <div id='delaySlider' style="display:inline-block; margin-right:10px"></div>
-                                    <input type="button" value="Stop" id='stop' style="display:inline-block" />
+                                    <input type="button" value="Stop" id='stop' />
                                 </ul>
                                 <div>
                                     <pre id="codeeditor" class="editor">codeditor</pre>
-                                </div>
-                                <div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -137,10 +127,10 @@
         MindFusionImpl = "JQuery";
     </script>
     <!--<script type="text/javascript" src="Scripts/MicrosoftAjax.js"></script>-->
-    <script type="text/javascript" src="Scripts/MindFusion.Diagramming.js"></script>
+    <script type="text/javascript" src="scripts/MindFusion.Diagramming.js"></script>
     <script type="text/javascript" src="ace/ace.js" charset="utf-8"></script>
 
-    <script type="text/javascript" src="Scripts/jquery/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="scripts/jquery/jquery-2.1.4.js"></script>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
     <script type="text/javascript" src="scripts/jquery/jqxcore.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxsplitter.js"></script>
@@ -160,7 +150,7 @@
     <script type="text/javascript" src="scripts/jquery/jqxlistbox.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxslider.js"></script>
-    
+    <script type="text/javascript" src="scripts/jquery/jqxwindow.js"></script>
     
     <script type="text/javascript" src="scripts/Microcontroller.js"></script>
     <script type="text/javascript" src="scripts/MicrocontrollerNode.js"></script>
@@ -174,7 +164,7 @@
     <script type="text/javascript" src="scripts/parserTests.js"></script>
     <script type="text/javascript" src="scripts/errorcatcher.js"></script>
     <script type="text/javascript" src="scripts/CodeMaker.js"></script>
-    <!--    -->
+    <!--   --> 
       <script type="text/javascript" src="scripts/CJS.js"></script>
 
     <script type="text/javascript" src="scripts/beautify.js"></script>

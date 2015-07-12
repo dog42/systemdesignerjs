@@ -11572,6 +11572,12 @@ Debugger.prototype.WriteRegister = function(name, value) {
   return v.v = value;
 };
 
+Debugger.prototype.ReadRegister = function(name) {
+  var v;
+  v = this.rt.readVar(name);
+  return v.v;
+};
+
 Debugger.prototype.Functions = function() {
   var i, name, ref, ref1, ret, scopeIndex, scopeName, val;
   ret = [];
@@ -11999,16 +12005,15 @@ module.exports = function() {
         if (dummy) {
           b = l.v;
           l.v = l.v + 1;
-          if (rt.inrange(l.t, l.v)) {
-            return rt.val(l.t, b);
-          }
-          rt.raiseException("overflow during post-increment " + (rt.makeValString(l)));
+          l.v = rt.fixoverunderrange(l.t, l.v);
+          return rt.val(l.t, b);
         } else {
           l.v = l.v + 1;
           if (rt.inrange(l.t, l.v)) {
             return l;
           }
-          rt.raiseException("overflow during pre-increment " + (rt.makeValString(l)));
+          l.v = rt.fixoverunderrange(l.t, l.v);
+          return l;
         }
       }
     },
@@ -12024,17 +12029,16 @@ module.exports = function() {
         if (dummy) {
           b = l.v;
           l.v = l.v - 1;
-          if (rt.inrange(l.t, l.v)) {
-            return rt.val(l.t, b);
-          }
-          rt.raiseException("overflow during post-decrement");
+          l.v = rt.fixoverunderrange(l.t, l.v);
+          return rt.val(l.t, b);
         } else {
           l.v = l.v - 1;
           b = l.v;
           if (rt.inrange(l.t, l.v)) {
             return l;
           }
-          rt.raiseException("overflow during pre-decrement");
+          l.v = rt.fixoverunderrange(l.t, l.v);
+          return l;
         }
       }
     },
@@ -20102,6 +20106,22 @@ CRuntime.prototype.inrange = function(type, value) {
   }
 };
 
+CRuntime.prototype.fixoverunderrange = function(type, value) {
+  var limit;
+  limit = this.config.limits[type.name];
+  if (this.isPrimitiveType(type)) {
+    while (value > limit.max) {
+      value -= limit.max;
+      value--;
+    }
+    while (value < limit.min) {
+      value += limit.max;
+      value++;
+    }
+    return value;
+  }
+};
+
 CRuntime.prototype.isNumericType = function(type) {
   return this.isFloatType(type) || this.isIntegerType(type);
 };
@@ -20234,13 +20254,9 @@ CRuntime.prototype.cast = function(type, value) {
       if (!this.isNumericType(value.t)) {
         this.raiseException("cannot cast " + this.makeTypeString(value.t) + " to " + this.makeTypeString(type));
       }
-      if (this.inrange(type, value.v)) {
-        return this.val(type, value.v);
-      } else {
-        this.raiseException("overflow when casting " + this.makeTypeString(value.t) + " to " + this.makeTypeString(type));
-      }
+      return this.val(type, value.v);
     } else {
-      if (type.name.slice(0, 8) === "unsigned") {
+      if (type.name.slice(0, 8) === "unsigned" || type.name.slice(0, 4) === "uint") {
         if (!this.isNumericType(value.t)) {
           this.raiseException("cannot cast " + this.makeTypeString(value.t) + " to " + this.makeTypeString(type));
         } else if (value.v < 0) {
@@ -20250,19 +20266,11 @@ CRuntime.prototype.cast = function(type, value) {
       if (!this.isNumericType(value.t)) {
         this.raiseException("cannot cast " + this.makeTypeString(value.t) + " to " + this.makeTypeString(type));
       }
-      if (value.t.name === "float" || value.t.name === "double") {
+      if (value.t.name === "float" || value.t.name === "double" || value.t.name === "single") {
         v = value.v > 0 ? Math.floor(value.v) : Math.ceil(value.v);
-        if (this.inrange(type, v)) {
-          return this.val(type, v);
-        } else {
-          this.raiseException("overflow when casting " + this.makeValString(value) + " to " + this.makeTypeString(type));
-        }
+        return this.val(type, v);
       } else {
-        if (this.inrange(type, value.v)) {
-          return this.val(type, value.v);
-        } else {
-          this.raiseException("overflow when casting " + this.makeValString(value) + " to " + this.makeTypeString(type));
-        }
+        return this.val(type, value.v);
       }
     }
   } else if (this.isPointerType(type)) {
@@ -20337,7 +20345,7 @@ CRuntime.prototype.exitScope = function(scopename) {
 
 CRuntime.prototype.val = function(type, v, left) {
   if (this.isNumericType(type) && !this.inrange(type, v)) {
-    this.raiseException("overflow of " + (this.makeValueString(v)) + "(" + (this.makeTypeString(type)) + ")");
+    v = this.fixoverunderrange(type, v);
   }
   if (left === void 0) {
     left = false;

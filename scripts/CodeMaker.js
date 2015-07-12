@@ -198,9 +198,7 @@ CodeMaker.prototype.addGlobalVars = function () {
     var code = "";
     code += "/**********************************************/\n";
     code += "//Declare & initialise global variables\n";
-    //for (i in this.globalvars) {
-    //    code += i + "\n";
-    //}
+    code += "uint8_t count =245;\n"
     code += "\n";
     return code;
 }
@@ -270,6 +268,7 @@ CodeMaker.prototype.buildStateMachine = function () {
     code += "/*******************/\n"
     code += "set_led_B5;\n"
     code += "clr_led_B5;\n"
+    code += "count++;\n"
     return code;
 }
 CodeMaker.prototype.buildFunctions = function(){

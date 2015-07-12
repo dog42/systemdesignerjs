@@ -1,5 +1,7 @@
 ﻿var View = function ()
 {
+    //this.adcWindowsContainer;
+    //this.adcChannels=[];
     return this;
 }
 
@@ -73,26 +75,96 @@ View .prototype.InitLayout = function (){
     $('#stop').bind('click', function (event) {
         myController.Stop();
     });
+
     $('#delaySlider').jqxSlider({
         showButtons: false,
-        value: 2,
-        mode: 'fixed',
+        min:0,
+        max:2000,
+        value: 1900,
+        //mode: 'fixed',
+        ticksFrequency:400,
         ticksPosition: 'bottom',
         showRange: true,
         height:"12px",
-        width: '150px'
+        width: '200px'
     });
     $('#jqxSlider').on('change', function (event) {
         var value = event.args.value;
     });
+
+    this.adcWindowContainer = $('#adcWindowContainer');
 }
+
+View.prototype.showAdcWindow = function (adcChannel,node) {
+    var windows = $.data(document.body, 'jqxwindows-list');
+    //see if this window exists already
+    if (windows !== undefined) {
+        for (var i = 0; i < windows.length; i++) {
+            if (windows[i][0].id.indexOf(adcChannel) > -1) {
+                $('#adcWindow' + adcChannel).jqxWindow('open');
+                return;
+            }
+        }
+    }
+    //window for this adcchannel not found so create it
+    var an;
+    for (var i = 0; i < mf.anaInputs.length; i++) {
+        if (node.getId() === mf.anaInputs[i].type) {
+            an=i;
+        }
+    }
+    var headtext = node.getText() + "    "
+                + mf.anaInputs[an].sliderminvalue + "-" + mf.anaInputs[an].slidermaxvalue
+                + mf.anaInputs[an].sense;
+    //var slidemin = parseInt(mf.anaInputs[an].sliderminvalue,10);
+    //var slidemax = parseInt(mf.anaInputs[an].slidermaxvalue,10);
+    var slideval = parseFloat(mf.anaInputs[an].initialvoltage,10);
+    var minvoltage = parseFloat(mf.anaInputs[an].minvoltage, 10);
+    var maxvoltage = parseFloat(mf.anaInputs[an].maxvoltage, 10);
+    $(document.body).append(
+        '<div id="adcWindow' + adcChannel + '">'
+        +  '<div>'
+            + '<div id="header">' + headtext + '</div>'
+        +  '</div>'
+        +  '<div id="adcSlider' + adcChannel + '">'
+            + 'Channel ' + adcChannel
+        + '</div>'
+        + '</div>');
+    //this.adcWindowsContainer = $('#adcWindowsContainer');
+    $('#adcWindow' + adcChannel).jqxWindow({
+        showCollapseButton: false,
+        height: 55,
+        width: 250,
+        resizable: false,
+        initContent: function () {
+            $('#adcSlider' + adcChannel).jqxSlider({
+                showButtons: false,
+                min: minvoltage,
+                max: maxvoltage,
+                value: slideval,
+                //mode: 'fixed',
+                ticksFrequency: (maxvoltage - minvoltage) / 5,
+                ticksPosition: 'bottom',
+                showRange: true,
+                height: "11px",
+                width: '230px'
+            });
+            $('#adcSlider' + adcChannel).on('change', function (event) {mf.adcChangeEvent(event.args.value,node)})
+            $('#adcWindow' + adcChannel).jqxWindow('focus');
+        }
+    });
+    mf.adcChangeEvent(slideval, node);
+    //this.adcChannels[adcChannel] = 0;
+}
+
+
 
 View.prototype.getRunDelay = function () {
     var val = $('#delaySlider').jqxSlider('value');
-    val *= 100;
+    val = 2000-val;
     //this.Message(val);
     if (val === 0)
-        val = 5;
+        val = 1;
     return val;
 }
 
@@ -101,15 +173,11 @@ View.prototype.DisplayCode = function () {
     codeEditor.gotoLine(1);
 }
 
-View.prototype.Message = function (msg) {
-    $("#tabsNW").jqxTabs("select", 3);
-    outputtxt.value = msg;
+View.prototype.Message = function (msg,col) {
+    var c = document.getElementById("messages");
+    c.style.color = col;
+    c.innerHTML = msg
 }
-View.prototype.MessageAdd = function (msg) {
-    $("#tabsNW").jqxTabs("select", 3);
-    outputtxt.value += msg;
-}
-
 
 //identify browser
 var browser = (function () {
@@ -127,6 +195,14 @@ var browser = (function () {
     if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
     return M.join(' ');
 })();
+
+function updateRegistersDisplay() {
+    $("#regs-jqxgrid").jqxGrid('updatebounddata');
+}
+function updateMemoryDisplay() {
+    $("#vars-jqxgrid").jqxGrid('updatebounddata');
+}
+
 
 
 
@@ -146,6 +222,7 @@ function Variables_SetVarValue(variable, newvalue) {
 
 
 
+/**************************************************************************/
 //Registers bindings
 //www.jqwidgets.com/jquery-widgets-documentation/documentation/jqxdataadapter/jquery-data-adapter.htm
 
@@ -189,7 +266,7 @@ $("#regs-jqxgrid").jqxGrid(
 
 
 
-//Grid events
+//Regisers Grid events
 $('#regs-jqxgrid').on('bindingcomplete', function (event) {
     var args = event.args;
     //update the outputs on the diagram with any PORT changes
@@ -227,9 +304,48 @@ function sort() {
     $("#regs-jqxgrid").jqxGrid('sortby', 'addrhex', 'desc');
 }
 
+/**************************************************************************/
+//Vars grid
+
+var vars =
+{
+    localdata: myMicrocontroller.getMemoryArr(),
+    datatype: "array",
+    datafields:
+    [
+        { name: 'scopename', type: 'string' },
+        { name: 'type', type: 'string' },
+        { name: 'name', type: 'string' },
+        { name: 'valuehex', type: 'string' },
+        { name: 'valuebin', type: 'string' },
+        { name: 'valuedec', type: 'number' }
+],
+    sortcolumn: 'addrhex',
+    sortdirection: 'desc'
+};
+var varsAdapter = new $.jqx.dataAdapter(vars);
+$("#vars-jqxgrid").jqxGrid(
+{
+    width: 500,
+    height: '100%',
+    source: varsAdapter,
+    columnsresize: true,
+    sortable: true,
+    columnsreorder: true,
+    columns: [
+        { text: 'Scope', datafield: 'scopename', width: 60 },
+        { text: 'Type', datafield: 'type', width: 60 },
+        { text: 'VarName', datafield: 'name', width: 70 },
+        { text: 'Val', datafield: 'valuehex', width: 70 },
+        { text: 'Val(bin)', datafield: 'valuebin', width: 95 },
+        { text: 'Val(dec)', datafield: 'valuedec', width: 60 }
+    ]
+});
+
+
 
 //Symbols
-
+/*
 var symbols =
     {
         localdata: codeSymbols,
@@ -292,3 +408,4 @@ $("#func-jqxgrid").jqxGrid(
         { text: 'Declline', datafield: 'dline', width: 95 }
     ]
 });
+*/

@@ -20,8 +20,11 @@ Microcontroller = function () {
     this.microRegBitNamesArr = []; // [,,,]
     this.bitNamesDecl = ""; // used to add to code on run so that JSCPP knows about bit names
     this.microPins = []; //not used??
-}
 
+    this.adcRefValue = 1.1;
+    this.ADCW = 0; //the value of the ADCword - this is updated when the slider is changed,
+                    // but only if the slider matches the MUX3..0 in ADCMUX   
+}
 
 //make all the details for a specific micro from json object
 Microcontroller.prototype.makeMicro = function(partnum)
@@ -121,7 +124,41 @@ Microcontroller.prototype.updateMemory = function(arr){
 Microcontroller.prototype.updateRegisters = function(arr){
     this.Registers.updateRegisters(arr);
 }
+Microcontroller.prototype.newAdcValue = function (pin, voltage) {
+    //convert pin to adcChannel - only needed for ATtiny45
+    var adcChannel = parseInt(pin,10);
+    //get ADMUX register bits MUX3..MUX0 
+    var ADMUX = myController.readRegister("ADMUX")
+    ADMUX = ADMUX & 0x0F; //get lower 4 bits
+    //see if mux bits match this adcChannel
+    if (adcChannel === ADMUX)
+    {
+        //identify the vRef value (1.1/ 2.45 VCC)
+        //assume 1.1
+        //convert voltage to number
+        var a = (voltage / myMicrocontroller.adcRefValue * 1023)
+        a |= 0; // |0 (or with 0) to truncate
+        if (a > 1023)
+            a = 1023;//max
+        //add checking that adc is converting
+        //add a delay here
+        myMicrocontroller.ADCW = a;
+        var adcl = a & 0xFF;
+        var adch = a >> 8;
+        //write the new value into the intepreter
+        myController.writeRegister("ADCL", adcl)
+        myController.writeRegister("ADCH", adch)
+        //write the value into memory
+        myController.writeRegister("ADCW", a) //not really a reg but can write to anything
+        myMicrocontroller.Memory.writeADCW(a);
+        updateMemoryDisplay();
+        //write the value into the registers
+        myMicrocontroller.Registers.setRegValue("ADCL", adcl)
+        myMicrocontroller.Registers.setRegValue("ADCH", adch)
+        updateRegistersDisplay();
 
+    }
+}
 
 Microcontroller.prototype.containsBit = function (a, obj) {
     for (var i = 0; i < a.length; i++) {

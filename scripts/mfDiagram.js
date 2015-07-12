@@ -2,6 +2,7 @@
 var mfDiagram = function () {
     this.packages = [];//all the different packages
     this.binInputs = [];
+    this.anaInputs = [];
     this.micros = [];
     this.anInputs = [];
     this.microsNodeList;
@@ -10,6 +11,7 @@ var mfDiagram = function () {
     this.microsjson = [];
     this.packagesjson = [];
     this.binaryInputsJSON = [];
+    this.analogInputsJSON = [];
 }
 //initialise diagram, event listeners, nodelists, open files
 mfDiagram.prototype.init = function() {
@@ -55,7 +57,9 @@ mfDiagram.prototype.init = function() {
     //OPEN microcontrollers json file
     this.openPackagesFile();
     this.openMicrosFile();
+    this.initIONodeList();//adds just the LED
     this.openBinaryInputsFile();
+    this.openAnalogInputsFile();
 }
 
 //File IO
@@ -107,7 +111,52 @@ mfDiagram.prototype.openBinaryInputsFile = function () {
     }).
     success(function () {
         self.binInputs = self.binaryInputsJSON.binaryinputs.inputs;
-        self.initIONodeList();
+        var node;
+        //add the binary input devices
+        for (var i = 0; i < self.binInputs.length; i++) {
+            node = new SvgNode(diagram);
+            node.setText(self.binInputs[i].text);
+            node.setAllowIncomingLinks(false); //default for binaryinputs
+            node.setId(self.binInputs[i].type);
+            var svg = new SvgContent();
+            svg.parse("images/" + self.binInputs[i].image);
+            node.setContent(svg);
+            node.setShape("Rectangle");
+            node.setTextAlignment(Alignment.Center); //center of line
+            node.setLineAlignment(Alignment.Far); //bottom line
+            self.ioNodeList.addNode(node, self.binInputs[i].name); //use 'name' from XML file
+        }
+    }).
+    complete(function () {
+        //alert("complete");
+    }).
+    error(function (jqXHR, textStatus, errorThrown) {
+        alert('error ' + textStatus + ' ' + errorThrown);
+    });
+
+}
+mfDiagram.prototype.openAnalogInputsFile = function () {
+    var self = this; //because context for 'this' changes within the callback
+    $.getJSON('json/analoginputs.json', function (d) {
+        self.analogInputsJSON = d;
+    }).
+    success(function () {
+        self.anaInputs = self.analogInputsJSON.analoginputs.inputs;
+        var node;
+        //add the analog input devices
+        for (var i = 0; i < self.anaInputs.length; i++) {
+            node = new SvgNode(diagram);
+            node.setText(self.anaInputs[i].text);
+            node.setAllowIncomingLinks(false); //default for analoginputs
+            node.setId(self.anaInputs[i].type);
+            var svg = new SvgContent();
+            svg.parse("images/" + self.anaInputs[i].image);
+            node.setContent(svg);
+            node.setShape("Rectangle");
+            node.setTextAlignment(Alignment.Center); //center of line
+            node.setLineAlignment(Alignment.Far); //bottom line
+            self.ioNodeList.addNode(node, self.anaInputs[i].name); //use 'name' from XML file
+        }
     }).
     complete(function () {
         //alert("complete");
@@ -153,31 +202,16 @@ mfDiagram.prototype.initIONodeList = function() {
     node.setLineAlignment(Alignment.Far);
     this.ioNodeList.addNode(node, "LED");
 
-    //add the binary input devices
-    for (var i = 0; i < this.binInputs.length; i++) {
-        node = new SvgNode(diagram);
-        node.setText(this.binInputs[i].text);
-        node.setAllowIncomingLinks(false); //default for binaryinputs
-        node.setId(this.binInputs[i].type);
-        var svg = new SvgContent();
-        svg.parse("images/" + this.binInputs[i].image);
-        node.setContent(svg);
-        node.setShape("Rectangle");
-        node.setTextAlignment(Alignment.Center); //center of line
-        node.setLineAlignment(Alignment.Far); //bottom line
-        this.ioNodeList.addNode(node, this.binInputs[i].name); //use 'name' from XML file
-    }    
-    
-
-    node = new ShapeNode(diagram);
-    node.setText("LM35_"); //use 'text' from XML file
-    node.setAllowIncomingLinks(false); //default for binaryinputs
-    node.setId("lm35_analog__"); //use 'type' in XML file
-    node.setImageLocation("images/_img_input_analog_lm35.jpg"); //'use 'image' from XML file
-    node.setShape("Rectangle");
-    node.setTextAlignment(Alignment.Center); //center of line
-    node.setLineAlignment(Alignment.Far); //bottom line
-    this.ioNodeList.addNode(node, "LM35"); //use 'name' from XML file
+    //analog
+    //node = new ShapeNode(diagram);
+    //node.setText("LM35_"); //use 'text' from XML file
+    //node.setAllowIncomingLinks(false); //default for binaryinputs
+    //node.setId("lm35_analog__"); //use 'type' in XML file
+    //node.setImageLocation("images/_img_input_analog_lm35.jpg"); //'use 'image' from XML file
+    //node.setShape("Rectangle");
+    //node.setTextAlignment(Alignment.Center); //center of line
+    //node.setLineAlignment(Alignment.Far); //bottom line
+    //this.ioNodeList.addNode(node, "LM35"); //use 'name' from XML file
 }
 
 //diagram helpers
@@ -227,6 +261,8 @@ mfDiagram.prototype.getMicroPort = function (link, toMicro, chr) {
     var c = pts[n].getTag().substring(chr, chr + 1);
     return c;
 }
+
+
 mfDiagram.prototype.updateOutput = function (portname, pin, level) {
     //change the color of the node and link of 1 output
     //var apts = myMicrocontrollerNode.microAnchorPattern.getPoints();
@@ -249,8 +285,6 @@ mfDiagram.prototype.updateOutput = function (portname, pin, level) {
             }
         }
     }
-
-
 }
 mfDiagram.prototype.binaryInputClicked = function (node) {
     var olinks = node.getOutgoingLinks();
@@ -277,16 +311,38 @@ mfDiagram.prototype.analogInputClicked = function (node) {
         var dest = olinks[0].getDestinationAnchor();
         var portLetter = mf.getMicroPort(olinks[0], true, 0)
         var pin = mf.getMicroPort(olinks[0], true, 2)
+
+        //open or show this adc window
+        View.showAdcWindow(pin,node)
         //do more stuff here to manage analog value change
     }
 }
-//mfDiagram.prototype.updateOutputs = function(){
-    //update all regs 
-//}
-//mfDiagram.prototype.readInputs = function () {
+
+mfDiagram.prototype.readInputs = function () {
+    var ilinks = myMicrocontrollerNode.ilinks;
     //reads the state of all input pins connected to the micro and updates the register values
-    //needed? as the diagram updates these automatically
-//}
+    for (var i = 0; i < ilinks.length; i++) {
+        //var anchor = ilinks[i].getDestinationAnchor();
+        var portLetter = mf.getMicroPort(ilinks[i], true, 0)
+        var pin = mf.getMicroPort(ilinks[i], true, 2)
+        if (ilinks[i].getText() === "1") {
+            myController.writeRegBit("PIN" + portLetter, pin, 1)
+        } else {
+            myController.writeRegBit("PIN" + portLetter, pin, 0)
+        }
+    }
+}
+mfDiagram.prototype.setOutputsLow = function () {
+    //reads the state of all input pins connected to the micro and updates the register values
+    var olinks = myMicrocontrollerNode.olinks;
+    for (var i = 0; i < olinks.length; i++) {
+        var portLetter = mf.getMicroPort(olinks[i], false, 0)
+        var pin = mf.getMicroPort(olinks[i], false, 2)
+        olinks[i].setText('0')
+        olinks[i].setTextColor(black)
+        olinks[i].setStroke(black)
+    }
+}
 
 //Diagram Event Processing
 mfDiagram.prototype.updateView = function () {
@@ -307,6 +363,11 @@ mfDiagram.prototype.onLinkModified = function (sender, args) {
 mfDiagram.prototype.onLinkDeleted = function (sender, args) {
     //redo code
     mf.updateView();
+    //if it was from analog Input to the micro remove the adcWindow
+    if (args.link.getOrigin().getId().indexOf("_analog") > -1) {//adc input
+        var adcChannel = getMicroPort(link,true,2)
+        View.removeAdcWindow(adcChannel)
+    }
 }
 mfDiagram.prototype.onNodeTextEdited = function (sender, args) {
     //make sure no spaces in text
@@ -319,18 +380,29 @@ mfDiagram.prototype.onNodeDoubleClicked = function (sender, args) {
     var newnode = args.getNode();
 }
 mfDiagram.prototype.onNodeClicked = function (sender, args) {
-    //binary node - change state
-    //analog node - popup slider
-    var node = args.getNode();
-    if (myController !== null ){//&& myController.parserstate != myController.PARSERSTATE.STOP  ) {
-        if (node.getId().indexOf("_binary")){
-            mf.binaryInputClicked(node)
-        }
-        if (node.getId().indexOf("_analog")){
-            mf.analogInputClicked(node);
+    var node = args.getNode();    
+    if (args.mouseButton === 0){//left button
+        if (myController !== null ){//&& myController.parserstate != myController.PARSERSTATE.STOP  ) {
+            if (node.getId().indexOf("_binary")>-1){
+                mf.binaryInputClicked(node)//binary node - change state
+            }
+            if (node.getId().indexOf("_analog")>-1){
+                mf.analogInputClicked(node);//analog node - popup slider
+            }
         }
     }
+    if (args.mouseButton === 2) {//rightbutton
+
+    }
 }
+//ADC
+mfDiagram.prototype.adcChangeEvent = function(voltage,node){
+    var olink = node.getOutgoingLinks()[0];
+    olink.setText(voltage.toFixed(2))
+    var pin = mf.getMicroPort(olink,true,2)
+    myMicrocontroller.newAdcValue(pin,voltage)
+}
+
 mfDiagram.prototype.onNodeCreated = function (sender, args) {
     //called when a node is dropped on the diagram
     var newnode = args.getNode();

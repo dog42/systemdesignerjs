@@ -21,7 +21,7 @@ Controller = function () {
     this.config = {
         stdio: {
             write: function (s) {
-                View.Message(s)
+                View.Message(s,"blue")
             }
         },
         debug: this.debug
@@ -38,23 +38,28 @@ Controller.prototype.C = function () {
     mf.updateOutput("PORTB", 5, 0);
 }
 
+//running logic
 Controller.prototype.Start = function(startokstate)
 {
     try {
         myMicrocontroller.Registers.clear();//set all registers to 0 
+        //read any high inputs
+        mf.readInputs()
+        //set all outputs low
+        mf.setOutputsLow()
         updateRegistersDisplay();
         myMicrocontroller.Memory.clear(); //remove all 
         updateMemoryDisplay();
-        //read any high inputs
         this.config.debug = true;
-        View.Message("");
-        var regsnbits = myMicrocontroller.getRegisterDecls() + myMicrocontroller.bitNamesDecl;
+        View.Message("Start","green");
+        var regsnbits = "uint16_t ADCW=0; \n" +
+            myMicrocontroller.getRegisterDecls() + myMicrocontroller.bitNamesDecl;
         this.code = this.fixCode()
         //this.code = this.replaceMacros()
         this.code = this.code + regsnbits;
         //this.input = document.getElementById("inputtxt").value;
         if (browser.indexOf("IE") >= 0) { //other older browswers need testing too ??
-            View.Message("you need to use a modern desktop version of Firefox or Chrome")
+            View.Message("you need to use a modern desktop version of Firefox or Chrome","red")
             //alert("you need to use a modern desktop version of Firefox or Chrome");
             this.parserstate = this.PARSERSTATE.STOP
             return;
@@ -62,91 +67,87 @@ Controller.prototype.Start = function(startokstate)
         this.mydebugger = JSCPP.run(this.code, this.input, this.config);
         //console.log(mydebugger.src);
     } catch (e) {
-        View.Message(e.message);
+        View.Message(e.message,"red");
         if (this.mydebugger !== undefined)
-            View.Message(this.mydebugger.stop());
+            View.Message(this.mydebugger.stop(),"blue");
         this.parserstate = this.PARSERSTATE.STOP
         return;
     }
-    View.Message("start");
     this.parserstate = startokstate;
 }
-
 Controller.prototype.Step = function ()
 {
-    if (this.parserstate === this.PARSERSTATE.STOP) {
-        this.Start(this.PARSERSTATE.STEP)
+    if (myController.parserstate === myController.PARSERSTATE.STOP) {
+        myController.Start(myController.PARSERSTATE.STEP)
     }
-    if (this.parserstate === this.PARSERSTATE.STEP) {
-        try {
-            var done;
-            done = this.mydebugger.next();
-            myMicrocontroller.updateMemory(this.mydebugger.Variables());
-            updateMemoryDisplay();
-            //registers and diagram
-            myMicrocontroller.Registers.updateRegisters(this.mydebugger.Registers());
-            updateRegistersDisplay();
-            this.updateLineHighlight();
-            if (!done) {
-                View.Message( this.mydebugger.nextLine());
-            } else {
-                parserstate = this.PARSERSTATE.STOP
-                View.Message('finished'); 
-            }
-        } catch (e) {
-            View.Message(e.message);
-            parserstate = this.PARSERSTATE.STOP
-        }
+    if (myController.parserstate === myController.PARSERSTATE.STEP) {
+        View.Message("Step Mode: press Step, Run or Stop", "green")
+        myController.onestep();
     }
+    if (myController.parserstate === myController.PARSERSTATE.RUNNING) {
+        myController.parserstate=myController.PARSERSTATE.STEP
+    }
+
 }
 Controller.prototype.Run = function ()
 {
-    if (this.parserstate === this.PARSERSTATE.STOP) {
-        this.Start(this.PARSERSTATE.RUN)
+    if (myController.parserstate === myController.PARSERSTATE.STOP) {
+        myController.Start(myController.PARSERSTATE.RUN)
     }
-    if (this.parserstate === this.PARSERSTATE.RUNNING) {
+    if (this.parserstate === this.PARSERSTATE.STEP) {
+        myController.parserstate = myController.PARSERSTATE.RUNNING;
+        myController.loop();
+    }
+    if (myController.parserstate === myController.PARSERSTATE.RUN) {
+        myController.loop();
+        
+    }
+}
+Controller.prototype.loop = function(){
+    if (myController.parserstate === myController.PARSERSTATE.RUN) {
+        myController.parserstate = myController.PARSERSTATE.RUNNING
+    }
+    if (myController.parserstate !== myController.PARSERSTATE.RUNNING) {//pressed Stop or Step
+        return
+    }
+    View.Message("Run Mode: press Step, Run or Stop", "green")
+    myController.onestep();
+    window.setTimeout(myController.loop,View.getRunDelay())
+}
+Controller.prototype.onestep = function(){
+    try {
+        var done;
+        done = myController.mydebugger.next();
+        myMicrocontroller.updateMemory(myController.mydebugger.Variables());
+        updateMemoryDisplay();
+        //registers and diagram
+        myMicrocontroller.Registers.updateRegisters(myController.mydebugger.Registers());
+        updateRegistersDisplay();
+        myController.updateLineHighlight();
+        if (!done) {
+            //View.Message(myController.mydebugger.nextLine(),"green");
+            //myController.mydebugger.nextLine();
+        } else {//done
+            myController.parserstate = myController.PARSERSTATE.STOP
+            View.Message('Finished',"blue");
+            clearInterval(myController.runid)
+            return;
+        }
+    } catch (e) {
+        View.Message(e,"red");
+        myController.parserstate = myController.PARSERSTATE.STOP
+        clearInterval(myController.runid);
         return;
-    }
-
-    if (this.parserstate === this.PARSERSTATE.RUN) {
-        this.parserstate = this.PARSERSTATE.RUNNING
-        self = this;
-        this.runid = setInterval(function () {
-            try {
-                var done;
-                done = self.mydebugger.next();
-                myMicrocontroller.updateMemory(self.mydebugger.Variables());
-                updateMemoryDisplay();
-                //registers and diagram
-                myMicrocontroller.Registers.updateRegisters(self.mydebugger.Registers());
-                updateRegistersDisplay();
-                self.updateLineHighlight();
-                if (!done) {
-                    //View.Message(self.mydebugger.nextLine());
-                    self.mydebugger.nextLine();
-                } else {//done
-                    parserstate = self.PARSERSTATE.STOP
-                    View.Message('finished');
-                    clearInterval(self.runid)
-                    return;
-                }
-            } catch (e) {
-                View.Message(e.message);
-                parserstate = self.PARSERSTATE.STOP
-                clearInterval(self.runid);
-                return;
-            }
-        }, View.getRunDelay());
     }
 }
 Controller.prototype.Stop = function (){
-    if (this.parserstate !== this.PARSERSTATE.STOP)
-        View.Message("stop"); //only show if not stopped
-    this.parserstate = this.PARSERSTATE.STOP;
-    if (this.linemarker !== undefined)
-        codeEditor.getSession().removeMarker(this.linemarker)
-    this.debug = null;
-    clearInterval(this.runid);
+    //if (myController.parserstate !== myController.PARSERSTATE.STOP)
+    View.Message("Stopped: press Step or Run", "green"); //only show if not stopped
+    myController.parserstate = myController.PARSERSTATE.STOP;
+    if (myController.linemarker !== undefined)
+        codeEditor.getSession().removeMarker(myController.linemarker)
+    myController.debug = null;
+    //clearInterval(myController.runid);
 }
 Controller.prototype.fixCode = function (){
     var arr = [];
@@ -228,23 +229,20 @@ Controller.prototype.updateLineHighlight = function () {
     r = new Range(s.sLine -1, s.sColumn - 1, s.sLine-1, s.eColumn - 1); //remove effect of dummy function at beginning
     this.linemarker = codeEditor.getSession().addMarker(r, 'debug-highlight', 'token');
 }
-Controller.prototype.showVariables = function () {
-    //intially just show in textarea
-    variablestxt.value = ""
-    this.variables = this.mydebugger.Variables();
-    for (var i = 0; i < this.variables.length; i++) {
-        variablestxt.value += this.variables[i].scopelevel + " "
-        variablestxt.value += this.variables[i].scopename + " "
-        variablestxt.value += this.variables[i].gentype + " " //primitive or pointer
-        variablestxt.value += this.variables[i].name + " "
-        variablestxt.value += this.variables[i].type + " "
-        variablestxt.value += this.variables[i].value
-        variablestxt.value += '\n'
-    }
-}
 
 Controller.prototype.writeRegister=function(reg,val){
-    this.mydebugger.WriteRegister(reg, val); 
+    if (myController.mydebugger !== undefined)
+        myController.mydebugger.WriteRegister(reg, val);
+}
+Controller.prototype.readRegister = function (reg) {
+    if (myController.mydebugger !== undefined)
+        return myController.mydebugger.ReadRegister(reg);
+    return 0;
+}
+Controller.prototype.writeADCW = function (val) {
+    for (var i = 0; i < this.memory.length; i++)
+        if (this.memory[i].name === "ADCW")
+            this.memory[i].value = val;
 }
 Controller.prototype.writeRegBit = function(reg,bit,val){
     //write the value intothe micros reg
@@ -253,21 +251,26 @@ Controller.prototype.writeRegBit = function(reg,bit,val){
     updateRegistersDisplay();
     //do not do this if PORT and DDRB is input as it must activate pullup resis ??
     try{
-        this.mydebugger.writeRegister(reg, newval)
+        myController.writeRegister(reg, newval)
     } catch (e) {
+        View.Message(e.message);
         //dont worry, be happy
     }
 }
 
-//Controller.prototype.replaceMacro = function (a, b, row) {
-//    //replace macro a with b, starting at row, 
-//    //works well but want to add comments to end of line
-//    var locs = [];
-//    locs = codeEditor.findAll(a, {
-//        caseSensitive: true,
-//        range: new Range(row + 1, 0, codeEditor.session.getLength(), 0),
-//        wholeWord: true,  //dont like having to make this false, as it may cause errors so no () in macros
-//        regExp: false
-//    })
-//    codeEditor.replaceAll(b);
+
+
+//Controller.prototype.showVariables = function () {
+//    //intially just show in textarea
+//    variablestxt.value = ""
+//    this.variables = this.mydebugger.Variables();
+//    for (var i = 0; i < this.variables.length; i++) {
+//        variablestxt.value += this.variables[i].scopelevel + " "
+//        variablestxt.value += this.variables[i].scopename + " "
+//        variablestxt.value += this.variables[i].gentype + " " //primitive or pointer
+//        variablestxt.value += this.variables[i].name + " "
+//        variablestxt.value += this.variables[i].type + " "
+//        variablestxt.value += this.variables[i].value
+//        variablestxt.value += '\n'
+//    }
 //}
