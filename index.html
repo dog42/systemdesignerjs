@@ -13,19 +13,16 @@
     <div id="splitNorth" >
         <div id="north">
             <div class="jqx-hideborder jqx-hidescrollbars" id="north">
-                
             </div>
         </div>
         <div>
             <div id="splitterWest">
                 <div>
                     <div id="splitterSouthWest">
-                        <div id="nwest">
+                        <div id="NORTHWEST">
                             <div class="jqx-hideborder jqx-hidescrollbars" id="tabsNW">
                                 <ul>
-                                    <li>IO</li>
-                                    <li>Micros</li>
-                                    <li>Control</li>
+                                    <li>Devices</li>
                                 </ul>
                                 <div class="jqx-hideborder jqx-hidescrollbars">
                                     <!-- The NodeListView component is bound to the canvas element below -->
@@ -33,18 +30,9 @@
                                         <canvas id="ioNodeList"></canvas>
                                     </div>
                                 </div>
-                                <div>
-                                    <!-- The NodeListView component is bound to the canvas element below -->
-                                    <div style="width: 130px; overflow: auto; border: 1px solid rgb(0, 0, 0);">
-                                        <canvas id="microsNodeList" width="50" height="300"></canvas>
-                                    </div>
-                                </div>
-                                <div>
-                                    Control
-                                </div>
                             </div>
                         </div>
-                        <div id="swest">
+                        <div id="SOUTHWEST">
                             <div class="jqx-hideborder jqx-hidescrollbars" id="tabsSW">
                                 <ul>
                                     <li>Regs</li>
@@ -74,11 +62,14 @@
                 </div>
                 <div>
                     <div id="splitterEast">
-                        <div id="Centre">
+                        <div id="CENTER">
                             <div class="jqx-hideborder jqx-hidescrollbars" id="tabsCentre">
                                 <ul>
-                                    <li style="margin-left: 30px;">Block Diagram</li>
+                                    <li>Block Diagram</li>
                                     <li></li>
+                                    <div id="openTextFieldButton"> Open Text Field Button Target Div</div>
+                                    <div id="saveTextFieldButton"> Save Text Field Button Target Div</div>
+
                                 </ul>
                                 <div>
                                     <div id="messages" class="panel message"> PLEASE WAIT FOR EVERYTHING TO LOAD</div>
@@ -95,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="East">
+                        <div id="EAST">
                             <div class ="jqx-hideborder jqx-hidescrollbars" id="tabsEast">
                                 <ul>
                                     <li>Code</li>
@@ -164,12 +155,12 @@
     <script type="text/javascript" src="scripts/parserTests.js"></script>
     <script type="text/javascript" src="scripts/errorcatcher.js"></script>
     <script type="text/javascript" src="scripts/CodeMaker.js"></script>
-    <!--   --> 
+    <!--   
       <script type="text/javascript" src="scripts/CJS.js"></script>
-
+ -->
     <script type="text/javascript" src="scripts/beautify.js"></script>
     <script type="text/javascript" src="scripts/launcher.js"></script>
+    <script type="text/javascript" src="scripts/opensave.js"></script>
     <script type="text/javascript" src="scripts/View.js"></script>
-
 </body>
 </html> 

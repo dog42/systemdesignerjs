@@ -43,8 +43,8 @@ mfDiagram.prototype.init = function() {
     this.ioNodeList.setTargetView($("diagram")[0]);
 
     // create a NodeListView component that wraps the "nodeList" canvas
-    this.microsNodeList = NodeListView.create($("#microsNodeList")[0]);
-    this.microsNodeList.setTargetView($("diagram")[0]);
+    //this.microsNodeList = NodeListView.create($("#microsNodeList")[0]);
+    //this.microsNodeList.setTargetView($("diagram")[0]);
 
     // create an Overview component that wraps the "overview" canvas
     //overview = MindFusion.Diagramming.Overview.create($("#overview")[0]);
@@ -54,10 +54,10 @@ mfDiagram.prototype.init = function() {
     //zoomer = MindFusion.Controls.ZoomControl.create($("#zoomer")[0]);
     //zoomer.setTarget(diagram);    // register event handlers
 
-    //OPEN microcontrollers json file
+
+    this.initIONodeList();//adds just the LED
     this.openPackagesFile();
     this.openMicrosFile();
-    this.initIONodeList();//adds just the LED
     this.openBinaryInputsFile();
     this.openAnalogInputsFile();
 }
@@ -95,7 +95,7 @@ mfDiagram.prototype.openMicrosFile = function () {
         //        packname: packagesjson.packages.package[i].packname
         //    });
         //}
-        self.initMicrosNodeList();
+        setTimeout(self.initMicros,1000);
     }).
     complete(function () {
         //alert("complete");
@@ -168,12 +168,12 @@ mfDiagram.prototype.openAnalogInputsFile = function () {
 }
 
 //initialise the nodelists
-mfDiagram.prototype.initMicrosNodeList = function () {
+mfDiagram.prototype.initMicros = function () {
     //make nodelist out of micros[] to display
     var i;
-    for (i = 0; i < this.micros.length; i++) {
+    for (i = 0; i < mf.micros.length; i++) {
         var node = new ShapeNode(diagram);
-        var pn = this.micros[i].partnumber;
+        var pn = mf.micros[i].partnumber;
         var pt = pn.indexOf('(') > -1 ? pn.indexOf('(') : pn.length - 1 //get rid of any ()
         pn = pn.substring(0, pt+1);
         node.setText(pn);
@@ -184,7 +184,7 @@ mfDiagram.prototype.initMicrosNodeList = function () {
         //node.setBrush("Red");
         node.setTextAlignment(Alignment.Center);
         node.setLineAlignment(Alignment.Center);
-        this.microsNodeList.addNode(node, pn);
+        mf.ioNodeList.addNode(node, pn);
     }
 }
 mfDiagram.prototype.initIONodeList = function() {
@@ -365,7 +365,7 @@ mfDiagram.prototype.onLinkDeleted = function (sender, args) {
     mf.updateView();
     //if it was from analog Input to the micro remove the adcWindow
     if (args.link.getOrigin().getId().indexOf("_analog") > -1) {//adc input
-        var adcChannel = getMicroPort(link,true,2)
+        var adcChannel = mf.getMicroPort(args.link,true,2)
         View.removeAdcWindow(adcChannel)
     }
 }
@@ -486,5 +486,22 @@ mfDiagram.prototype.makeBinInput = function (x, y, type) {
 mfDiagram.prototype.onNodePointed = function (sender, args) {
     //mouse over - see state?
     var node = args.getNode();
+}
+
+mfDiagram.prototype.openDiagramFile = function(buttonID) {
+    var filename = buttonID.filename;
+    var data = buttonID.data64
+    var decodeddata = opensave.Base64_decode(data)
+    diagram.fromJson(decodeddata)
+    //dosomething with decodeddata
+}
+function saveDiagramFile(buttonID) {
+
+    //var bi = opensave.getButtonInfo(buttonID) // not to sure what this does
+    var returnedObject = new Object();
+    returnedObject.filename = "myproject.json";
+    //returnedObject.data = "the text data"; //get some real data here
+    returnedObject.data = diagram.toJson()
+    return returnedObject;
 }
 

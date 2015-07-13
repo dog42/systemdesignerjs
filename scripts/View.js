@@ -93,6 +93,29 @@ View .prototype.InitLayout = function (){
     });
 
     this.adcWindowContainer = $('#adcWindowContainer');
+
+
+    /**************************************************************************/
+    // buttons    //from www.gieson.com/Library/projects/utilities/opensave/
+    opensave.make({
+        kind: "open",
+        label: "Open diagram",
+        width: 105,
+        height: 24,
+        buttonDiv: "openTextFieldButton",
+        //dataID: 	"textFieldData"
+        handler: (mf.openDiagramFile)
+    });
+
+    opensave.make({
+        label: "Save diagram as",
+        width: 105,
+        height: 24,
+        filename: "My Textarea Data.txt",
+        buttonDiv: "saveTextFieldButton",
+        //dataID: "textFieldData"
+        handler: (mf.saveDiagramFile)
+    });
 }
 
 View.prototype.showAdcWindow = function (adcChannel,node) {
@@ -207,6 +230,8 @@ function updateMemoryDisplay() {
 
 
 
+
+/**************************************************************************/
 
 function Variables_SetVarValue(variable, newvalue) {
     //error check for bit > 7?

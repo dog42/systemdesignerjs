@@ -47,11 +47,12 @@ var theme = 'darkblue'
 $(document).ready(function (sender, args) { //jquery
 
     View = new View();
+    mf = new mfDiagram(); //mindfusion stuff
+
     View.InitLayout();          //sets up the window
 
     main_initEditors();   //sets up ACE codeEditor
 
-    mf = new mfDiagram(); //mindfusion stuff
     mf.init();      //creates diagram and drop downs
 
     //wait a bit and load the default
