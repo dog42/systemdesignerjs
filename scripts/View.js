@@ -1,11 +1,24 @@
 ﻿var View = function ()
 {
+    this.nodeContextMenu;
     //this.adcWindowsContainer;
     //this.adcChannels=[];
     return this;
 }
 
+View.prototype.InitDebug = function () {
+    $("#codenode").jqxButton({ width: '50', height: '25', theme: theme });
+    $('#codenode').bind('click', function (event) {
+        View.showcodenode();
+    });
 
+}
+View.prototype.showcodenode = function () {
+    if (myMicrocontrollerNode.codeNode.getVisible())
+        myMicrocontrollerNode.codeNode.setVisible(false);
+    else
+        myMicrocontrollerNode.codeNode.setVisible(true);
+} 
 View .prototype.InitLayout = function (){
     $('#splitNorth').jqxSplitter({
         width: "100%",
@@ -20,15 +33,15 @@ View .prototype.InitLayout = function (){
         width: '100%',
         theme: theme,
         panels: [
-            { size: "15%" },
+            { size: "300px" },
             { size: "85%", collapsible: false }]
     });
     $('#splitterSouthWest').jqxSplitter({
         width: '100%',
         orientation: 'horizontal',
         theme: theme,
-        panels: [{ size: "55%", collapsible: false },
-            { size: "45%" }]
+        panels: [{ size: "100%", collapsible: false },
+            { size: "0%" }]
     });
     $('#splitterEast').jqxSplitter({
         width: '100%',
@@ -42,16 +55,16 @@ View .prototype.InitLayout = function (){
         height: '100%',
         width: '100%',
         theme: theme,
-        //animationType: 'fade',
+        animationType: 'fade',
         //contentTransitionDuration: 1000
     });
-    $("#tabsSW").jqxTabs({
-        height: '100%',
-        width: '100%',
-        animationType: 'fade',
-        theme: theme,
-        scrollable: true
-    });
+    //$("#tabsSW").jqxTabs({
+    //    height: '100%',
+    //    width: '100%',
+    //    animationType: 'fade',
+    //    theme: theme,
+    //    scrollable: true
+    //});
     $("#tabsCentre").jqxTabs({
         height: '100%',
         width: '100%',
@@ -86,13 +99,40 @@ View .prototype.InitLayout = function (){
         ticksPosition: 'bottom',
         showRange: true,
         height:"12px",
-        width: '200px'
+        width: '120px'
     });
     $('#jqxSlider').on('change', function (event) {
         var value = event.args.value;
     });
 
     this.adcWindowContainer = $('#adcWindowContainer');
+
+    this.nodeContextMenu = $("#node-jqxMenu").jqxMenu({ width: '100px', height: '140px', autoOpenPopup: false, mode: 'popup' });
+    $('#node-jqxMenu').on('itemclick', function (event) {
+        var choice = $(event.target).text()
+        // get the clicked LI element.
+        //var choice = event.args.innerText;
+        switch (choice) {
+            case "red":
+                col = "#FF0000";
+                break
+            case "blue":
+                col = "#0000FF";
+                break
+            case "yellow":
+                col = "#FFFF00";
+                break
+            case "green":
+                col = "#00FF00";
+                break
+            case "orange":
+                col = "#FFA500";
+                break
+
+        }
+        // currentNode.setBrush(col)
+        currentNode.setTag(col)
+    });
 
 
     /**************************************************************************/
@@ -102,86 +142,141 @@ View .prototype.InitLayout = function (){
         label: "Open diagram",
         width: 105,
         height: 24,
-        buttonDiv: "openTextFieldButton",
+        textColor: "#f4f4f4",
+        textSize: 14,
+        filename: "myproject.diag",
+        swf: "scripts/opensave.swf",
+        buttonDiv: "openDiagramButton",
         //dataID: 	"textFieldData"
-        handler: (mf.openDiagramFile)
+        handler: (mf.openDiagramFromFile)
     });
 
     opensave.make({
-        label: "Save diagram as",
+        label: "Save diagram",
         width: 105,
         height: 24,
-        filename: "My Textarea Data.txt",
-        buttonDiv: "saveTextFieldButton",
-        //dataID: "textFieldData"
+        textSize: 14,
+        textColor: "#f7f7f7",
+        swf: "scripts/opensave.swf",
+        //filename: "myproject.json",
+        buttonDiv: "saveDiagramButton",
+        //dataID: "text"
         handler: (mf.saveDiagramFile)
     });
-}
 
-View.prototype.showAdcWindow = function (adcChannel,node) {
-    var windows = $.data(document.body, 'jqxwindows-list');
-    //see if this window exists already
-    if (windows !== undefined) {
-        for (var i = 0; i < windows.length; i++) {
-            if (windows[i][0].id.indexOf(adcChannel) > -1) {
-                $('#adcWindow' + adcChannel).jqxWindow('open');
-                return;
-            }
-        }
+    opensave.make({
+        label: "Save program.c",
+        width: 105,
+        height: 24,
+        textSize: 14,
+        textColor: "#f7f7f7",
+        swf: "scripts/opensave.swf",
+        //filename: "myproject.json",
+        buttonDiv: "saveCCodeButton",
+        //dataID: "text"
+        handler: (mf.saveCCodeToFile)
+    });
+
+
+    if (inIframe()) {
+        //initially resize frame to match window
+        parentIframe = window.parent.document.getElementById('sysdes');
+        resizeIframe(parentIframe);
+        //add listener to parent window for window resizing
+        window.parent.addEventListener("resize",resizeIframe) 
     }
-    //window for this adcchannel not found so create it
+}
+View.prototype.showAdcWindow = function (adcChannel, node) {
+    //adcWindows are tagged to analog input channels, not to analog devices, not to pins
+    //as channels do not always align with pins on a port (e.g. tiny45)
+    //they are created when the adc device is first clicked
+    //they are re-setup when reopened in case the device connected to that pin has changed
+    //they also need to be hidden when the link has changed/been deleted
+    var windows = $.data(document.body, 'jqxwindows-list');
+    //details about the node
     var an;
-    for (var i = 0; i < mf.anaInputs.length; i++) {
-        if (node.getId() === mf.anaInputs[i].type) {
+    for (var i = 0; i < mf.anaInputDevices.length; i++) {
+        if (node.getId() === mf.anaInputDevices[i].type) {
             an=i;
         }
     }
-    var headtext = node.getText() + "    "
-                + mf.anaInputs[an].sliderminvalue + "-" + mf.anaInputs[an].slidermaxvalue
-                + mf.anaInputs[an].sense;
-    //var slidemin = parseInt(mf.anaInputs[an].sliderminvalue,10);
-    //var slidemax = parseInt(mf.anaInputs[an].slidermaxvalue,10);
-    var slideval = parseFloat(mf.anaInputs[an].initialvoltage,10);
-    var minvoltage = parseFloat(mf.anaInputs[an].minvoltage, 10);
-    var maxvoltage = parseFloat(mf.anaInputs[an].maxvoltage, 10);
-    $(document.body).append(
-        '<div id="adcWindow' + adcChannel + '">'
-        +  '<div>'
-            + '<div id="header">' + headtext + '</div>'
-        +  '</div>'
-        +  '<div id="adcSlider' + adcChannel + '">'
-            + 'Channel ' + adcChannel
-        + '</div>'
-        + '</div>');
-    //this.adcWindowsContainer = $('#adcWindowsContainer');
-    $('#adcWindow' + adcChannel).jqxWindow({
-        showCollapseButton: false,
-        height: 55,
-        width: 250,
-        resizable: false,
-        initContent: function () {
-            $('#adcSlider' + adcChannel).jqxSlider({
-                showButtons: false,
-                min: minvoltage,
-                max: maxvoltage,
-                value: slideval,
-                //mode: 'fixed',
-                ticksFrequency: (maxvoltage - minvoltage) / 5,
-                ticksPosition: 'bottom',
-                showRange: true,
-                height: "11px",
-                width: '230px'
-            });
-            $('#adcSlider' + adcChannel).on('change', function (event) {mf.adcChangeEvent(event.args.value,node)})
-            $('#adcWindow' + adcChannel).jqxWindow('focus');
+    var headtext = node.getText() + " ADC"+adcChannel+ " "
+                + mf.anaInputDevices[an].sliderminvalue + "-" + mf.anaInputDevices[an].slidermaxvalue
+                + mf.anaInputDevices[an].sense;
+    //var slidemin = parseInt(mf.anaInputDevices[an].sliderminvalue,10);
+    //var slidemax = parseInt(mf.anaInputDevices[an].slidermaxvalue,10);
+    var slideval = parseFloat(mf.anaInputDevices[an].initialvoltage,10);
+    var minvoltage = parseFloat(mf.anaInputDevices[an].minvoltage, 10);
+    var maxvoltage = parseFloat(mf.anaInputDevices[an].maxvoltage, 10);
+
+    //see if this window exists already
+    var found = false;
+    if (windows !== undefined) {
+        for (var i = 0; i < windows.length; i++) {
+            if (windows[i][0].id.indexOf(adcChannel) > -1) {
+                found = true;
+                $('#adcWindow' + adcChannel).jqxWindow('open');
+            }
         }
+    }
+    if (!found) {
+        //window for this adcchannel not found so create it
+        $(document.body).append(
+            '<div id="adcWindow' + adcChannel + '">'
+            + '<div>'
+                //+ '<div id="header">' + headtext + '</div>'
+            + '</div>'
+            + '<div id="adcSlider' + adcChannel + '">'
+                + 'Channel ' + adcChannel
+            + '</div>'
+            + '</div>');
+        //this.adcWindowsContainer = $('#adcWindowsContainer');
+        //setup or re-setup the window and slider as per the device now connected to the pin
+        $('#adcWindow' + adcChannel).jqxWindow({
+            showCollapseButton: false,
+            height: 55,
+            width: 250,
+            title: headtext,
+            resizable: false,
+            initContent: function () {
+                $('#adcSlider' + adcChannel).jqxSlider({
+                    showButtons: false,
+                    min: minvoltage,
+                    max: maxvoltage,
+                    value: slideval,
+                    //mode: 'fixed',
+                    ticksFrequency: (maxvoltage - minvoltage) / 5,
+                    ticksPosition: 'bottom',
+                    showRange: true,
+                    height: "11px",
+                    width: '230px'
+                });
+                $('#adcSlider' + adcChannel).on('change', function (event) {
+
+                    myMicrocontroller.newAdcValue(event.args.value, adcChannel)
+                    mf.displayAdcVoltage(event.args.value, adcChannel,maxvoltage)
+                })
+                $('#adcWindow' + adcChannel).jqxWindow('focus');
+            }
+        });
+    }
+    $('#adcSlider' + adcChannel).jqxSlider({
+        min: minvoltage,
+        max: maxvoltage,
+        value: slideval
     });
-    mf.adcChangeEvent(slideval, node);
-    //this.adcChannels[adcChannel] = 0;
+    myMicrocontroller.newAdcValue(slideval, adcChannel)
+    mf.displayAdcVoltage(slideval, adcChannel)
+    
 }
-
-
-
+View.prototype.closeAdcWindow = function (adcChannel) {
+    try{
+        $('#adcWindow' + adcChannel).jqxWindow('close');
+    }
+    catch (e) {
+        var nowindow = e;
+    }
+}
 View.prototype.getRunDelay = function () {
     var val = $('#delaySlider').jqxSlider('value');
     val = 2000-val;
@@ -190,12 +285,10 @@ View.prototype.getRunDelay = function () {
         val = 1;
     return val;
 }
-
-View.prototype.DisplayCode = function () {
-    codeEditor.setValue(myCodeMaker.code);
+View.prototype.DisplayCode = function (code) {
+    codeEditor.setValue(code);
     codeEditor.gotoLine(1);
 }
-
 View.prototype.Message = function (msg,col) {
     var c = document.getElementById("messages");
     c.style.color = col;
@@ -218,7 +311,6 @@ var browser = (function () {
     if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
     return M.join(' ');
 })();
-
 function updateRegistersDisplay() {
     $("#regs-jqxgrid").jqxGrid('updatebounddata');
 }
@@ -226,10 +318,26 @@ function updateMemoryDisplay() {
     $("#vars-jqxgrid").jqxGrid('updatebounddata');
 }
 
+//get the size of the window holding the iframe that this is in
+var parentIframe
+var buffer = 10; //scroll bar buffer 10 seems to be enough
 
-
-
-
+function pageY(elem) {
+    return elem.offsetParent ? (elem.offsetTop + pageY(elem.offsetParent)) : elem.offsetTop;
+}
+function inIframe() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+function resizeIframe(iframe) {
+    var height = window.parent.document.documentElement.clientHeight;
+    height -= pageY(iframe) + buffer;
+    height = (height < 0) ? 0 : height;
+    iframe.style.height = height + 'px';
+}
 
 /**************************************************************************/
 
@@ -311,7 +419,7 @@ $('#regs-jqxgrid').on('bindingcomplete', function (event) {
                 if ((change & 1 << k) > 0) {
                     var newbitval = (newval & 1 << k) >> k;
                     var portname = regs[j].name;
-                    mf.updateOutput(portname, k, newbitval)
+                    mf.updateOutput(portname, k, newbitval) //?? only id DDRX.Y is 1 (output)
                 }
             }
         }

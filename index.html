@@ -10,7 +10,7 @@
 </head>
 <body class='default'>
     <div id="adcWindowsContainer"></div>
-    <div id="splitNorth" >
+    <div id="splitNorth">
         <div id="north">
             <div class="jqx-hideborder jqx-hidescrollbars" id="north">
             </div>
@@ -23,6 +23,8 @@
                             <div class="jqx-hideborder jqx-hidescrollbars" id="tabsNW">
                                 <ul>
                                     <li>Devices</li>
+                                    <li>Reg's</li>
+                                    <li>Var's</li>
                                 </ul>
                                 <div class="jqx-hideborder jqx-hidescrollbars">
                                     <!-- The NodeListView component is bound to the canvas element below -->
@@ -30,23 +32,21 @@
                                         <canvas id="ioNodeList"></canvas>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div id="SOUTHWEST">
-                            <div class="jqx-hideborder jqx-hidescrollbars" id="tabsSW">
-                                <ul>
-                                    <li>Regs</li>
-                                    <li>Vars</li>
-                                    <!--<li>SRAM</li>
-                                    <li>Symb</li>
-                                    <li>Func</li>-->
-                                </ul>
                                 <div>
                                     <div id="regs-jqxgrid"></div>
                                 </div>
                                 <div>
                                     <div id="vars-jqxgrid"></div>
                                 </div>
+                            </div>
+                        </div>
+                        <div id="SOUTHWEST">
+                            <div class="jqx-hideborder jqx-hidescrollbars" id="tabsSW">
+                                <ul>
+                                    <!--<li>SRAM</li>
+                                    <li>Symb</li>
+                                    <li>Func</li>-->
+                                </ul>
                                 <!--<div>
                                     <div id="sram-jqxgrid"></div>
                                 </div>
@@ -67,44 +67,63 @@
                                 <ul>
                                     <li>Block Diagram</li>
                                     <li></li>
-                                    <div id="openTextFieldButton"> Open Text Field Button Target Div</div>
-                                    <div id="saveTextFieldButton"> Save Text Field Button Target Div</div>
-
+                                    <div id="openDiagramButton"> Open Diagram Button Target Div</div>
+                                    <div id="saveDiagramButton"> Save Diagram Button Target Div</div>
+                                    <div id="saveCCodeButton"> Save Program Button Target Div</div>
                                 </ul>
                                 <div>
                                     <div id="messages" class="panel message"> PLEASE WAIT FOR EVERYTHING TO LOAD</div>
 
                                     <!-- The Diagram component is bound to the canvas element below -->
-                                    <div style="width: 2500px; height: 1200px; overflow: auto; border: 1px solid;">
-                                        <canvas id="diagram">
+                                    <div style="width: 2500px; height: 1200px; overflow: auto; border: 1px solid; background-color:#e0e0e0">
+                                        <canvas id="diagram" style="color: #">
                                             This page requires a browser that supports HTML 5 Canvas element.
                                         </canvas>
                                     </div>
+                                    <div style="width: 50px; height: 300px; position: absolute; top: 60px; right: 35px;
+			                            width: 50px; height: 300px;">
+                                        <canvas id="zoomer" width="50" height="300"></canvas>
+                                    </div>
+
                                 </div>
-                                <div>
-                                    
+                                <div id="text">
+                                    <input type="button" value="codeNode" id='codenode' />
+                                    <textarea id="textarea" height:800px width:300px></textarea>
+                                    <pre id="file">here</pre>
                                 </div>
                             </div>
                         </div>
                         <div id="EAST">
-                            <div class ="jqx-hideborder jqx-hidescrollbars" id="tabsEast">
+                            <div class="jqx-hideborder jqx-hidescrollbars" id="tabsEast">
                                 <ul>
                                     <li>Code</li>
                                     <input type="button" value="Step" id='step' style="margin-right:10px" />
                                     <input type="button" value="Run" id='run' />
                                     <div id='delaySlider' style="display:inline-block; margin-right:10px"></div>
                                     <input type="button" value="Stop" id='stop' />
+
                                 </ul>
                                 <div>
                                     <pre id="codeeditor" class="editor">codeditor</pre>
                                 </div>
                             </div>
                         </div>
-                    </div>                
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+        <div id='node-jqxMenu'>
+            <ul>
+                <li><a href="#">red</a></li>
+                <li><a href="#">blue</a></li>
+                <li><a href="#">yellow</a></li>
+                <li><a href="#">green</a></li>
+                <li><a href="#">orange</a></li>
+            </ul>
+        </div>
+
 
     <!-- styles -->
     <!--<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
@@ -142,7 +161,7 @@
     <script type="text/javascript" src="scripts/jquery/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxslider.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxwindow.js"></script>
-    
+
     <script type="text/javascript" src="scripts/Microcontroller.js"></script>
     <script type="text/javascript" src="scripts/MicrocontrollerNode.js"></script>
 
@@ -155,9 +174,9 @@
     <script type="text/javascript" src="scripts/parserTests.js"></script>
     <script type="text/javascript" src="scripts/errorcatcher.js"></script>
     <script type="text/javascript" src="scripts/CodeMaker.js"></script>
-    <!--   
-      <script type="text/javascript" src="scripts/CJS.js"></script>
- -->
+    <!--    -->
+        <script type="text/javascript" src="scripts/CJS.js"></script>
+
     <script type="text/javascript" src="scripts/beautify.js"></script>
     <script type="text/javascript" src="scripts/launcher.js"></script>
     <script type="text/javascript" src="scripts/opensave.js"></script>

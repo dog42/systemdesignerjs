@@ -19,23 +19,28 @@ Microcontroller = function () {
     this.microRegNamesStr = ""; //just the reg names with '|' separators for ACE codeEditor
     this.microRegBitNamesArr = []; // [,,,]
     this.bitNamesDecl = ""; // used to add to code on run so that JSCPP knows about bit names
-    this.microPins = []; //not used??
-
+    this.microPins = []; 
+    this.adcPins = []; //arr of the names of adc pins A.0, A.1...
     this.adcRefValue = 1.1;
     this.ADCW = 0; //the value of the ADCword - this is updated when the slider is changed,
                     // but only if the slider matches the MUX3..0 in ADCMUX   
 }
 
 //make all the details for a specific micro from json object
-Microcontroller.prototype.makeMicro = function(partnum)
+Microcontroller.prototype.setupMicro = function(partnum)
 {
     this.microPartnumber = partnum;
+    //reset everything
     this.Registers.removeAllRegs();
     this.Memory.clear();
-    this.microRegBitNamesArr.length = 0;
+    this.Ports.length = 0;
+    this.DDR.length = 0;
+
     this.microRegNamesStr = "";
+    this.microRegBitNamesArr.length = 0;
     this.bitNamesDecl = "";
     this.microPins.length = 0;
+    this.adcPins.length = 0;
 
 
     var reg = 0; 
@@ -99,6 +104,13 @@ Microcontroller.prototype.makeMicro = function(partnum)
             for (pin = 0; pin < mm.pins.pin.length; pin++)
             {
                 this.microPins[pin] = mm.pins.pin[pin].f;
+                for (var a = 0; a < this.microPins[pin].length; a++) { //check to see if adc pin
+                    if (this.microPins[pin][a].indexOf('ADC') > -1) {
+                        var channel = this.microPins[pin][a].substring(3,4)
+                        this.adcPins[channel]=(this.microPins[pin][0])
+                        break;
+                    }
+                }
             }
             break;
         }
@@ -124,9 +136,9 @@ Microcontroller.prototype.updateMemory = function(arr){
 Microcontroller.prototype.updateRegisters = function(arr){
     this.Registers.updateRegisters(arr);
 }
-Microcontroller.prototype.newAdcValue = function (pin, voltage) {
-    //convert pin to adcChannel - only needed for ATtiny45
-    var adcChannel = parseInt(pin,10);
+Microcontroller.prototype.newAdcValue = function (voltage,adcChannel ) {
+    //convert pin to adcChannel - really only needed for ATtiny45
+    //var adcChannel = parseInt(ch,10);
     //get ADMUX register bits MUX3..MUX0 
     var ADMUX = myController.readRegister("ADMUX")
     ADMUX = ADMUX & 0x0F; //get lower 4 bits
@@ -159,7 +171,11 @@ Microcontroller.prototype.newAdcValue = function (pin, voltage) {
 
     }
 }
-
+Microcontroller.prototype.getAdcChannel = function(pinName){
+    for (var ch = 0; ch < this.adcPins.length; ch++)
+        if (this.adcPins[ch] === pinName)
+            return ch;
+}
 Microcontroller.prototype.containsBit = function (a, obj) {
     for (var i = 0; i < a.length; i++) {
         if (a[i] === obj) {

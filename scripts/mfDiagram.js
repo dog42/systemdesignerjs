@@ -2,7 +2,7 @@
 var mfDiagram = function () {
     this.packages = [];//all the different packages
     this.binInputs = [];
-    this.anaInputs = [];
+    this.anaInputDevices = [];
     this.micros = [];
     this.anInputs = [];
     this.microsNodeList;
@@ -12,6 +12,7 @@ var mfDiagram = function () {
     this.packagesjson = [];
     this.binaryInputsJSON = [];
     this.analogInputsJSON = [];
+    this.fileJSON;
 }
 //initialise diagram, event listeners, nodelists, open files
 mfDiagram.prototype.init = function() {
@@ -32,7 +33,11 @@ mfDiagram.prototype.init = function() {
     diagram.addEventListener(Events.linkCreated, this.onLinkCreated);
     diagram.addEventListener(Events.linkModified, this.onLinkModified);
     diagram.addEventListener(Events.linkDeleted, this.onLinkDeleted);
+    diagram.addEventListener(Events.linkDoubleClicked, this.onLinkDoubleClicked);
+    diagram.addEventListener(Events.linkModifying, this.onLinkModifying);
+    diagram.addEventListener(Events.linkDeleting, this.onLinkDeleting);
     diagram.addEventListener(Events.nodeClicked, this.onNodeClicked);
+    diagram.addEventListener(Events.nodeDeleted, this.onNodeDeleted);
     diagram.addEventListener(Events.nodeDeleting, this.onNodeDeleting);
     //diagram.addEventListener(Events.nodePointed, this.onNodePointed);
     //diagram.addEventListener(Events.nodeDoubleClicked, this.onNodeDoubleClicked);
@@ -51,26 +56,29 @@ mfDiagram.prototype.init = function() {
     //overview.setDiagram(diagram);
 
     //create an ZoomControl component that wraps the "zoomer" canvas
-    //zoomer = MindFusion.Controls.ZoomControl.create($("#zoomer")[0]);
-    //zoomer.setTarget(diagram);    // register event handlers
+    zoomer = MindFusion.Controls.ZoomControl.create($("#zoomer")[0]);
+    zoomer.setTarget(diagram);    // register event handlers
 
 
     this.initIONodeList();//adds just the LED
-    this.openPackagesFile();
     this.openMicrosFile();
+    this.openPackagesFile();
     this.openBinaryInputsFile();
     this.openAnalogInputsFile();
 }
 
 //File IO
+
 mfDiagram.prototype.openPackagesFile = function () {
     var self = this;
-    $.getJSON('json/avr8_packagedetails.json', function (d) {
+    var pkg = 'json/avr8_packagedetails.json'
+    $.getJSON(pkg, function (d) {
         self.packagesjson = d;
     }).
     success(function () {
         //packagesLoaded = true;
         self.packages = self.packagesjson.packs.packages;
+        packagesloaded = true;
    }).
     complete(function () {
         //alert("complete");
@@ -84,8 +92,8 @@ mfDiagram.prototype.openMicrosFile = function () {
     $.getJSON('json/avr8_micro.json', function (d) {
         self.microsjson = d;
     }).
-    success(function () {
-        //microsLoaded = true;
+        success(function () {
+        //alert("success");//microsLoaded = true;
         self.micros = self.microsjson.microcontrollers.micros;
         //self.microPartsPackages.length = 0;
         //var length = microsjson.micros.micro.length; //number of diff micros
@@ -94,8 +102,10 @@ mfDiagram.prototype.openMicrosFile = function () {
         //        partnumber: microsjson.micros.micro[i].partnumber,
         //        packname: packagesjson.packages.package[i].packname
         //    });
-        //}
-        setTimeout(self.initMicros,1000);
+            //}
+        self.initMicros()
+            //setTimeout(self.initMicros,1000);
+        microsloaded = true;
     }).
     complete(function () {
         //alert("complete");
@@ -126,6 +136,7 @@ mfDiagram.prototype.openBinaryInputsFile = function () {
             node.setLineAlignment(Alignment.Far); //bottom line
             self.ioNodeList.addNode(node, self.binInputs[i].name); //use 'name' from XML file
         }
+        binaryinputsloaded = true;
     }).
     complete(function () {
         //alert("complete");
@@ -141,22 +152,24 @@ mfDiagram.prototype.openAnalogInputsFile = function () {
         self.analogInputsJSON = d;
     }).
     success(function () {
-        self.anaInputs = self.analogInputsJSON.analoginputs.inputs;
+        self.anaInputDevices = self.analogInputsJSON.analoginputs.inputs;
         var node;
         //add the analog input devices
-        for (var i = 0; i < self.anaInputs.length; i++) {
+        for (var i = 0; i < self.anaInputDevices.length; i++) {
             node = new SvgNode(diagram);
-            node.setText(self.anaInputs[i].text);
+            node.setText(self.anaInputDevices[i].text);
             node.setAllowIncomingLinks(false); //default for analoginputs
-            node.setId(self.anaInputs[i].type);
+            node.setId(self.anaInputDevices[i].type);
             var svg = new SvgContent();
-            svg.parse("images/" + self.anaInputs[i].image);
+            svg.parse("images/" + self.anaInputDevices[i].image);
             node.setContent(svg);
+            node.setImageAlign(ImageAlign.Fit)
             node.setShape("Rectangle");
             node.setTextAlignment(Alignment.Center); //center of line
             node.setLineAlignment(Alignment.Far); //bottom line
-            self.ioNodeList.addNode(node, self.anaInputs[i].name); //use 'name' from XML file
+            //self.ioNodeList.addNode(node, self.anaInputDevices[i].name); //use 'name' from XML file
         }
+        analoginputsloaded = true;
     }).
     complete(function () {
         //alert("complete");
@@ -177,11 +190,10 @@ mfDiagram.prototype.initMicros = function () {
         var pt = pn.indexOf('(') > -1 ? pn.indexOf('(') : pn.length - 1 //get rid of any ()
         pn = pn.substring(0, pt+1);
         node.setText(pn);
-        node.setId("micro") //same as in SysDes
+        node.setId("micro") 
         node.setImageLocation("images/_img_micro_dip8.png");
         //node.setImageLocation("images/_img_micro_" + microsPartNumbersArr[i].packname + ".png");
         node.setShape("Rectangle");
-        //node.setBrush("Red");
         node.setTextAlignment(Alignment.Center);
         node.setLineAlignment(Alignment.Center);
         mf.ioNodeList.addNode(node, pn);
@@ -197,7 +209,7 @@ mfDiagram.prototype.initIONodeList = function() {
     node.setContent(svg);
     node.setShape("Rectangle");
     node.setAllowOutgoingLinks(false);
-    //node.setBrush("Red");
+    node.setBrush(red);
     node.setTextAlignment(Alignment.Center);
     node.setLineAlignment(Alignment.Far);
     this.ioNodeList.addNode(node, "LED");
@@ -217,10 +229,17 @@ mfDiagram.prototype.initIONodeList = function() {
 //diagram helpers
 mfDiagram.prototype.getNodeById = function (id) {
     var arr = diagram.getNodes();
+    //search all nodes for eact match
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].getId() === id)
             return arr[i];
     }
+    //now search for micro node
+    if (id==="micro")
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].getId().indexOf("micro-")>-1)
+                return arr[i];
+        }
     return false;
 }
 mfDiagram.prototype.createAnchorPoint = function (x, y, inok, outok, style, col, size, tag) {
@@ -228,42 +247,8 @@ mfDiagram.prototype.createAnchorPoint = function (x, y, inok, outok, style, col,
     ap.setTag(tag);
     return ap;
 }
-mfDiagram.prototype.getMicroAnchorTag = function (link) {
-    //returns e.g. C.3, no matter whether incoming or outgoing link
-    if (myMicrocontrollerNode.Node === null)
-        return;
-    var apt;
-    if (link.getDestination().getId() === "micro") {
-        apt = link.getDestinationAnchor();
-    }
-    if (link.getOrigin().getId() === "micro") //from micro
-    {
-        apt = link.getOriginAnchor();
-    }
-    var pts = myMicrocontrollerNode.Node.getAnchorPattern().getPoints();
-    var c = pts[apt].getTag();
-    return c;
-}
-mfDiagram.prototype.getMicroPort = function (link, toMicro, chr) {
-    //this will return 1 character from the anchor tag
-    //chr=0 then it returns the letter for the port, 2 returns the pin (0..7)
-    if (myMicrocontrollerNode.Node === null)
-        return;
-    var n;
-    if (toMicro) {
-        n = link.getDestinationAnchor();
-    }
-    else //from micro
-    {
-        n = link.getOriginAnchor();
-    }
-    var pts = myMicrocontrollerNode.Node.getAnchorPattern().getPoints();
-    var c = pts[n].getTag().substring(chr, chr + 1);
-    return c;
-}
-
-
 mfDiagram.prototype.updateOutput = function (portname, pin, level) {
+    //when a port register bit has changed thisfunc is called
     //change the color of the node and link of 1 output
     //var apts = myMicrocontrollerNode.microAnchorPattern.getPoints();
     var io = portname.charAt(4) + "." + pin;   //e.g. B3
@@ -273,106 +258,177 @@ mfDiagram.prototype.updateOutput = function (portname, pin, level) {
         if (t === io) {
             //recolor link and node
             if (level === 0) {
-                olinks[0].setText('0')
-                olinks[0].setTextColor(black)
-                olinks[i].setStroke(black)
+                mf.setLinkColorText(olinks[i], 0, 0)
+                //olinks[i].setText('0')
+                //olinks[i].setTextColor(black)
+                //olinks[i].setStroke(black)
                 olinks[i].getDestination().setBrush(white)
             } else {
-                olinks[0].setText('1')
-                olinks[0].setTextColor(red)
-                olinks[i].setStroke(red)
-                olinks[i].getDestination().setBrush(red)
+                mf.setLinkColorText(olinks[i], 5, 1)
+                //olinks[i].setText('1')
+                //olinks[i].setTextColor(red)
+                //olinks[i].setStroke(red)
+                var col = olinks[i].getDestination().getTag();
+                olinks[i].getDestination().setBrush(col) //some color depending upon the node preset
             }
         }
     }
 }
-mfDiagram.prototype.binaryInputClicked = function (node) {
+mfDiagram.prototype.binaryInputClicked = function (node,portpin) {
     var olinks = node.getOutgoingLinks();
     if (olinks.length > 0) {
-        var dest = olinks[0].getDestinationAnchor();
-        var portLetter = mf.getMicroPort(olinks[0], true, 0)
-        var pin = mf.getMicroPort(olinks[0], true, 2)
+        //var dest = olinks[0].getDestination Anchor();//after opening a saved file this is returning the wrong link until the linkis moved and them updated
+        //var portLetter = mf.getMicro Port(olinks[0], true, 0)
+        //var pin = mf.getMicro Port(olinks[0], true, 2)
+        var val;
+        var text;
         if (olinks[0].getText() === "1") {
-            olinks[0].setText('0')
-            olinks[0].setTextColor(black)
-            olinks[0].setStroke(black)
-            myController.writeRegBit("PIN" + portLetter, pin, 0)
+            val = 0;
+            text = "0";
+            myController.writeRegBit("PIN" + portpin.charAt(0), portpin.charAt(2), 0)
         } else {
-            olinks[0].setText('1')
-            olinks[0].setTextColor(red)
-            olinks[0].setStroke(red)
-            myController.writeRegBit("PIN" + portLetter, pin, 1)
+            val = 5;
+            text="1"
+            myController.writeRegBit("PIN" + portpin.charAt(0), portpin.charAt(2), 1)
         }
+        this.setLinkColorText(olinks[0],val,text)
     }
 }
-mfDiagram.prototype.analogInputClicked = function (node) {
-    var olinks = node.getOutgoingLinks();
-    if (olinks.length > 0) {
-        var dest = olinks[0].getDestinationAnchor();
-        var portLetter = mf.getMicroPort(olinks[0], true, 0)
-        var pin = mf.getMicroPort(olinks[0], true, 2)
+mfDiagram.prototype.setLinkColorText = function (link, value, text) {
+    //value will be number from 0 to 5.0
+    link.setText(text);
+    var black = { r: 0, g: 0, b: 0 };
+    var red = { r: 255, g: 0, b: 0 };
+    var newColor = this.makeGradientColor(black, red, value * 20);
+    link.setStroke(newColor.cssColor)
+    link.setTextColor(newColor.cssColor)
+}
+mfDiagram.prototype.makeGradientColor = function (color1, color2, percent) {
+    var newColor = {};
 
-        //open or show this adc window
-        View.showAdcWindow(pin,node)
+    function makeChannel(a, b) {
+        return (a + Math.round((b - a) * (percent / 100)));
+    }
+
+    function makeColorPiece(num) {
+        num = Math.min(num, 255);   // not more than 255
+        num = Math.max(num, 0);     // not less than 0
+        var str = num.toString(16);
+        if (str.length < 2) {
+            str = "0" + str;
+        }
+        return (str);
+    }
+
+    newColor.r = makeChannel(color1.r, color2.r);
+    newColor.g = makeChannel(color1.g, color2.g);
+    newColor.b = makeChannel(color1.b, color2.b);
+    newColor.cssColor = "#" +
+                        makeColorPiece(newColor.r) +
+                        makeColorPiece(newColor.g) +
+                        makeColorPiece(newColor.b);
+    return (newColor);
+}
+mfDiagram.prototype.analogInputClicked = function (node,portpin) {
+    var olinks = node.getOutgoingLinks();
+    if (olinks.length > 0) {//if link to micro exists
+        //var dest = olinks[0].getDestination Anchor();
+        //var portLetter = mf.getMicro Port(olinks[0], true, 0)
+        //var pin = mf.getMicro Port(olinks[0], true, 2)
+       // var port = portLetter+"."+pin;
+        //open or show this adc window if an adc pin
+        for (var ch = 0; ch < myMicrocontroller.adcPins.length; ch++){
+            if (myMicrocontroller.adcPins[ch]===portpin){
+                View.showAdcWindow(ch, node)
+            }
+        }
         //do more stuff here to manage analog value change
     }
 }
 
 mfDiagram.prototype.readInputs = function () {
+    //when diagram created, loaded or run
     var ilinks = myMicrocontrollerNode.ilinks;
     //reads the state of all input pins connected to the micro and updates the register values
+    var portpin;
     for (var i = 0; i < ilinks.length; i++) {
-        //var anchor = ilinks[i].getDestinationAnchor();
-        var portLetter = mf.getMicroPort(ilinks[i], true, 0)
-        var pin = mf.getMicroPort(ilinks[i], true, 2)
+        portpin = ilinks[i].getTag();
+        //var anchor = ilinks[i].getDestination Anchor();
+        //var portLetter = mf.getMicro Port(ilinks[i], true, 0)
+        //var pin = mf.getMicro Port(ilinks[i], true, 2)
         if (ilinks[i].getText() === "1") {
-            myController.writeRegBit("PIN" + portLetter, pin, 1)
+            myController.writeRegBit("PIN" + portpin.charAt(0), portpin.charAt(2), 1)
         } else {
-            myController.writeRegBit("PIN" + portLetter, pin, 0)
+            myController.writeRegBit("PIN" + portpin.charAt(0), portpin.charAt(2), 0)
         }
     }
 }
-mfDiagram.prototype.setOutputsLow = function () {
+mfDiagram.prototype.setOutputsOff = function () {
     //reads the state of all input pins connected to the micro and updates the register values
     var olinks = myMicrocontrollerNode.olinks;
+    var portpin;
     for (var i = 0; i < olinks.length; i++) {
-        var portLetter = mf.getMicroPort(olinks[i], false, 0)
-        var pin = mf.getMicroPort(olinks[i], false, 2)
-        olinks[i].setText('0')
-        olinks[i].setTextColor(black)
-        olinks[i].setStroke(black)
+        portpin = olinks[i].getTag();
+        //var portLetter = mf.getMicro Port(olinks[i], false, 0)
+        //var pin = mf.getMicro Port(olinks[i], false, 2)
+        mf.setLinkColorText(olinks[i],0,0)//needs testing here on running
+        //olinks[i].setText('0')
+        //olinks[i].setTextColor(black)
+        //olinks[i].setStroke(black)
     }
 }
 
 //Diagram Event Processing
 mfDiagram.prototype.updateView = function () {
     myController.Stop();
-    myCodeMaker.nodeChange();
-    View.DisplayCode();
+    var code= myCodeMaker.nodeChange();
+    View.DisplayCode(code);
 }
 mfDiagram.prototype.onLinkCreated = function (sender, args) {
     myMicrocontrollerNode.makeLinkTag(args.link)
     mf.updateView();
-    //var link = args.getLink();
+    var tag = args.link.getTag();
+    if (args.link.getDestination().getId()==="led") {
+        mf.setLinkColorText(args.link, 0, 0)
+    }
+    if (args.link.getOrigin().getId().indexOf("_binary_") > -1) {
+        mf.setLinkColorText(args.link, 5, '1')
+        myController.writeRegBit("PIN" + tag.charAt(0), tag.charAt(2), 1)
+    }
+}
+mfDiagram.prototype.onLinkDoubleClicked = function (sender, args) {
+    alert(args.link.getTag())
 }
 mfDiagram.prototype.onLinkModified = function (sender, args) {
     myMicrocontrollerNode.makeLinkTag(args.link)
     mf.updateView();
-    //var link = args.getLink();
+}
+mfDiagram.prototype.onLinkModifying = function (sender, args) {
+    myMicrocontrollerNode.makeLinkTag(args.link)
+    mf.updateView();
+    if (args.link.getOrigin().getId().indexOf("_analog") > -1) {//adc input
+        //var adcChannel = mf.getMicro Port(args.link, true, 2)//wrong
+        var tag = args.link.getTag();
+        var adcChannel = myMicrocontroller.getAdcChannel(tag)
+        View.closeAdcWindow(adcChannel)
+    }
 }
 mfDiagram.prototype.onLinkDeleted = function (sender, args) {
     //redo code
     mf.updateView();
-    //if it was from analog Input to the micro remove the adcWindow
+}
+mfDiagram.prototype.onLinkDeleting = function (sender, args) {
     if (args.link.getOrigin().getId().indexOf("_analog") > -1) {//adc input
-        var adcChannel = mf.getMicroPort(args.link,true,2)
-        View.removeAdcWindow(adcChannel)
+        //var adcChannel = mf.getMicro Port(args.link, true, 2)//wrong
+        var tag = args.link.getTag();
+        var adcChannel = myMicrocontroller.getAdcChannel(tag)
+        View.closeAdcWindow(adcChannel)
     }
 }
 mfDiagram.prototype.onNodeTextEdited = function (sender, args) {
     //make sure no spaces in text
-    myCodeMaker.nodeChange();
-    View.DisplayCode();
+    var code = myCodeMaker.nodeChange();
+    View.DisplayCode(code);
 }
 mfDiagram.prototype.onNodeDoubleClicked = function (sender, args) {
     //binary node - change state
@@ -380,47 +436,65 @@ mfDiagram.prototype.onNodeDoubleClicked = function (sender, args) {
     var newnode = args.getNode();
 }
 mfDiagram.prototype.onNodeClicked = function (sender, args) {
-    var node = args.getNode();    
+    currentNode = args.getNode();
+    var olinks = currentNode.getOutgoingLinks()
+    var ilinks = currentNode.getIncomingLinks();
+    if (olinks.length === 0 && ilinks.length === 0)
+        return;
     if (args.mouseButton === 0){//left button
         if (myController !== null ){//&& myController.parserstate != myController.PARSERSTATE.STOP  ) {
-            if (node.getId().indexOf("_binary")>-1){
-                mf.binaryInputClicked(node)//binary node - change state
+            if (currentNode.getId().indexOf("_binary") > -1) {
+                var portpin = olinks[0].getTag();
+                mf.binaryInputClicked(currentNode, portpin)//binary node - change state
             }
-            if (node.getId().indexOf("_analog")>-1){
-                mf.analogInputClicked(node);//analog node - popup slider
+            if (currentNode.getId().indexOf("_analog") > -1) {
+                var portpin = olinks[0].getTag();
+                mf.analogInputClicked(currentNode, portpin);//analog node - popup slider
             }
         }
     }
-    if (args.mouseButton === 2) {//rightbutton
-
+    else if (args.mouseButton === 2) {//rightbutton
+        if (currentNode.getId() === "led") {
+            var pt = new MindFusion.Drawing.Point;
+            pt.x = args.mousePosition.x;
+            pt.y = args.mousePosition.y;
+            //var scrollX = diagram.getScrollX(); //doesnt do anything //??
+            //var scrollY = diagram.getScrollY(); //doesnt do anything //??
+            //var p = diagram.docToClient(pt)
+            var splitoffset = $("#splitterWest").jqxSplitter('panels')[0].size
+            //var scrollTop = $(window).scrollTop();
+            //var scrollLeft = $(window).scrollLeft();
+            //View.nodeContextMenu.jqxMenu('open', p.x + splitoffset + 20, p.y + 10);
+            View.nodeContextMenu.jqxMenu('open', splitoffset + 50, 200); //just a fixed position for the moment
+            return false;
+        }
     }
 }
-//ADC
-mfDiagram.prototype.adcChangeEvent = function(voltage,node){
-    var olink = node.getOutgoingLinks()[0];
-    olink.setText(voltage.toFixed(2))
-    var pin = mf.getMicroPort(olink,true,2)
-    myMicrocontroller.newAdcValue(pin,voltage)
-}
-
 mfDiagram.prototype.onNodeCreated = function (sender, args) {
     //called when a node is dropped on the diagram
     var newnode = args.getNode();
-    if (newnode.getId() === "micro") {
-        if (myMicrocontrollerNode.Node != null || myMicrocontrollerNode.Node != undefined) {
-            var deleteMicro = confirm("There can only be one micro in the diagram");
-            diagram.removeItem(newnode);
-            return;
-        }
+    if (newnode.getId().indexOf("micro-") > -1) {
+        if (myMicrocontrollerNode !== undefined)
+            if( myMicrocontrollerNode.Node != null || myMicrocontrollerNode.Node != undefined) {
+                var deleteMicro = confirm("There can only be one micro in the diagram");
+                diagram.removeItem(newnode);
+                return;
+            }
         //diagram.clearAll(); //dont clear all - just remove micro
-        if (myMicrocontrollerNode.Node !== null && mf.getNodeById(myMicrocontrollerNode.Node.getId())) {
-            diagram.removeItem(myMicrocontrollerNode.Node);
+        try {diagram.removeItem(myMicrocontrollerNode.Node)}
+        catch (e) {
+            var error = e;
         }
-        var partnum = newnode.getText();
-        diagram.removeItem(newnode);//dont want this node create our own
-        myMicrocontroller.makeMicro(partnum);
-        myMicrocontrollerNode = new MicrocontrollerNode(myMicrocontroller);//make a diagram node for the micro
+        //if (myMicrocontrollerNode.Node !== null && mf.getNodeById(myMicrocontrollerNode.Node.getId())) {
+        //    diagram.removeItem(myMicrocontrollerNode.Node);
+        //}
+        var newpartnum = newnode.getText();
+        diagram.removeItem(newnode);//dont want the dropped node, create our own
+        myMicrocontroller.setupMicro(newpartnum);
+        myMicrocontrollerNode.setNewMicro(myMicrocontroller);//make a diagram node for the micro
         myCodeMaker = new CodeMaker(myMicrocontrollerNode.Node);
+        var code = myCodeMaker.makeFullCode();
+        View.DisplayCode(code);
         updateRegistersDisplay();
         return;
     }
@@ -442,7 +516,7 @@ mfDiagram.prototype.onNodeCreated = function (sender, args) {
 }
 mfDiagram.prototype.onNodeDeleting = function (sender, args) {
     var node = args.getNode();
-    if (node.getId() === "micro") {
+    if (node.getId().indexOf("micro-") > -1) {
         var deleteMicro = false;
         if (myMicrocontrollerNode.Node != null)
             deleteMicro = confirm("This will remove the micro and all links");
@@ -450,20 +524,52 @@ mfDiagram.prototype.onNodeDeleting = function (sender, args) {
             args.setCancel(true);
             return;
         }
+        myMicrocontrollerNode.Node = null; //best way to handle this??
+        //diagram.removeItem(myMicrocontrollerNode.Node)
+        diagram.removeItem(myMicrocontrollerNode.codeNode)
     }
-    //diagram.removeItem(myMicrocontrollerNode.Node)
-    //myMicrocontrollerNode.Node = null;//??
+    //diagram.removeItem(myMicrocontrollerNode.Node)//dont remove ??
     return;
 }
+mfDiagram.prototype.onNodeDeleted = function (sender, args) {
+    var node = args.getNode();
+    if (node.getId().indexOf("micro-") > -1) {
+        if (myCodeMaker !== undefined){
+            View.DisplayCode("");
+        }
+    }
+    //diagram.removeItem(myMicrocontrollerNode.Node)//dont remove ??
+    return;
+}
+
+//ADC
+mfDiagram.prototype.displayAdcVoltage = function (voltage, adcChannel,maxvoltage) {
+    var portpin = myMicrocontroller.adcPins[adcChannel];
+    //var olink = node.getOutgoingLinks()[0];
+    //get the link on this portpin
+    var links=diagram.getLinks();
+    for (var l = 0; l < links.length; l++) {
+        if (links[l].getTag() === portpin) {
+            links[l].setText(voltage.toFixed(2))//disp voltage on link
+        }
+    }
+    //o
+    //var pin = mf.getMicro Port(olink,true,2)
+    //get the channel, send to micro
+    //var ch = myMicrocontroller.getAdcChannel(olink.getTag())
+    //myMicrocontroller.newAdcValue(voltage,channel)
+}
+
 
 //make the IO components
 mfDiagram.prototype.makeLED = function (x,y) {
     var led = diagram.getFactory().createSvgNode(new Rect(x, y, 20, 10));  
-    led.setId("led") //same as in SysDes
+    led.setId("led") 
     var svg = new SvgContent();
     svg.parse("images/_img_output_led.svg");
     led.setContent(svg);
-    led.setBrush("Red");
+    led.setBrush(white);//where should we store color for its change
+    led.setTag(red)
     led.setShape("Rectangle");
     led.setAllowOutgoingLinks(false);
     var ap = mf.createAnchorPoint(0, 35, true, false, MarkStyle.Rectangle, blue, 2, "led")
@@ -482,26 +588,79 @@ mfDiagram.prototype.makeBinInput = function (x, y, type) {
     binInput.setId(id)
 }
 
-//unused
-mfDiagram.prototype.onNodePointed = function (sender, args) {
-    //mouse over - see state?
-    var node = args.getNode();
+//Opening files 
+mfDiagram.prototype.openDiagramViaParam = function (name) {
+    //from html parameters
+    var self = this;
+    var file = name
+    $.get(file, function (d) {
+        self.fileJSON = d;
+    }).
+    success(function () {
+        //packagesLoaded = true;
+        //alert("success")
+        //var decodeddata = opensave.Base64_decode(self.fileJSON)
+        diagram.fromJson(self.fileJSON)
+        
+        mf.postFileOpenSetup()
+    }).
+    complete(function () {
+        //alert("complete");
+    }).
+    error(function (jqXHR, textStatus, errorThrown) {
+        alert('error ' + textStatus + ' ' + errorThrown);
+    });
 }
-
-mfDiagram.prototype.openDiagramFile = function(buttonID) {
+mfDiagram.prototype.openDiagramFromFile = function (buttonID) {
+    //from the button
     var filename = buttonID.filename;
     var data = buttonID.data64
     var decodeddata = opensave.Base64_decode(data)
     diagram.fromJson(decodeddata)
-    //dosomething with decodeddata
+    mf.postFileOpenSetup()
 }
-function saveDiagramFile(buttonID) {
+mfDiagram.prototype.postFileOpenSetup = function () {
+    //common to opening files
+    myController.Stop();
+    //the diagram should have two nodes called - if no micro node exit //??
+    var node = mf.getNodeById("micro")
+    var codeNode = mf.getNodeById("codenode");
+    //we need the partnumber of the micro
+    var id = node.getId()
+    var partnum = id.substring(6, id.length)
+    
+   // myMicrocontrollerNode.getPackageDetails();
+   // node.setAnchorPattern(myMicrocontrollerNode.microAnchorPattern)
+    myMicrocontrollerNode.Node = node;
+    myMicrocontrollerNode.codeNode = codeNode
+    //creates all blanks but we have existing code
+    myCodeMaker = new CodeMaker(myMicrocontrollerNode.Node);
+    myCodeMaker.updateFromSource(myMicrocontrollerNode.codeNode.getText())
+    codeEditor.setValue(myMicrocontrollerNode.codeNode.getText());
+    codeEditor.gotoLine(1);
+    //alert("loaded")
+    myMicrocontroller.setupMicro(partnum)
+}
+//Saving files
+mfDiagram.prototype.saveDiagramFile = function (buttonID) {
+    //var bi = opensave.getButtonInfo(buttonID)
+    var retObj = new Object();
+    retObj.filename = "myproject.txt";
+    myMicrocontrollerNode.codeNode.setText(codeEditor.getValue())
+    retObj.data = diagram.toJson()
+    return retObj;
+}
+mfDiagram.prototype.saveCCodeToFile = function (buttonID) {
+    //var bi = opensave.getButtonInfo(buttonID)
+    var retObj = new Object();
+    retObj.filename = "program.c";
+    retObj.data = codeEditor.getValue();
+    return retObj;
+}
 
-    //var bi = opensave.getButtonInfo(buttonID) // not to sure what this does
-    var returnedObject = new Object();
-    returnedObject.filename = "myproject.json";
-    //returnedObject.data = "the text data"; //get some real data here
-    returnedObject.data = diagram.toJson()
-    return returnedObject;
+//unused
+mfDiagram.prototype.onNodePointed = function (sender, args) {
+    //mouse over - see state?
+    var node = args.getNode();
 }
 

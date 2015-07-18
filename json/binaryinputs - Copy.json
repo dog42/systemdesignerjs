@@ -1,0 +1,126 @@
+{
+    "binaryinputs": {
+        "inputs": [
+            {
+                "name": "Push Button Switch",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_pushbuttonswitch",
+                "text": "pbSw_",
+                "image": "_img_input_binary_pushbuttonswitch.svg",
+                "toggle": "no",
+                "timeout": "3000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Tact Switch",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_tactswitch",
+                "text": "tactSw_",
+                "image": "_img_input_binary_tactswitch.svg",
+                "toggle": "no",
+                "timeout": "3000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Toggle Switch",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_toggleswitch",
+                "text": "toggleSw_",
+                "image": "_img_input_binary_toggleswitch.svg",
+                "toggle": "yes",
+                "timeout": "0",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Micro Switch",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_microswitch",
+                "text": "microSw_",
+                "image": "_img_input_binary_microswitch.svg",
+                "toggle": "yes",
+                "timeout": "0",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Reed Switch",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_reedswitch",
+                "text": "reedSw_",
+                "image": "_img_input_binary_reedswitch.svg",
+                "toggle": "yes",
+                "timeout": "0",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Emergency Switch",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_emergencyswitch",
+                "text": "emergSw_",
+                "image": "_img_input_binary_emergencyswitch.svg",
+                "toggle": "yes",
+                "timeout": "0",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "PIR",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_pirswitch",
+                "text": "pirSw_",
+                "image": "_img_input_binary_pirswitch.png",
+                "toggle": "yes",
+                "timeout": "10000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "LightBeam",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_lightbeamswitch",
+                "text": "beamSw_",
+                "image": "_img_input_binary_lightbeamswitch.jpg",
+                "toggle": "no",
+                "timeout": "2000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Tilt Switch",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_tiltswitch",
+                "text": "tiltSw_",
+                "image": "_img_input_binary_tiltswitch.svg",
+                "toggle": "yes",
+                "timeout": "1000",
+                "repeat": "no",
+                "releasedtext": "HIGH",
+                "pressedtext": "LOW"
+            },
+            {
+                "name": "Pulse",
+                "tag": "binaryinputcontrol",
+                "type": "_binary_pulse",
+                "text": "pulse_",
+                "image": "img_input_binary_pulse.png",
+                "toggle": "yes",
+                "timeout": "1000",
+                "repeat": "yes",
+                "releasedtext": "START",
+                "pressedtext": "STOP"
+            }
+        ]
+    }
+}

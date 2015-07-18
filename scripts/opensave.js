@@ -12,7 +12,7 @@
 var opensave = {};
 
 // Change "opensave.swf" to a "from the root" URL.
-opensave.swf = "scripts/opensave.swf";
+opensave.swf = "opensave.swf";
 // ------------------------------------------------------------------------
 // Example: 
 // ------------------------------------------------------------------------

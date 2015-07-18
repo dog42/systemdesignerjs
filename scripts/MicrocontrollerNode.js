@@ -2,8 +2,9 @@
 var MicrocontrollerNode;
 
 MicrocontrollerNode = function (micro) {
+    //sets up a blank device with nodes
+    //does not add them to the diagram
     this.microcontroller = micro;
-    this.partnumber = micro.microPartnumber;
     this.microPackage = micro.microPackage;
     this.microWidth;
     this.microHeight;
@@ -11,21 +12,44 @@ MicrocontrollerNode = function (micro) {
 
     this.Node = new MindFusion.Diagramming.ShapeNode(diagram);
     this.Node.setShape("Rectangle");
-    this.Node.setImageLocation("images/_img_micro_" + this.microPackage + ".png");
-    this.Node.setId("micro");
-    this.Node.getImage(); //??
     this.Node.setImageAlign(ImageAlign.Stretch);
+    
+    this.codeNode = new MindFusion.Diagramming.ShapeNode(diagram);
+    this.codeNode.setShape("Rectangle");
+
+    this.olinks = this.Node.getOutgoingLinks();
+    this.ilinks = this.Node.getIncomingLinks();
+}
+MicrocontrollerNode.prototype.setNewMicro = function (micro) {
+    //structures the device and the nodes
+    this.microcontroller = micro;
+    this.microPackage = micro.microPackage;
+    this.microWidth;
+    this.microHeight;
+    this.microAnchorPattern;
+
+    //this.Node = new MindFusion.Diagramming.ShapeNode(diagram);
+    this.Node.setImageLocation("images/_img_micro_" + this.microPackage + ".png");
+    this.Node.setId("micro-" + micro.microPartnumber);
+    //this.Node.getImage(); //??
     this.getPackageDetails();
     this.Node.setBounds(new Rect(60, 40, this.microWidth, this.microHeight));
     this.Node.setAnchorPattern(this.microAnchorPattern);
+    
+
+    //?? check that it exists?
+    this.codeNode.setBounds(new Rect(60, 40 + this.microHeight+10, this.microWidth, this.microHeight));
+    this.codeNode.setId("codenode");
+    this.codeNode.setVisible(false);
+
     diagram.addItem(this.Node);
+    diagram.addItem(this.codeNode);
 
     this.olinks = this.Node.getOutgoingLinks();
     this.ilinks = this.Node.getIncomingLinks();
 
     if (this.microPackage === "xplained")
         this.newXplained();
-    //return this.Node;
 }
 MicrocontrollerNode.prototype.readBinaryInputs = function () {
     //read all input pins and return an arr of their states [{PORT,PIN,STATE}]
@@ -61,38 +85,53 @@ MicrocontrollerNode.prototype.getPackageDetails = function () {
 }
 MicrocontrollerNode.prototype.getMicroAnchorTag = function (link) {
     //returns e.g. C.3, no matter whether incoming or outgoing link
-    if (this.Node === null)
-        return;
-    var apt;
-    if (link.getDestination().getId() === "micro") {
-        apt = link.getDestinationAnchor();
-    }
-    if (link.getOrigin().getId() === "micro") //from micro
-    {
-        apt = link.getOriginAnchor();
-    }
-    var pts = this.Node.getAnchorPattern().getPoints();
-    var c = pts[apt].getTag();
-    return c;
 }
 MicrocontrollerNode.prototype.makeLinkTag = function (link) {
-    link.setTag(this.getMicroAnchorTag(link));
+    if (this.Node === null)//no micro
+        return;
+    var linktag;
+    var apt;
+    if (link.getDestination().getId().indexOf("micro") > -1) {
+        apt = link.getDestinationAnchor();
+    }
+    else if (link.getOrigin().getId().indexOf("micro") > -1){
+        apt = link.getOriginAnchor();
+    }
+    else {
+        return
+    }
+    var pts = this.Node.getAnchorPattern().getPoints();
+    try {
+        linktag = pts[apt].getTag();
+        link.setTag(linktag);
+        return linktag;
+    } catch (e) {
+        var error = e;
+    }
+    //var linktag = this.getMicroAnchorTag(link);
+    //var mflinktag = mf.getMicroAnchorTag(link)
+    //link.setTag(linktag);
 }
 MicrocontrollerNode.prototype.newXplained = function () {
     //new LED
     var ledB5 = mf.makeLED(140, 50)
-    ledB5.setText("led_B5");
+    ledB5.setText("led_0");
+    //ledB5.setBrush(white)//off
+    //ledB5.setTag(red) //on color
+    //ledB5.setId("led")
 
     var ledB5link = diagram.getFactory().createDiagramLink(this.Node, ledB5);
-    ledB5link.setOriginAnchor(19);
+    ledB5link.setOriginAnchor(20);
     ledB5link.route();
     this.makeLinkTag(ledB5link);
+    mf.setLinkColorText(ledB5link, 0, 0)
+
     //new tactsw
     var swB7 = diagram.getFactory().createSvgNode(new Rect(100, 180, 20, 20));
     var svg = new SvgContent();
     svg.parse("images/_img_input_binary_tactswitch.svg");
     swB7.setContent(svg);
-    swB7.setText("tactSw_B7"); //use 'text' from XML file
+    swB7.setText("tactSw_0"); //use 'text' from XML file
     swB7.setAllowIncomingLinks(false); //default for binaryinputs
     swB7.setId("tact_binary__"); //use 'type' in XML file
    // swB7.setImageLocation("images/_img_input_binary_tactswitch.svg"); //'use 'image' from XML file
@@ -101,12 +140,13 @@ MicrocontrollerNode.prototype.newXplained = function () {
     swB7.setLineAlignment(Alignment.Far); //bottom line
 
     var swB7link = diagram.getFactory().createDiagramLink(swB7, this.Node);
-    swB7link.setDestinationAnchor(20);
-    swB7link.setStrokeThickness(2);
-    swB7link.setStroke(red)
+    swB7link.setDestinationAnchor(6);
+    //swB7link.setStrokeThickness(2);
+    //swB7link.setStroke(red)
     swB7link.route();
     this.makeLinkTag(swB7link);
-    swB7link.setText("1")
+    mf.setLinkColorText(swB7link, 5, 1)
+    //swB7link.setText("1")
     //set sw0 bit7 high
     this.microcontroller.Registers.writeRegBit("PINB", 7, 1); 
 }

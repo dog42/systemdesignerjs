@@ -13,7 +13,21 @@ var Rect = MindFusion.Drawing.Rect;
 var ImageAlign = MindFusion.Diagramming.ImageAlign;
 var Alignment = MindFusion.Diagramming.Alignment;
 var NodeListView = MindFusion.Diagramming.NodeListView;
+var currentNode;
 
+var color = {
+    "black": "#000000",
+    "white": "#ffffff",
+    "blue": "#0000FF",
+    "green": "#00FF00",
+    "red": "#FF0000",
+    "yellow": "#FFFF00",
+    "darkblue": "#08088A",
+    "darkorange": "#B43104",
+    "purple": "#6A0888",
+    "brown": "#61210B",
+    "plum": "#A901DB"
+}
 
 var black = "#000000";
 var white = "#ffffff"
@@ -43,29 +57,86 @@ var myController = new Controller();
 
 var theme = 'darkblue'
 
+var debug = false;
+var version= 0.1
+
+var microsloaded = false;
+var packagesloaded = false;
+var binaryinputsloaded = false;
+var analoginputsloaded = false;
+
+
+var QueryString = function () {
+    // This function is anonymous, is executed immediately and 
+    // the return value is assigned to QueryString!
+    var query_string = {};
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        // If first entry with this name
+        if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = decodeURIComponent(pair[1]);
+            // If second entry with this name
+        } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+            query_string[pair[0]] = arr;
+            // If third or later entry with this name
+        } else {
+            query_string[pair[0]].push(decodeURIComponent(pair[1]));
+        }
+    }
+    return query_string;
+}();
+
 
 $(document).ready(function (sender, args) { //jquery
-
+    //the static things we need
     View = new View();
-    mf = new mfDiagram(); //mindfusion stuff
+    mf = new mfDiagram(); //awesome Mindfusion !!
+    // myMicrocontroller created above
+    // myController created above
+    myMicrocontrollerNode = new MicrocontrollerNode(myMicrocontroller)
+    
+    // the above items are  more or less blank static objects
 
-    View.InitLayout();          //sets up the window
+    //if no diagram is loaded then they are fully created below by main_loadDefaultMicro
 
-    main_initEditors();   //sets up ACE codeEditor
+    //when loading diagrams however we need to repopulate  
+    //myMicrocontroller and myMicrocontrollerNode and MyCodemaker
+    
+    View.InitLayout();       //sets up the window
+    if (debug)
+        View.InitDebug();
+    main_initEditors();     //sets up ACE codeEditor
+    mf.init();              //creates diagram and drop downs
+    welcomeMessage()
 
-    mf.init();      //creates diagram and drop downs
+    var textarea = document.getElementById("textarea");
+    textarea.value = QueryString.diagram + QueryString.message
 
-    //wait a bit and load the default
-   setTimeout(main_loadDefaultMicro, 800); 
+    var path = "";
+    if (QueryString.message !== undefined)
+        View.Message(QueryString.message)
+    if (QueryString.path !== undefined)
+        path=QueryString.subdir
+    if (QueryString.diagram !== undefined)
+        try{
+            waitForFiles()
+            //mf.openDiagramViaParam(QueryString.diagram)
+            return;
+        } catch (e) {
+            var error = e;
+        }
+    //no file passed so just open this after a bit
+    setTimeout(main_loadDefaultMicro, 1000);
 
-   setTimeout(welcomeMessage, 1000)
-    //testing
-   //setTimeout(parserTests_test,1000);
-   
+
+
 });
 
 function welcomeMessage() {
-    View.Message("Press Run to see 'hello world'","purple")
+    View.Message("System Designer JS version:"+version,"purple")
 }
 
 function main_initEditors()
@@ -79,7 +150,7 @@ function main_initEditors()
     codeEditor.setShowInvisibles(true);
     //codeEditor.setDisplayIndentGuides(true);
     codeEditor.renderer.setHScrollBarAlwaysVisible(true);
-    codeEditor.setAnimatedScroll(false);
+    codeEditor.setAnimatedScroll(true);
     //codeEditor.renderer.setShowGutter(true);
     //codeEditor.renderer.setShowPrintMargin(false);
     //codeEditor.getSession().setUseSoftTabs(false);
@@ -87,7 +158,7 @@ function main_initEditors()
     //codeEditor.setHighlightActiveLine(false); //default=true
     codeEditor.on("change", function (e) {
         if (codeEditor.curOp && codeEditor.curOp.command.name) {
-            myController.parserstate = myController.PARSERSTATE.STOP
+            myController.Stop()
             View.Message("Editting","blue")
         }
         //else
@@ -103,15 +174,22 @@ function main_initEditors()
 }
 
 function main_loadDefaultMicro() {
-    myMicrocontroller.makeMicro("xplained(ATmega328P)")
-    myMicrocontrollerNode = new MicrocontrollerNode(myMicrocontroller);//make a diagram node for the micro
-    myCodeMaker = new CodeMaker(myMicrocontrollerNode.Node); //using the diagram create some startup code
-    myCodeMaker.makeFullCode(); 
-    View.DisplayCode();
+    myMicrocontroller.setupMicro("xplained(ATmega328P)")
+    myMicrocontrollerNode.setNewMicro(myMicrocontroller);
+    myCodeMaker = new CodeMaker(myMicrocontrollerNode.Node); //could change to set newNode
+    var code = myCodeMaker.makeFullCode(); 
+    View.DisplayCode(code);
     updateRegistersDisplay();
 }
 
-
-
+function waitForFiles() {
+    if (microsloaded === true && packagesloaded===true && analoginputsloaded ===true && binaryinputsloaded) {
+        //alert(microsloaded)
+        mf.openDiagramViaParam(QueryString.diagram)
+        return
+    }
+    //alert(microsloaded)
+    window.setTimeout(waitForFiles, 500)
+}
 
 
