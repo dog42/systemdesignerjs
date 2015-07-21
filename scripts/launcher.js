@@ -41,6 +41,9 @@ var purple = "#6A0888";
 var brown = "#61210B";
 var plum = "#A901DB"
 
+var response = new $.jqx.response();
+var browser = response.browser;
+
 var codeEditor;
 //var tokenEditor;
 //var aceEditor;
@@ -57,8 +60,8 @@ var myController = new Controller();
 
 var theme = 'darkblue'
 
-var debug = false;
-var version= 0.1
+var debug = true;
+var version= 0.11
 
 var microsloaded = false;
 var packagesloaded = false;
@@ -115,6 +118,17 @@ $(document).ready(function (sender, args) { //jquery
     var textarea = document.getElementById("textarea");
     textarea.value = QueryString.diagram + QueryString.message
 
+
+    
+    //if (browser.accessName === "msie") {
+    //    //load cjs.js
+    //} else {
+    //    var j = document.createElement('script');
+    //    j.type = 'text/javascript';
+    //    j.src = 'CJS.js';
+    //    document.getElementsByTagName('head')[0].appendChild(j);
+    //}
+
     var path = "";
     if (QueryString.message !== undefined)
         View.Message(QueryString.message)
@@ -130,8 +144,6 @@ $(document).ready(function (sender, args) { //jquery
         }
     //no file passed so just open this after a bit
     setTimeout(main_loadDefaultMicro, 1000);
-
-
 
 });
 

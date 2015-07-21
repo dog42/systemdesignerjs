@@ -2,6 +2,10 @@
 var Registers;
 Registers = function(){
     this.registers = [];
+    //this.registers = new $.jqx.observableArray([],
+    //    function (changes) {
+    //    var somechange = changes;
+    //})
     //name: n, 
     //address: a,   (number)
     //addrhex:h,    (string)
@@ -101,7 +105,7 @@ Registers.prototype.writeRegBit = function (regName, bit, newvalue) {
             var valbin = val.toString(2); //un padded bin string
             while (valbin.length < 8)
                 valbin = "0" + valbin;
-            valbin = "0x" + valbin;
+            valbin = "0b" + valbin;
             this.registers[index].valuebin = valbin;
             var valhex = val.toString(16).toUpperCase();
             if (val < 16)
@@ -115,11 +119,23 @@ Registers.prototype.writeRegBit = function (regName, bit, newvalue) {
     }
     return false; //unable to find the address to assign to 
 }
-Registers.prototype.readRegister = function (regName)
-{
+Registers.prototype.readRegister = function (regName) {
     for (var index = 0; index < this.registers.length; index++) {
         if (regName === this.registers[index].name) {
             return this.registers[index].valuedec;
+        }
+    }
+    return false; //doesnt exist
+}
+Registers.prototype.readRegBit = function (regName,bit) {
+    for (var index = 0; index < this.registers.length; index++) {
+        if (regName === this.registers[index].name) {
+            var b = (1 << bit)
+            var re = this.registers[index].valuedec & b
+            if ((re) > 0)
+                return true;
+            else
+                return false;
         }
     }
     return false; //doesnt exist

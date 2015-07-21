@@ -125,6 +125,7 @@ MicrocontrollerNode.prototype.newXplained = function () {
     ledB5link.route();
     this.makeLinkTag(ledB5link);
     mf.setLinkColorText(ledB5link, 0, 0)
+    
 
     //new tactsw
     var swB7 = diagram.getFactory().createSvgNode(new Rect(100, 180, 20, 20));
@@ -148,5 +149,5 @@ MicrocontrollerNode.prototype.newXplained = function () {
     mf.setLinkColorText(swB7link, 5, 1)
     //swB7link.setText("1")
     //set sw0 bit7 high
-    this.microcontroller.Registers.writeRegBit("PINB", 7, 1); 
+    myMicrocontroller.Registers.writeRegBit("PINB", 7, 1);
 }

@@ -61,7 +61,7 @@ Controller.prototype.Start = function(startokstate)
         this.code = this.fixCode()
         //this.code = this.replaceMacros()
         this.code = this.code + regsnbits;
-    if (browser.indexOf("IE") >= 0) { //other older browswers need testing too ??
+        if (browser.accessName === "msie") { //other older browswers need testing too ??
         View.Message("you need to use a modern desktop version of Firefox or Chrome", "red")
         return;
     }
@@ -70,9 +70,14 @@ Controller.prototype.Start = function(startokstate)
         this.mydebugger = JSCPP.run(this.code, this.input, this.config);
         //console.log(mydebugger.src);
     } catch (e) {
-        var msg = e.message + "on line" + e.line + " column:" + e.column
+        var msgloc
+        if (e.line !== undefined)
+            msgloc += " on line:" + e.line
+        if (e.column !== undefined)
+            msgloc += " in column:" + e.column
+        var msg = e.message += msgloc
         if (e.message.indexOf("Expected")>-1) {
-            msg=e.name + ": unexpected " + e.found + " on line:" +e.line +" column:" +e.column+ " & also check previous line (;)"
+            msg=e.name + ": unexpected " + e.found + msgloc + " & also check previous line (;)"
         }
         View.Message(msg,red);
         if (this.mydebugger !== undefined)

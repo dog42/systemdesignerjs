@@ -162,14 +162,18 @@ CodeMaker.prototype.iomacros = function () {
         }
     }
     code += "//Hardware macros for ADC inputs\n";
+    this.hasADC = false;//recheck
     for (var i = 0; i < this.ilinks.length; i++) {
         if (this.ilinks[i].getOrigin().getId().indexOf("analog") > 0) {
             tag = this.ilinks[i].getTag();
-            name = this.ilinks[i].getDestination().getText();
-            this.hasADC = true;
-            this.hasInputs = true;
-            code += "#define " + name + " " 
-            code += tag.charAt(2) + "     //macro to refer to ADC channel\n"; //only goes by pin# at the moment which isn't correct for tiny45
+            //only add if an adcchannel
+            if (myMicrocontroller.getAdcChannel(tag) > -1) {
+                name = this.ilinks[i].getOrigin().getText();
+                this.hasADC = true;
+                this.hasInputs = true;
+                code += "#define " + name + " "
+                code += tag.charAt(2) + "     //macro to refer to ADC channel\n"; //only goes by pin# at the moment which isn't correct for tiny45
+            }
         }
     }
     code += "\n";
@@ -330,7 +334,7 @@ CodeMaker.prototype.nodeChange = function () {
     this.CS["iomacros"] = this.iomacros();      //**might change
     this.CS["adcconf"] = this.adcconfig();      //**might change //but what if the user has modified the options in here //??
     this.CS["serconf"] = this.serialoutput();   //**might change //but what if the user has modified the options in here //??
-
+    this.CS["mainhwsetup"] = this.buildMainHwSetup(); //**part of main it might change
     this.CS["ioconfigs"] = this.ioconfigs();      //**part of main it might change
 
     return this.putAllTogether();

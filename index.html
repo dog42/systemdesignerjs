@@ -88,6 +88,7 @@
                                 </div>
                                 <div id="text">
                                     <input type="button" value="codeNode" id='codenode' />
+                                    <input type="button" value="readadc" id='readadc' />
                                     <textarea id="textarea" height:800px width:300px></textarea>
                                     <pre id="file">here</pre>
                                 </div>
@@ -161,6 +162,7 @@
     <script type="text/javascript" src="scripts/jquery/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxslider.js"></script>
     <script type="text/javascript" src="scripts/jquery/jqxwindow.js"></script>
+    <script type="text/javascript" src="scripts/jquery/jqxresponse.js"></script>
 
     <script type="text/javascript" src="scripts/Microcontroller.js"></script>
     <script type="text/javascript" src="scripts/MicrocontrollerNode.js"></script>
@@ -181,5 +183,25 @@
     <script type="text/javascript" src="scripts/launcher.js"></script>
     <script type="text/javascript" src="scripts/opensave.js"></script>
     <script type="text/javascript" src="scripts/View.js"></script>
+
+  <!--  <script type="text/javascript">    
+        function downloadJSAtOnload() {
+
+            if (browser.accessName === "msie") { //this bit works
+                var somevar = browser.accessName;
+            } else {
+                var element = document.createElement("script"); //this doesnt work - www.feedthebot.com/pagespeed/defer-loading-javascript.html
+                element.src = "sripts/CJS.js";
+                document.body.appendChild(element);
+            }
+            if (window.addEventListener)
+                window.addEventListener("load", downloadJSAtOnload, false);
+            else if (window.attachEvent)
+                window.attachEvent("onload", downloadJSAtOnload);
+            else window.onload = downloadJSAtOnload;
+        }
+    </script>
+     
+```-->
 </body>
 </html> 

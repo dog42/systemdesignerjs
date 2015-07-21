@@ -21,7 +21,9 @@ Microcontroller = function () {
     this.bitNamesDecl = ""; // used to add to code on run so that JSCPP knows about bit names
     this.microPins = []; 
     this.adcPins = []; //arr of the names of adc pins A.0, A.1...
+    this.adcValues = [];//voltage values
     this.adcRefValue = 1.1;
+    this.recurse = false;
     this.ADCW = 0; //the value of the ADCword - this is updated when the slider is changed,
                     // but only if the slider matches the MUX3..0 in ADCMUX   
 }
@@ -136,46 +138,101 @@ Microcontroller.prototype.updateMemory = function(arr){
 Microcontroller.prototype.updateRegisters = function(arr){
     this.Registers.updateRegisters(arr);
 }
-Microcontroller.prototype.newAdcValue = function (voltage,adcChannel ) {
+
+Microcontroller.prototype.regChanged = function () {
+    if (myMicrocontroller.recurse)//need to block
+        return
+    myMicrocontroller.recurse = true;
+    //View #regs-jqxgrid'.on'bindingcomplete'
+    //we dont know what has changed just that a change has taken place
+    //1. check if adc conversion to take place get bit ADSC of ADCSRA
+    var bit = this.Registers.readRegBit("ADCSRA", 6) //"ADSC"=6)
+    if (bit) {//adc conversion flagged if true
+        //find currently selected adcChannel from ADMUX
+        var ADMUX = myController.readRegister("ADMUX")
+        ADMUX = ADMUX & 0x0F; //get lower 4 bits
+        myMicrocontroller.getAdcValue(ADMUX)
+        //reset the reg to 0
+        this.writeRegBit("ADCSRA", 6, 0) //ADSC=6
+        myController.writeRegBit("ADCSRA", 6, 0)
+        updateRegistersDisplay()
+        var x = true;
+    }
+    var regs = this.Registers.registers
+
+    //2. update the outputs on the diagram with any changes to a PORT register
+    var ports = myMicrocontroller.Ports;
+    for (var i = 0; i < ports.length; i++) //check if a port has changed
+    {
+        var j = ports[i].index; //see whatthe port arr has stored in it
+        var newval = regs[j].valuedec;
+        var oldval = ports[i].value;
+        var change = newval ^ oldval;
+        if (regs[j].valuedec ^ ports[i].value > 0) { //see if any bit has changed
+            ports[i].value = newval;//store the new val for next time around
+            //for each bit that has changed
+            for (var k = 0; k < 8; k++) {
+                //var c = change & 1 << k;
+                if ((change & 1 << k) > 0) {
+                    var newbitval = (newval & 1 << k) >> k;
+                    var portname = regs[j].name;
+                    mf.updateOutput(portname, k, newbitval) //?? only id DDRX.Y is 1 (output)
+                }
+            }
+        }
+    }
+    myMicrocontroller.recurse = false;
+}
+Microcontroller.prototype.newAdcValue = function (voltage, adcChannel) {
     //convert pin to adcChannel - really only needed for ATtiny45
     //var adcChannel = parseInt(ch,10);
     //get ADMUX register bits MUX3..MUX0 
-    var ADMUX = myController.readRegister("ADMUX")
-    ADMUX = ADMUX & 0x0F; //get lower 4 bits
-    //see if mux bits match this adcChannel
-    if (adcChannel === ADMUX)
-    {
-        //identify the vRef value (1.1/ 2.45 VCC)
-        //assume 1.1
-        //convert voltage to number
-        var a = (voltage / myMicrocontroller.adcRefValue * 1023)
-        a |= 0; // |0 (or with 0) to truncate
-        if (a > 1023)
-            a = 1023;//max
-        //add checking that adc is converting
-        //add a delay here
-        myMicrocontroller.ADCW = a;
-        var adcl = a & 0xFF;
-        var adch = a >> 8;
-        //write the new value into the intepreter
-        myController.writeRegister("ADCL", adcl)
-        myController.writeRegister("ADCH", adch)
-        //write the value into memory
-        myController.writeRegister("ADCW", a) //not really a reg but can write to anything
-        myMicrocontroller.Memory.writeADCW(a);
-        updateMemoryDisplay();
-        //write the value into the registers
-        myMicrocontroller.Registers.setRegValue("ADCL", adcl)
-        myMicrocontroller.Registers.setRegValue("ADCH", adch)
-        updateRegistersDisplay();
-
-    }
+    if (this.adcValues === null || this.adcValues === undefined)
+        for (var i = 0; i < this.adcPins.length; i++)
+            this.adcValues[i]= 0;
+    this.adcValues[adcChannel] = voltage;
 }
-Microcontroller.prototype.getAdcChannel = function(pinName){
-    for (var ch = 0; ch < this.adcPins.length; ch++)
+
+Microcontroller.prototype.getAdcValue = function (adcChannel){
+    //identify the vRef value (1.1/ 2.45 VCC)
+    //assume 1.1
+    //convert voltage to number
+    var a = (this.adcValues[adcChannel] / myMicrocontroller.adcRefValue * 1023)
+    a |= 0; // |0 (or with 0) to truncate
+    if (a > 1023)
+        a = 1023;//max
+    //add checking that adc is converting
+    //add a delay here
+    myMicrocontroller.ADCW = a;
+    var adcl = a & 0xFF;
+    var adch = a >> 8;
+    //write the new value into the intepreter
+    myController.writeRegister("ADCL", adcl)
+    myController.writeRegister("ADCH", adch)
+    //write the value into memory
+    myController.writeRegister("ADCW", a) //not really a reg but can write to anything
+    myMicrocontroller.Memory.writeADCW(a);
+    updateMemoryDisplay();
+    //write the value into the registers
+    myMicrocontroller.Registers.setRegValue("ADCL", adcl)
+    myMicrocontroller.Registers.setRegValue("ADCH", adch)
+    updateRegistersDisplay();
+}
+Microcontroller.prototype.getAdcChannel = function (pinName) {
+    for (var ch = 0; ch < this.adcPins.length; ch++) {
         if (this.adcPins[ch] === pinName)
             return ch;
+    }
+    return -1;
 }
+//Microcontroller.prototype.hasAdcChannel = function (portpin) { //eg C.3
+//    for (var ch = 0; ch < this.adcPins.length; ch++) {
+//        if (this.adcPins[ch] === portpin)
+//            return ch;
+//        else
+//            return -1
+//    }
+//}
 Microcontroller.prototype.containsBit = function (a, obj) {
     for (var i = 0; i < a.length; i++) {
         if (a[i] === obj) {

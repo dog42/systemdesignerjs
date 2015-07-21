@@ -11,6 +11,10 @@ View.prototype.InitDebug = function () {
     $('#codenode').bind('click', function (event) {
         View.showcodenode();
     });
+    $("#readadc").jqxButton({ width: '50', height: '25', theme: theme });
+    $('#readadc').bind('click', function (event) {
+        myMicrocontroller.regChanged();
+    });
 
 }
 View.prototype.showcodenode = function () {
@@ -178,7 +182,7 @@ View .prototype.InitLayout = function (){
     });
 
 
-    if (inIframe()) {
+    if (inIframe()) {//all works but autochange isnt working within coursebuilder
         //initially resize frame to match window
         parentIframe = window.parent.document.getElementById('sysdes');
         resizeIframe(parentIframe);
@@ -236,7 +240,6 @@ View.prototype.showAdcWindow = function (adcChannel, node) {
             showCollapseButton: false,
             height: 55,
             width: 250,
-            title: headtext,
             resizable: false,
             initContent: function () {
                 $('#adcSlider' + adcChannel).jqxSlider({
@@ -260,6 +263,9 @@ View.prototype.showAdcWindow = function (adcChannel, node) {
             }
         });
     }
+    $('#adcWindow' + adcChannel).jqxWindow({
+        title: headtext
+    });
     $('#adcSlider' + adcChannel).jqxSlider({
         min: minvoltage,
         max: maxvoltage,
@@ -295,22 +301,6 @@ View.prototype.Message = function (msg,col) {
     c.innerHTML = msg
 }
 
-//identify browser
-var browser = (function () {
-    var ua = navigator.userAgent, tem,
-    M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-    if (/trident/i.test(M[1])) {
-        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-        return 'IE' + (tem[1] || '');
-    }
-    if (M[1] === 'Chrome') {
-        tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
-        if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
-    }
-    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-    if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
-    return M.join(' ');
-})();
 function updateRegistersDisplay() {
     $("#regs-jqxgrid").jqxGrid('updatebounddata');
 }
@@ -319,6 +309,7 @@ function updateMemoryDisplay() {
 }
 
 //get the size of the window holding the iframe that this is in
+//stackoverflow.com/questions/325273/make-iframe-to-fit-100-of-containers-remaining-height
 var parentIframe
 var buffer = 10; //scroll bar buffer 10 seems to be enough
 
@@ -334,9 +325,10 @@ function inIframe() {
 }
 function resizeIframe(iframe) {
     var height = window.parent.document.documentElement.clientHeight;
-    height -= pageY(iframe) + buffer;
+    height -= pageY(window.parent.document.getElementById('sysdes')) + buffer;
     height = (height < 0) ? 0 : height;
-    iframe.style.height = height + 'px';
+    window.parent.document.getElementById('sysdes').style.height = height+'px'
+    //iframe.style.height = height + 'px';
 }
 
 /**************************************************************************/
@@ -399,31 +391,36 @@ $("#regs-jqxgrid").jqxGrid(
 
 
 
-//Regisers Grid events
+//Registers Grid events
 $('#regs-jqxgrid').on('bindingcomplete', function (event) {
     var args = event.args;
-    //update the outputs on the diagram with any PORT changes
-    var regs = myMicrocontroller.Registers.registers
-    var ports = myMicrocontroller.Ports;
-    for (var i = 0; i < ports.length; i++) //for each port
-    {
-        var j = ports[i].index;
-        var newval = regs[j].valuedec;
-        var oldval = ports[i].value;
-        var change = newval ^ oldval;
-        if (regs[j].valuedec ^ ports[i].value > 0) { //see if any bit has changed
-            ports[i].value = newval;//store the new val for next time around
-            //for each bit that has changed
-            for (var k = 0; k < 8; k++) {
-                //var c = change & 1 << k;
-                if ((change & 1 << k) > 0) {
-                    var newbitval = (newval & 1 << k) >> k;
-                    var portname = regs[j].name;
-                    mf.updateOutput(portname, k, newbitval) //?? only id DDRX.Y is 1 (output)
-                }
-            }
-        }
-    }
+    //tell th emicro thatsomething has changed
+    myMicrocontroller.regChanged();
+    //var regs = myMicrocontroller.Registers.registers
+    //for (var i = 0; i < regs.length; i++) {
+
+    //}
+    ////update the outputs on the diagram with any PORT changes
+    //var ports = myMicrocontroller.Ports;
+    //for (var i = 0; i < ports.length; i++) //check if a port has changed
+    //{
+    //    var j = ports[i].index;
+    //    var newval = regs[j].valuedec;
+    //    var oldval = ports[i].value;
+    //    var change = newval ^ oldval;
+    //    if (regs[j].valuedec ^ ports[i].value > 0) { //see if any bit has changed
+    //        ports[i].value = newval;//store the new val for next time around
+    //        //for each bit that has changed
+    //        for (var k = 0; k < 8; k++) {
+    //            //var c = change & 1 << k;
+    //            if ((change & 1 << k) > 0) {
+    //                var newbitval = (newval & 1 << k) >> k;
+    //                var portname = regs[j].name;
+    //                mf.updateOutput(portname, k, newbitval) //?? only id DDRX.Y is 1 (output)
+    //            }
+    //        }
+    //    }
+    //}
     //alert(event.args);
 });
 

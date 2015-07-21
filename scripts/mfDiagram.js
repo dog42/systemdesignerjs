@@ -61,10 +61,10 @@ mfDiagram.prototype.init = function() {
 
 
     this.initIONodeList();//adds just the LED
-    this.openMicrosFile();
     this.openPackagesFile();
     this.openBinaryInputsFile();
     this.openAnalogInputsFile();
+    this.openMicrosFile();
 }
 
 //File IO
@@ -167,7 +167,7 @@ mfDiagram.prototype.openAnalogInputsFile = function () {
             node.setShape("Rectangle");
             node.setTextAlignment(Alignment.Center); //center of line
             node.setLineAlignment(Alignment.Far); //bottom line
-            //self.ioNodeList.addNode(node, self.anaInputDevices[i].name); //use 'name' from XML file
+            self.ioNodeList.addNode(node, self.anaInputDevices[i].name); //use 'name' from XML file
         }
         analoginputsloaded = true;
     }).
@@ -190,7 +190,7 @@ mfDiagram.prototype.initMicros = function () {
         var pt = pn.indexOf('(') > -1 ? pn.indexOf('(') : pn.length - 1 //get rid of any ()
         pn = pn.substring(0, pt+1);
         node.setText(pn);
-        node.setId("micro") 
+        node.setId("micro-"+pt) 
         node.setImageLocation("images/_img_micro_dip8.png");
         //node.setImageLocation("images/_img_micro_" + microsPartNumbersArr[i].packname + ".png");
         node.setShape("Rectangle");
@@ -251,23 +251,17 @@ mfDiagram.prototype.updateOutput = function (portname, pin, level) {
     //when a port register bit has changed thisfunc is called
     //change the color of the node and link of 1 output
     //var apts = myMicrocontrollerNode.microAnchorPattern.getPoints();
-    var io = portname.charAt(4) + "." + pin;   //e.g. B3
+    var portpin = portname.charAt(4) + "." + pin;   //e.g. B.3
     var olinks = myMicrocontrollerNode.Node.getOutgoingLinks();
     for (var i = 0; i < olinks.length; i++) {
-        var t = olinks[i].getTag()
-        if (t === io) {
+        var tag = olinks[i].getTag()
+        if (tag === portpin) {
             //recolor link and node
             if (level === 0) {
                 mf.setLinkColorText(olinks[i], 0, 0)
-                //olinks[i].setText('0')
-                //olinks[i].setTextColor(black)
-                //olinks[i].setStroke(black)
                 olinks[i].getDestination().setBrush(white)
             } else {
                 mf.setLinkColorText(olinks[i], 5, 1)
-                //olinks[i].setText('1')
-                //olinks[i].setTextColor(red)
-                //olinks[i].setStroke(red)
                 var col = olinks[i].getDestination().getTag();
                 olinks[i].getDestination().setBrush(col) //some color depending upon the node preset
             }
@@ -332,22 +326,16 @@ mfDiagram.prototype.makeGradientColor = function (color1, color2, percent) {
 mfDiagram.prototype.analogInputClicked = function (node,portpin) {
     var olinks = node.getOutgoingLinks();
     if (olinks.length > 0) {//if link to micro exists
-        //var dest = olinks[0].getDestination Anchor();
-        //var portLetter = mf.getMicro Port(olinks[0], true, 0)
-        //var pin = mf.getMicro Port(olinks[0], true, 2)
-       // var port = portLetter+"."+pin;
-        //open or show this adc window if an adc pin
         for (var ch = 0; ch < myMicrocontroller.adcPins.length; ch++){
             if (myMicrocontroller.adcPins[ch]===portpin){
                 View.showAdcWindow(ch, node)
             }
         }
-        //do more stuff here to manage analog value change
     }
 }
 
 mfDiagram.prototype.readInputs = function () {
-    //when diagram created, loaded or run
+    //when diagram loaded or run
     var ilinks = myMicrocontrollerNode.ilinks;
     //reads the state of all input pins connected to the micro and updates the register values
     var portpin;
@@ -369,12 +357,10 @@ mfDiagram.prototype.setOutputsOff = function () {
     var portpin;
     for (var i = 0; i < olinks.length; i++) {
         portpin = olinks[i].getTag();
-        //var portLetter = mf.getMicro Port(olinks[i], false, 0)
-        //var pin = mf.getMicro Port(olinks[i], false, 2)
-        mf.setLinkColorText(olinks[i],0,0)//needs testing here on running
-        //olinks[i].setText('0')
-        //olinks[i].setTextColor(black)
-        //olinks[i].setStroke(black)
+        mf.setLinkColorText(olinks[i], 0, 0)//needs testing here on running
+        //if led turn off led as well
+        if (olinks[i].getDestination().getTag()==="led")
+            olinks[i].getDestination().setBrush(white)
     }
 }
 
@@ -544,20 +530,14 @@ mfDiagram.prototype.onNodeDeleted = function (sender, args) {
 
 //ADC
 mfDiagram.prototype.displayAdcVoltage = function (voltage, adcChannel,maxvoltage) {
+    //view has detected slider change
     var portpin = myMicrocontroller.adcPins[adcChannel];
-    //var olink = node.getOutgoingLinks()[0];
-    //get the link on this portpin
     var links=diagram.getLinks();
     for (var l = 0; l < links.length; l++) {
         if (links[l].getTag() === portpin) {
             links[l].setText(voltage.toFixed(2))//disp voltage on link
         }
     }
-    //o
-    //var pin = mf.getMicro Port(olink,true,2)
-    //get the channel, send to micro
-    //var ch = myMicrocontroller.getAdcChannel(olink.getTag())
-    //myMicrocontroller.newAdcValue(voltage,channel)
 }
 
 
@@ -640,6 +620,11 @@ mfDiagram.prototype.postFileOpenSetup = function () {
     codeEditor.gotoLine(1);
     //alert("loaded")
     myMicrocontroller.setupMicro(partnum)
+    myMicrocontrollerNode.ilinks = myMicrocontrollerNode.Node.getIncomingLinks();
+    myMicrocontrollerNode.olinks = myMicrocontrollerNode.Node.getOutgoingLinks();
+    mf.readInputs()
+    mf.setOutputsOff()
+    updateRegistersDisplay();
 }
 //Saving files
 mfDiagram.prototype.saveDiagramFile = function (buttonID) {
