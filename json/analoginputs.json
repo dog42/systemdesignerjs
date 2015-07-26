@@ -20,7 +20,7 @@
         "sense": "degC",
         "tag": "analoginputcontrol",
         "text": "LM35_",
-        "image": "_img_input_analog_LM35.jpg",
+        "image": "_img_input_analog_lm35.jpg",
         "minvoltage": "0",
         "maxvoltage": "1.5",
         "sliderminvalue": "0",

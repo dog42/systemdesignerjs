@@ -182,13 +182,13 @@ View .prototype.InitLayout = function (){
     });
 
 
-    if (inIframe()) {//all works but autochange isnt working within coursebuilder
+    //if (inIframe()) {//all works but autochange isnt working within coursebuilder
         //initially resize frame to match window
-        parentIframe = window.parent.document.getElementById('sysdes');
-        resizeIframe(parentIframe);
+        //parentIframe = window.parent.document.getElementById('sysdes');
+        resizeMe(parentIframe);
         //add listener to parent window for window resizing
-        window.parent.addEventListener("resize",resizeIframe) 
-    }
+        window.parent.addEventListener("resize",resizeMe) 
+    //}
 }
 View.prototype.showAdcWindow = function (adcChannel, node) {
     //adcWindows are tagged to analog input channels, not to analog devices, not to pins
@@ -252,7 +252,7 @@ View.prototype.showAdcWindow = function (adcChannel, node) {
                     ticksPosition: 'bottom',
                     showRange: true,
                     height: "11px",
-                    width: '230px'
+                    width: '225px'
                 });
                 $('#adcSlider' + adcChannel).on('change', function (event) {
 
@@ -318,16 +318,32 @@ function pageY(elem) {
 }
 function inIframe() {
     try {
+        document.getElementById("msg").innerText = window.self !== window.top
         return window.self !== window.top;
     } catch (e) {
+        document.getElementById("msg").innerText = "err:true"
         return true;
     }
 }
-function resizeIframe(iframe) {
-    var height = window.parent.document.documentElement.clientHeight;
-    height -= pageY(window.parent.document.getElementById('sysdes')) + buffer;
-    height = (height < 0) ? 0 : height;
-    window.parent.document.getElementById('sysdes').style.height = height+'px'
+function resizeMe() {
+
+
+
+    if (inIframe()) {
+        var height = $(window.top).height()-30
+        var fr = window.parent.document.getElementById('sysdes')
+        var doc = fr
+        //height = doc.height;
+        window.parent.document.getElementById('sysdes').height = height
+        document.getElementById("file").innerText = "win-inframeheight-10:" + height //+ " sysdesheight:" +window.parent.document.getElementById('sysdes').height
+    } else {//when not in a frame why is the document resizing already?
+    var height = window.innerHeight - 30;
+    document.getElementById("file").innerText = "win-innerheight-10:" + height //+ " sysdesheight:" +window.parent.document.getElementById('sysdes').height
+    }
+    //var height = window.parent.document.documentElement.clientHeight;
+    //height -= pageY(window.parent.document.getElementById('sysdes')) + buffer;
+   // height = (height < 0) ? 0 : height;
+    //window.parent.document.getElementById('sysdes').style.height = height + 'px'
     //iframe.style.height = height + 'px';
 }
 

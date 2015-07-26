@@ -323,10 +323,44 @@ CodeMaker.prototype.buildLoopCode = function () {
 //    // code += "\n";  //cr are removed by beautify so dont add any here
 //    return code;
 //}
-CodeMaker.prototype.buildFunctions = function(){
+CodeMaker.prototype.buildFunctions = function () {
     var code = "/***** Functions *****/\n";
     return code;
 }
+
+CodeMaker.prototype.buildISRs = function () {
+    var code = "/***** Interrupt service routines *****/\n";
+    return code;
+}
+
+CodeMaker.prototype.buildTimerConfigs = function () {
+    var code = "/***** Configure timers *****/\n";
+    return code;
+}
+
+CodeMaker.prototype.buildInterruptConfigs = function () {
+    var code = "/***** Configure interrupt hardware *****/\n";
+    return code;
+}
+
+CodeMaker.prototype.buildStateConstants = function () {
+    var code = "/***** Declare state var and constants *****/\n";
+    return code;
+}
+
+CodeMaker.prototype.enableInterrupts = function () {
+    var code = "/***** Enable interrupts *****/\n";
+    return code;
+}
+
+CodeMaker.prototype.buildState = function () {
+    var code = "/***** state";
+    code += "while (state == "
+    return code;
+}
+
+
+
 
 CodeMaker.prototype.nodeChange = function () {
     //update the ones that might have changed

@@ -1,6 +1,7 @@
 ﻿"use strict";
 var Microcontroller 
 Microcontroller = function () {
+    this.microIndex =0;
     this.Registers = new Registers;
     this.Memory = new Memory(256,2048); //328 mem size
     this.Ports = []; // {index:0 , name:PORTA, value:} index refers to where in Registers.registers this port is found
@@ -22,7 +23,9 @@ Microcontroller = function () {
     this.microPins = []; 
     this.adcPins = []; //arr of the names of adc pins A.0, A.1...
     this.adcValues = [];//voltage values
-    this.adcRefValue = 1.1;
+    this.adcSetup = [];  //configs for the adc option
+    this.adcConf=[]
+    this.adcRefValue = 5;
     this.recurse = false;
     this.ADCW = 0; //the value of the ADCword - this is updated when the slider is changed,
                     // but only if the slider matches the MUX3..0 in ADCMUX   
@@ -59,6 +62,7 @@ Microcontroller.prototype.setupMicro = function(partnum)
     {
         if (mf.micros[index].partnumber.indexOf(partnum) === 0) //found micro
         {
+            this.microIndex=index;
             var mm = mf.micros[index]
             this.microPackage = mm.package;
             var start = mm.ramstart;
@@ -233,6 +237,23 @@ Microcontroller.prototype.getAdcChannel = function (pinName) {
 //            return -1
 //    }
 //}
+Microcontroller.prototype.getRefVoltage = function () {
+    //var adcsetup = mf.micros[this.microIndex].adcsetup;
+    //var refsetup=[]
+    //var reg, bit, i
+    //for (var c = 0; c < adcsetup.length; c++) {
+    //    i = adcsetup[c].bit.substring(4,5)
+    //    i = parseInt(i)
+    //    refsetup[i] = this.Registers.get
+    //        ({ reg: adcsetup[c].reg, bit: adcsetup[c].bit })
+    //}
+    //for (var c = 0; c < mm.adcconf.length; c++) {
+    //    this.adcConf.push({ bit: mm.adcconf[c].bit, ref: mm.adcconf[c].ref })
+    //}
+
+    ////find out which registers and bits to look at from adcsetup
+    //for (var r =0; r<this.adcSetup.length)
+}
 Microcontroller.prototype.containsBit = function (a, obj) {
     for (var i = 0; i < a.length; i++) {
         if (a[i] === obj) {

@@ -4299,6 +4299,20 @@
         "ramstart": 256,
         "eepromsize": 512,
         "crystal": 1000000,
+        "adcsetup":  [
+                {"reg": "ADMUX",
+                "bit": "REFS1"},
+                {"reg": "ADMUX",
+                "bit": "REFS0"}
+        ],
+        "adcconf":  [
+                {"bit": "00",
+                 "ref": "AREF"},
+               { "bit": "01",
+                 "ref": "AVCC"},
+                {"bit": "11",
+                "ref": "1.1-Cap"}
+        ],
         "registers": {
           "regname": [
             {
@@ -5802,6 +5816,20 @@
         "ramstart": 256,
         "eepromsize": 512,
         "crystal": 16000000,
+        "adcsetup":  [
+                {"reg": "ADMUX",
+                "bit": "REFS1"},
+                {"reg": "ADMUX",
+                "bit": "REFS0"}
+        ],
+        "adcconf":  [
+                {"bit": "00",
+                 "ref": "AREF"},
+               { "bit": "01",
+                 "ref": "AVCC"},
+                {"bit": "11",
+                "ref": "1.1-Cap"}
+        ],
         "registers": {
           "regname": [
             {
@@ -7257,6 +7285,20 @@
         "ramstart": 256,
         "eepromsize": 512,
         "crystal": 16000000,
+        "adcsetup":  [
+                {"reg": "ADMUX",
+                "bit": "REFS1"},
+                {"reg": "ADMUX",
+                "bit": "REFS0"}
+        ],
+        "adcconf":  [
+                {"bit": "00",
+                 "ref": "AREF"},
+               { "bit": "01",
+                 "ref": "AVCC"},
+                {"bit": "11",
+                "ref": "1.1-Cap"}
+        ],
         "registers": {
           "regname": [
             {

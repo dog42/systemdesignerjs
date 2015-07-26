@@ -69,7 +69,7 @@ Registers.prototype.setRegValue = function (regName, val)
             var valbin = val.toString(2); //un padded bin string
             while (valbin.length < 8)
                 valbin = "0" + valbin;
-            valbin = "0x" + valbin;
+            valbin = "0b" + valbin;
             this.registers[index].valuebin = valbin;
             var valhex = val.toString(16).toUpperCase();
             if (val < 16)
