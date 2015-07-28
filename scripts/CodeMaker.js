@@ -8,7 +8,8 @@ CodeMaker = function (bdMicro) {
         "defines": "",
         "includes": "",
         "iomacros": "",
-        "proto": "",
+        "funcs": "",
+//        "proto": "",
         "adcconf": "",
         "serconf": "",
         "globals": "",
@@ -18,10 +19,9 @@ CodeMaker = function (bdMicro) {
             "mainvars": "",
             "runonce": "",
            //"whilestart": "",
-            "loopcode": "",
+            "loopcode": ""
             //"whileend": "",
             //"mainend":"",
-        "funcs": ""
     }];
     
     this.projectname = "";
@@ -40,10 +40,11 @@ CodeMaker = function (bdMicro) {
 CodeMaker.prototype.makeFullCode = function () {
     //code = js_beautify(code);
     this.CS["header"] =this.header();
-    this.CS["iomacros"] = this.iomacros();
     this.CS["defines"] = this.defines();
     this.CS["includes"] = this.includes();
-    this.CS["proto"] = this.addFuncPrototypes();
+    this.CS["iomacros"] = this.iomacros();
+    //this.CS["proto"] = this.addFuncPrototypes();
+    this.CS["funcs"] = js_beautify(this.buildFunctions()) + "\n\n"
     this.CS["adcconf"] = this.adcconfig();
     this.CS["serconf"] = this.serialoutput();
     this.CS["globals"] = this.addGlobalVars();
@@ -54,13 +55,12 @@ CodeMaker.prototype.makeFullCode = function () {
     this.CS["mainvars"] = this.buildMainVars();
     this.CS["runonce"] = this.buildRunOnce();
     //this.CS["whilestart"] = this.buildWhile1Start();
-    this.CS["loopcode"] = this.buildLoopCode();
+    this.CS["loopcode"] = this.buildLoopCode() + "\n\n"
     //this.CS["whileend"] = this.buildWhile1End();
     //this.CS["mainend"] = this.buildMainEnd();
 
     //var main = this.putTogetherMain();
 
-    this.CS["funcs"] = js_beautify(this.buildFunctions());
 
     return this.putAllTogether();
 }
@@ -69,12 +69,12 @@ CodeMaker.prototype.putAllTogether = function () {
         this.CS["defines"] +
         this.CS["includes"] +
         this.CS["iomacros"] +
-        this.CS["proto"] +
+        this.CS["funcs"] +
+        //this.CS["proto"] +
         this.CS["adcconf"] +
         this.CS["serconf"] +
         this.CS["globals"] +
-        this.putTogetherMain() + "\n\n"+
-        this.CS["funcs"];
+        this.putTogetherMain() + "\n\n";
     return code;
 }
 CodeMaker.prototype.putTogetherMain = function () {
@@ -179,11 +179,11 @@ CodeMaker.prototype.iomacros = function () {
     code += "\n";
     return code;
 }
-CodeMaker.prototype.addFuncPrototypes = function () {
-    var code = "/***** Prototypes for functions *****/\n";
-    code += "\n";
-    return code;
-}
+//CodeMaker.prototype.addFuncPrototypes = function () { //not used at least until I write the code for prototpyes
+//    var code = "/***** Prototypes for functions *****/\n";
+//    code += "\n";
+//    return code;
+//}
 CodeMaker.prototype.addGlobalVars = function () {
     var code = "/***** Declare & initialise global variables *****/\n";
     code += "\n";
@@ -390,8 +390,10 @@ CodeMaker.prototype.updateFromSource = function (code) {
             this.CS["adcconf"] = splits[s]
         if (splits[s].indexOf("/***** Setup serial") > -1)
             this.CS["serconf"] = splits[s]
-        if (splits[s].indexOf("/***** Prototypes") > -1)
-            this.CS["proto"] = splits[s]
+        if (splits[s].indexOf("/***** Functions") > -1)
+            this.CS["funcs"] = splits[s]
+        //if (splits[s].indexOf("/***** Prototypes") > -1)
+        //    this.CS["proto"] = splits[s]
         if (splits[s].indexOf("/***** Declare &") > -1)
             this.CS["globals"] = splits[s]
         if (splits[s].indexOf("/***** Main program") > -1)
@@ -406,8 +408,6 @@ CodeMaker.prototype.updateFromSource = function (code) {
             this.CS["runonce"] = splits[s]
         if (splits[s].indexOf("/***** Loop code") > -1)
             this.CS["loopcode"] = splits[s]
-        if (splits[s].indexOf("/***** Functions") > -1)
-            this.CS["funcs"] = splits[s]
     }
     //these dont change??- everything changes!!
     //this.CS["whilestart"] = this.buildWhile1Start();

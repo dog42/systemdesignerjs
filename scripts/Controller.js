@@ -63,6 +63,9 @@ Controller.prototype.Start = function(startokstate)
         this.code = this.code + regsnbits;
         if (browser.accessName === "msie") { //other older browswers need testing too ??
         View.Message("you need to use a modern desktop version of Firefox or Chrome", "red")
+        this.parserstate = this.PARSERSTATE.STOP
+        codeEditor.setValue(this.codecopy);//put original code back
+        codeEditor.gotoLine(30)
         return;
     }
         //this.input = document.getElementById("inputtxt").value;
@@ -70,21 +73,24 @@ Controller.prototype.Start = function(startokstate)
         this.mydebugger = JSCPP.run(this.code, this.input, this.config);
         //console.log(mydebugger.src);
     } catch (e) {
-        var msgloc
+        codeEditor.setValue(this.codecopy);//put original code back
+        codeEditor.gotoLine(e.line)
+        var msgloc =""
+        var found = ""
         if (e.line !== undefined)
             msgloc += " on line:" + e.line
         if (e.column !== undefined)
             msgloc += " in column:" + e.column
+        if (e.found !== undefined)
+            found = e.found; 
         var msg = e.message += msgloc
         if (e.message.indexOf("Expected")>-1) {
-            msg=e.name + ": unexpected " + e.found + msgloc + " & also check previous line (;)"
+            msg=e.name + ": unexpected " + found + msgloc + " - also check previous line (;)"
         }
         View.Message(msg,red);
         if (this.mydebugger !== undefined)
             View.Message(this.mydebugger.stop(),"blue");
         this.parserstate = this.PARSERSTATE.STOP
-        codeEditor.setValue(this.codecopy);//put original code back
-        codeEditor.gotoLine(e.line)
         return;
     }
     this.parserstate = startokstate;
@@ -161,10 +167,10 @@ Controller.prototype.Stop = function (){
     myController.debug = null;
     //clearInterval(myController.runid);
     if (myController.parserstate !== myController.PARSERSTATE.STOP) {
+        myController.parserstate = myController.PARSERSTATE.STOP;
         codeEditor.setValue(this.codecopy);//put original code back
         
         codeEditor.gotoLine(myController.mainProgramLine);//prefer to goto index of main()
-        myController.parserstate = myController.PARSERSTATE.STOP;
     }
 }
 Controller.prototype.fixCode = function () {

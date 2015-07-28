@@ -359,7 +359,8 @@ mfDiagram.prototype.setOutputsOff = function () {
         portpin = olinks[i].getTag();
         mf.setLinkColorText(olinks[i], 0, 0)//needs testing here on running
         //if led turn off led as well
-        if (olinks[i].getDestination().getTag()==="led")
+        var t = olinks[i].getDestination().getId()
+        if (olinks[i].getDestination().getId()==="led")
             olinks[i].getDestination().setBrush(white)
     }
 }

@@ -170,7 +170,8 @@ function main_initEditors()
     //codeEditor.setHighlightActiveLine(false); //default=true
     codeEditor.on("change", function (e) {
         if (codeEditor.curOp && codeEditor.curOp.command.name) {
-            myController.Stop()
+            if (myController.parserstate !== myController.PARSERSTATE.STOP)
+                myController.Stop()
             View.Message("Editting","blue")
         }
         //else
